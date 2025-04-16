@@ -1,19 +1,22 @@
 
-enum id_types {
-    receptionist,
-    medic,
-    nurse
+export enum position {
+    receptionist = "Recepcionista",
+    medic = "Médico",
+    nurse = "Enfermeira"
 }
 
 export abstract class Employee {
 
     constructor (
         protected name: string,
-        protected cargo: string,
         protected cpf: number,
-        protected id_types: id_types
+        protected position: position
     ) {
     }
 
-    abstract setName: number;
+    abstract setName(name: string): void;
+    abstract setCpf(cpf: number): number;
+    abstract perfomDuties(position: position): void;
+    abstract getPosition(): position;
+    abstract showInfo(): string;
 }
