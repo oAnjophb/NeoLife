@@ -1,39 +1,42 @@
-lib-cov
-*.seed
+# Logs
 *.log
-*.csv
-*.dat
 *.out
 *.pid
 *.gz
 *.swp
 
-pids
-logs
-results
-tmp
+# Arquivos temporários e resultados
+*.seed
+*.csv
+*.dat
+results/
+tmp/
+pids/
+logs/
 
-# Test coverage reports
-coverage
+# Test coverage
+coverage/
 
-# API keys and secrets
+# Variáveis de ambiente
 .env
 
-# Dependency directory
-node_modules
-bower_components
+# Dependências
+node_modules/
+bower_components/
 
-# Editors
-.idea
+# Build (TypeScript, etc.)
+dist/
+build/
+*.tsbuildinfo
+
+# IDEs e editores
+.vscode/
+.idea/
 *.iml
 
-# OS metadata
+# Arquivos do sistema
 .DS_Store
 Thumbs.db
 
-# Ignore built ts files
-dist
-build
-
-# ignore yarn.lock
-yarn.lock
+# Diretórios de testes antigos
+lib-cov/
