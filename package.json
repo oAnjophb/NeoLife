@@ -3,15 +3,17 @@
   "version": "1.0.0",
   "main": "main.ts",
   "scripts": {
-    "dev": "ts-node src/index.ts",
-    "build": "rimraf build && tsc"
+    "dev": "clear && ts-node src/main.ts",
+    "build": "rm -rf ./build && tsc"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "engines": {
+    "node": "^22"
+  },
+  "dependencies": {
+    "intl": "^1.2.5"
+  },
   "devDependencies": {
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.2"
   }
 }
