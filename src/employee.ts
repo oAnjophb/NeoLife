@@ -1,5 +1,5 @@
 
-export enum position {
+export enum Positions {
     receptionist = "Recepcionista",
     medic = "Médico",
     nurse = "Enfermeira"
@@ -10,13 +10,11 @@ export abstract class Employee {
     constructor (
         protected name: string,
         protected cpf: number,
-        protected position: position
+        protected position: Positions
     ) {
     }
-
-    abstract setName(name: string): void;
-    abstract setCpf(cpf: number): void;
-    abstract perfomDuties(position: position): void;
-    abstract getPosition(): position;
-    abstract showInfo(): string;
+    
+    public showInfo(): void {
+        console.log(`NOME: ${this.name}\nCPF: ${this.cpf}\nCARGO: ${this.position}\n`)
+    }
 }
