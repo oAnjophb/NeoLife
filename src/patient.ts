@@ -8,11 +8,13 @@ export enum StatusType {
 export class Patient {
 
     constructor(
-        protected name: string,
-        protected cpf: number,
-        protected age: number,
-        protected id_patient: number,
-        private readonly status: StatusType
+        public readonly name: string,
+        public readonly cpf: number,
+        public readonly age: number,
+        public readonly id_patient: number,
+        public readonly status: StatusType
     ) {
     }
+
+    
 }
