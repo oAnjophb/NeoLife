@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "main.ts",
   "scripts": {
-    "dev": "ts-node src/index.ts",
+    "dev": "ts-node src/main.ts",
     "build": "rimraf build && tsc"
   },
   "keywords": [],

@@ -1,11 +1,16 @@
 import { Employee, position } from "./employee";
+import { Patient } from "./patient";
 
 export class Receptionist extends Employee {
-    constructor(name: string, cpf: number, position: position) {
+    
+    constructor(private readonly patients: Patient[], name: string, cpf: number, position: position) {
         super(name, cpf, position)
+        
     }
 
-    
+    addPatients(patient: Patient): void {
+        this.patients.push(patient)
+    }
     perfomDuties(position: position): void {
         this.position = position
     }
@@ -14,12 +19,12 @@ export class Receptionist extends Employee {
         this.name = name
     }
 
-    setCpf(): number {
-        return this.cpf
+    setCpf(cpf: number): void {
+        this.cpf = cpf
     }
 
-    setpositon(): position {
-        return this.position
+    setpositon(position: position): void {
+        this.position = position
     }    
     getPosition(): position {
         return this.position

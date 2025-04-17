@@ -1,8 +1,8 @@
 
 export enum StatusType {
-    in_Wait,
-    in_Clinic_Care,
-    finished
+    in_Wait = "Esperando",
+    in_Clinic_Care = 'Atendimento',
+    finished = 'Finalizado'
 }
 
 export class Patient {
@@ -12,7 +12,7 @@ export class Patient {
         protected cpf: number,
         protected age: number,
         protected id_patient: number,
-        protected status: StatusType
+        private readonly status: StatusType
     ) {
     }
 }

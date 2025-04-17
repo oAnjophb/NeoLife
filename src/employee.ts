@@ -15,7 +15,7 @@ export abstract class Employee {
     }
 
     abstract setName(name: string): void;
-    abstract setCpf(cpf: number): number;
+    abstract setCpf(cpf: number): void;
     abstract perfomDuties(position: position): void;
     abstract getPosition(): position;
     abstract showInfo(): string;
