@@ -39,7 +39,7 @@ export class Nurse extends Employee {
         console.log(`PACIENTES EM ESPERA DE ATENDIMENTO:\n`)
         
         if (this.serviceQueue.length > 0) {
-            this.serviceQueue.forEach(Patient => Patient.getName())
+            this.serviceQueue.forEach(Patient => Patient.name)
         }
         else {
         console.log("Nenhum paciente na fila de atendimento.")

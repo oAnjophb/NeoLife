@@ -1,11 +1,11 @@
 
-export enum Positions {
+export enum Positions { // Cargos
     receptionist = "Recepcionista",
     medic = "Médico",
     nurse = "Enfermeira"
 }
 
-export abstract class Employee {
+export abstract class Employee { // Funcionario
 
     constructor (
         protected name: string,

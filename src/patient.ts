@@ -53,10 +53,6 @@ export class Patient {
             return new Patient(name, cpf, age, id_patient, status, temp, saturation, press, riskRating)
     }
 
-    getName(): void {
-        console.log(`${this.name}`)
-    }
-
     public uptadeHealthInfo(temp: number, saturation: number, press: number, riskRating: riskRating): void {
         this.temp = temp;
         this.saturation = saturation;
