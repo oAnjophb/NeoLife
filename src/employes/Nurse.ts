@@ -1,5 +1,4 @@
-import { Patient } from "@/Patient";
-import { Employee, Positions, StatusType } from "./Employee";
+import { Employee, Positions, StatusType } from './Employee'
 
 export enum RiskRating {
   blue = 1,
@@ -9,14 +8,14 @@ export enum RiskRating {
   Red = 5,
 }
 
-class Nurse extends Employee {
+export class Nurse extends Employee {
   constructor(
     protected coren: string,
     id: number,
     name: string,
     cpf: number,
-    position: Positions
+    position: Positions,
   ) {
-    super(id, name, cpf, Positions.Nurse);
+    super(id, name, cpf, Positions.Nurse)
   }
 }

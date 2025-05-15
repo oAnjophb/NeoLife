@@ -46,4 +46,5 @@ export class Triage {
   getTriageLevel(): string {
     return RiskRating[this.riskRating()];
   }
+  
 }

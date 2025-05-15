@@ -1,5 +1,5 @@
-import { Patient } from "@/Patient";
-import { Employee, Positions, StatusType } from "./Employee";
+import { Patient } from '@/Patient'
+import { Employee, Positions, StatusType } from './Employee'
 
 export class Doctor extends Employee {
   constructor(
@@ -7,8 +7,8 @@ export class Doctor extends Employee {
     name: string,
     cpf: number,
     public crm: string,
-    position: Positions
+    position: Positions,
   ) {
-    super(id, name, cpf, Positions.Doctor);
+    super(id, name, cpf, Positions.Doctor)
   }
 }

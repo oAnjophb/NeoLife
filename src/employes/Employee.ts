@@ -1,18 +1,18 @@
-import { Patient } from "@/Patient";
+import { Patient } from '@/Patient'
 
 export enum Positions {
-  Receptionist = "Recepcionista",
-  Nurse = "Enfermeira",
-  Doctor = "Medico",
+  Receptionist = 'Recepcionista',
+  Nurse = 'Enfermeira',
+  Doctor = 'Medico',
 }
 
 export enum StatusType {
-  waitingTriage = "Aguardando Triagem",
-  inTriage = "Em Triagem",
-  readyForConsult = "Pronto Para Consulta",
-  inConsult = "Em Atendimento",
-  finished = "Finalizado",
-  cancel = "Cancelado",
+  waitingTriage = 'Aguardando Triagem',
+  inTriage = 'Em Triagem',
+  readyForConsult = 'Pronto Para Consulta',
+  inConsult = 'Em Atendimento',
+  finished = 'Finalizado',
+  cancel = 'Cancelado',
 }
 
 export abstract class Employee {
@@ -20,9 +20,9 @@ export abstract class Employee {
     protected id: number,
     public readonly name: string,
     protected cpf: number,
-    protected position: Positions
+    protected position: Positions,
   ) {}
   updateStatus(patient: Patient, status: StatusType): void {
-    patient.status = status;
+    patient.status = status
   }
 }
