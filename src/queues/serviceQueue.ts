@@ -13,7 +13,7 @@ export class FilaTriagem {
   adicionarSenha(senha: Ticket): void {
     this.heap.insert(senha)
     console.log(
-      `Paciente ${senha.paciente.name} adicionado à heap com prioridade ${RiskRating[senha.prioridade]}`,
+      `Paciente ${senha.paciente.name} adicionado fila com prioridade ${RiskRating[senha.prioridade]}`,
     )
   }
 
@@ -57,8 +57,6 @@ export class FilaTriagem {
   }
 
   listarFilas(): void {
-    console.log(
-      'Listagem da fila de pacientes não é suportada diretamente com heap.',
-    )
+    console.log('')
   }
 }
