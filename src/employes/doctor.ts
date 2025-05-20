@@ -4,10 +4,9 @@ import { Employee, Positions, StatusType } from './Employee'
 export class Doctor extends Employee {
   constructor(
     id: number,
-    name: string,
     cpf: number,
-    public crm: string,
-    position: Positions,
+    public readonly name: string,
+    public readonly crm: string,
   ) {
     super(id, name, cpf, Positions.Doctor)
   }

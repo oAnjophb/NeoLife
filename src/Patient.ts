@@ -8,7 +8,5 @@ export class Patient {
     public age: number,
     public gender: 'M' | 'F' | 'O',
     public address: string,
-    public entryTime: Date,
-    public status: StatusType,
   ) {}
 }

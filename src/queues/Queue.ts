@@ -1,4 +1,3 @@
-import { Patient } from '@/Patient'
 
 export class MaxHeap<T> {
   private heap: T[] = []

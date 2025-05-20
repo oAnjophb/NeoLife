@@ -1,4 +1,4 @@
-import { Employee, Positions, StatusType } from './Employee'
+import { Employee, Positions } from './Employee'
 
 export enum RiskRating {
   blue = 1,
