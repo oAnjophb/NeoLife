@@ -1,51 +1,50 @@
 import { Ticket } from '@/attending/ticket'
 import { RiskRating } from '@/employes/Nurse'
-import { Patient } from '@/Patient'
 
 export class ServiceQueue {
   private heap: Ticket[] = []
 
   private compare(a: Ticket, b: Ticket): number {
-    return b.prioridade - a.prioridade // Descending order of priority
+    return b.prioridade - a.prioridade // Ordem decrescente de prioridade
   }
 
   addTicket(ticket: Ticket): void {
     this.heap.push(ticket)
     this.heapifyUp()
     console.log(
-      `Patient ${ticket.paciente.name} added to the queue with priority ${RiskRating[ticket.prioridade]}.`,
+      `Paciente ${ticket.paciente.name} adicionado à fila com prioridade ${RiskRating[ticket.prioridade]}.`,
     )
   }
 
-  callNextPatient(): Patient | null {
+  callNextTicket(): Ticket | null {
     if (this.heap.length === 0) {
-      console.log('No patients waiting.')
+      console.log('Nenhum paciente aguardando.')
       return null
     }
     const ticket = this.extractMax()
     console.log(
-      `Calling patient ${ticket.paciente.name} with priority ${RiskRating[ticket.prioridade]}.`,
+      `Chamando paciente ${ticket.paciente.name} com prioridade ${RiskRating[ticket.prioridade]}.`,
     )
-    return ticket.paciente
+    return ticket
   }
 
   removePatient(id: number): boolean {
     const index = this.heap.findIndex((ticket) => ticket.paciente.id === id)
     if (index === -1) {
-      console.log('Patient not found.')
+      console.log('Paciente não encontrado na fila.')
       return false
     }
     this.heap.splice(index, 1)
     this.reorganizeHeap()
-    console.log(`Patient with ID ${id} removed from the queue.`)
+    console.log(`Paciente com ID ${id} removido da fila.`)
     return true
   }
 
   listQueue(): void {
-    console.log('Current queue state:')
+    console.log('Estado atual da fila:')
     this.heap.forEach((ticket) => {
       console.log(
-        `Patient: ${ticket.paciente.name}, Priority: ${RiskRating[ticket.prioridade]}`,
+        `Paciente: ${ticket.paciente.name}, Prioridade: ${RiskRating[ticket.prioridade]}`,
       )
     })
   }
@@ -106,7 +105,37 @@ export class ServiceQueue {
 
   private reorganizeHeap(): void {
     for (let i = Math.floor(this.heap.length / 2) - 1; i >= 0; i--) {
-      this.heapifyDown()
+      this.heapifyDownFrom(i)
     }
+  }
+
+  private heapifyDownFrom(index: number): void {
+    const length = this.heap.length
+    const element = this.heap[index]
+    while (true) {
+      let leftChildIndex = 2 * index + 1
+      let rightChildIndex = 2 * index + 2
+      let swapIndex = null
+
+      if (
+        leftChildIndex < length &&
+        this.compare(this.heap[leftChildIndex], element) > 0
+      ) {
+        swapIndex = leftChildIndex
+      }
+
+      if (
+        rightChildIndex < length &&
+        this.compare(this.heap[rightChildIndex], element) > 0 &&
+        this.compare(this.heap[rightChildIndex], this.heap[leftChildIndex]) > 0
+      ) {
+        swapIndex = rightChildIndex
+      }
+
+      if (swapIndex === null) break
+      this.heap[index] = this.heap[swapIndex]
+      index = swapIndex
+    }
+    this.heap[index] = element
   }
 }
