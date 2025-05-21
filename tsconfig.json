@@ -6,7 +6,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "outDir": "./build",
-    "sourceMap": true,
+    "sourceMap": false,
     "strict": true,
     "esModuleInterop": true,
     "types": [

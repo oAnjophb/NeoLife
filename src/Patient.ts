@@ -6,7 +6,7 @@ export class Patient {
     public name: string,
     public cpf: string,
     public age: number,
-    public gender: 'M' | 'F' | 'O',
+    public gender: 'M' | 'F' ,
     public address: string,
     public entryTime: Date,
     public status: StatusType,
