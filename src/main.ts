@@ -5,28 +5,80 @@ import { Positions, StatusType } from './employes/Employee'
 import { Patient } from './Patient'
 import { ServiceQueue } from './queues/serviceQueue'
 
-const paciente1 = new Patient(
-  1,
-  'João Silva',
-  '123.456.789-00',
-  35,
-  'M',
-  'Rua A',
-  new Date(),
-  StatusType.waitingTriage,
-)
+const pacientes = [
+  new Patient(
+    1,
+    'João Silva',
+    '123.456.789-00',
+    35,
+    'M',
+    'Rua A',
+    new Date(),
+    StatusType.waitingTriage,
+  ),
+  new Patient(
+    2,
+    'Maria Souza',
+    '987.654.321-00',
+    28,
+    'F',
+    'Rua B',
+    new Date(),
+    StatusType.waitingTriage,
+  ),
+  new Patient(
+    3,
+    'Pedro Lima',
+    '234.567.890-11',
+    65,
+    'M',
+    'Rua C',
+    new Date(),
+    StatusType.waitingTriage,
+  ),
+  new Patient(
+    4,
+    'Ana Paula',
+    '321.654.987-00',
+    12,
+    'F',
+    'Rua D',
+    new Date(),
+    StatusType.waitingTriage,
+  ),
+]
 
-const triagem = new Triage(paciente1)
-triagem.addSymptom('dor moderada')
-triagem.bloodPress = 130
-triagem.temp = 37.5
-triagem.saturation = 96
-const prioridade = triagem.riskRating()
+const triagens = [
+  new Triage(pacientes[0]),
+  new Triage(pacientes[1]),
+  new Triage(pacientes[2]),
+  new Triage(pacientes[3]),
+]
 
-const ticket = new Ticket(paciente1, prioridade)
+triagens[0].addSymptom('dor moderada')
+triagens[0].bloodPress = 130
+triagens[0].temp = 37.5
+triagens[0].saturation = 96
+triagens[1].addSymptom('febre alta')
+triagens[1].bloodPress = 120
+triagens[1].temp = 39.5
+triagens[1].saturation = 98
+triagens[2].addSymptom('falta de ar')
+triagens[2].bloodPress = 145
+triagens[2].temp = 37.0
+triagens[2].saturation = 93
+triagens[3].addSymptom('corte superficial')
+triagens[3].bloodPress = 110
+triagens[3].temp = 36.9
+triagens[3].saturation = 99
+
 const fila = new ServiceQueue()
-fila.addTicket(ticket)
+for (let i = 0; i < pacientes.length; i++) {
+  const ticket = new Ticket(pacientes[i], triagens[i].riskRating())
+  fila.addTicket(ticket)
+}
 
+console.log('\nFila inicial:')
 fila.listQueue()
 
 const medico = new Doctor(
@@ -36,11 +88,14 @@ const medico = new Doctor(
   'CRM1234',
   Positions.Doctor,
 )
-const ticketChamado = fila.callNextTicket()
-if (ticketChamado) {
-  medico.updateStatus(ticketChamado.paciente, StatusType.inConsult)
 
-  medico.updateStatus(ticketChamado.paciente, StatusType.finished)
-}
-
-fila.listQueue()
+let ticketChamado: Ticket | null
+do {
+  ticketChamado = fila.callNextTicket()
+  if (ticketChamado) {
+    medico.updateStatus(ticketChamado.paciente, StatusType.inConsult)
+    medico.updateStatus(ticketChamado.paciente, StatusType.finished)
+    console.log(`Paciente ${ticketChamado.paciente.name} foi atendido.`)
+    fila.listQueue()
+  }
+} while (ticketChamado)
