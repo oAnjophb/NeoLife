@@ -1,3 +1,5 @@
+import fs from 'fs'
+import path from 'path'
 import { Ticket } from './attending/ticket'
 import { Triage } from './attending/triage'
 import { Doctor } from './employes/doctor'
@@ -6,53 +8,27 @@ import { receptionist } from './employes/receptionist'
 import { Patient } from './Patient'
 import { ServiceQueue } from './queues/serviceQueue'
 
-const recepcioonista = new receptionist(298, 'Amanda', 11122233345)
-recepcioonista.registerPatient(pacientes)
-const pacientes = [
+// Carregando pacientes do JSON
+const pacientesRaw = fs.readFileSync(path.join(__dirname, 'patients.json'), 'utf-8')
+const pacientesJson = JSON.parse(pacientesRaw)
+const pacientes: Patient[] = pacientesJson.map((p: any) =>
   new Patient(
-    1,
-    'João Silva',
-    '123.456.789-00',
-    35,
-    'M',
-    'Rua A',
-    new Date(),
-  ),
-  new Patient(
-    2,
-    'Maria Souza',
-    '987.654.321-00',
-    28,
-    'F',
-    'Rua B',
-    new Date(),
-  ),
-  new Patient(
-    3,
-    'Pedro Lima',
-    '234.567.890-11',
-    65,
-    'M',
-    'Rua C',
-    new Date(),
-  ),
-  new Patient(
-    4,
-    'Ana Paula',
-    '321.654.987-00',
-    12,
-    'F',
-    'Rua D',
-    new Date(),
-  ),
-]
+    p.id,
+    p.name,
+    p.cpf,
+    p.age,
+    p.gender,
+    p.address,
+    new Date(p.entryTime)
+  )
+)
 
-const triagens = [
-  new Triage(pacientes[0]),
-  new Triage(pacientes[1]),
-  new Triage(pacientes[2]),
-  new Triage(pacientes[3]),
-]
+// Instancie o recepcionista e registre os pacientes (se necessário)
+const recepcioonista = new receptionist(298, 'Amanda', 11122233345)
+recepcioonista.registerPatient(pacientes[0]) // Exemplo, pode adaptar para todos
+
+// Continue normalmente com as triagens
+const triagens = pacientes.map((paciente) => new Triage(paciente))
 
 triagens[0].addSymptom('dor moderada')
 triagens[0].bloodPress = 130

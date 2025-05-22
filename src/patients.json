@@ -1,0 +1,38 @@
+[
+    {
+      "id": 1,
+      "name": "João Silva",
+      "cpf": "123.456.789-00",
+      "age": 35,
+      "gender": "M",
+      "address": "Rua A",
+      "entryTime": "2025-05-22T09:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "name": "Maria Souza",
+      "cpf": "987.654.321-00",
+      "age": 28,
+      "gender": "F",
+      "address": "Rua B",
+      "entryTime": "2025-05-22T09:05:00.000Z"
+    },
+    {
+      "id": 3,
+      "name": "Pedro Lima",
+      "cpf": "234.567.890-11",
+      "age": 65,
+      "gender": "M",
+      "address": "Rua C",
+      "entryTime": "2025-05-22T09:10:00.000Z"
+    },
+    {
+      "id": 4,
+      "name": "Ana Paula",
+      "cpf": "321.654.987-00",
+      "age": 12,
+      "gender": "F",
+      "address": "Rua D",
+      "entryTime": "2025-05-22T09:15:00.000Z"
+    }
+  ]
