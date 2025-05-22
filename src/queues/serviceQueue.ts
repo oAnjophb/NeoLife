@@ -23,7 +23,7 @@ export class ServiceQueue {
     }
     const ticket = this.extractMax()
     console.log(
-      `Chamando paciente ${ticket.paciente.name} com prioridade ${RiskRating[ticket.prioridade]}.`,
+      `\nChamando paciente ${ticket.paciente.name} com prioridade ${RiskRating[ticket.prioridade]}.`,
     )
     return ticket
   }
@@ -41,7 +41,7 @@ export class ServiceQueue {
   }
 
   listQueue(): void {
-    console.log('Estado atual da fila:')
+    console.log('\nEstado atual da fila:')
     this.heap.forEach((ticket) => {
       console.log(
         `Paciente: ${ticket.paciente.name}, Prioridade: ${RiskRating[ticket.prioridade]}`,

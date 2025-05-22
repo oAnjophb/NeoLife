@@ -34,7 +34,7 @@
     "./src/**/*.ts",
     "./test/**/*.ts",
     "./types/**/*.d.ts"
-  ],
+, "benchmark/genericHeap.ts"  ],
   "exclude": [
     "./build",
     "./node_modules",
