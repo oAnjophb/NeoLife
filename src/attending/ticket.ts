@@ -1,6 +1,6 @@
 import { StatusType } from '@/employes/Employee'
-import { RiskRating } from '@/employes/Nurse'
 import { Patient } from '@/Patient'
+import { RiskRating } from './triage'
 
 export class Ticket {
   constructor(

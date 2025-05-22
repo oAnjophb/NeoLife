@@ -1,4 +1,4 @@
-import { Patient } from '@/Patient'
+
 import { Employee, Positions, StatusType } from './Employee'
 import { Ticket } from '@/attending/ticket'
 

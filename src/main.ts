@@ -9,18 +9,22 @@ import { Patient } from './Patient'
 import { ServiceQueue } from './queues/serviceQueue'
 
 // Carregando pacientes do JSON
-const pacientesRaw = fs.readFileSync(path.join(__dirname, 'patients.json'), 'utf-8')
+const pacientesRaw = fs.readFileSync(
+  path.join(__dirname, 'patients.json'),
+  'utf-8',
+)
 const pacientesJson = JSON.parse(pacientesRaw)
-const pacientes: Patient[] = pacientesJson.map((p: any) =>
-  new Patient(
-    p.id,
-    p.name,
-    p.cpf,
-    p.age,
-    p.gender,
-    p.address,
-    new Date(p.entryTime)
-  )
+const pacientes: Patient[] = pacientesJson.map(
+  (p: any) =>
+    new Patient(
+      p.id,
+      p.name,
+      p.cpf,
+      p.age,
+      p.gender,
+      p.address,
+      new Date(p.entryTime),
+    ),
 )
 
 // Instancie o recepcionista e registre os pacientes (se necessário)
@@ -49,7 +53,11 @@ triagens[3].saturation = 99
 
 const fila = new ServiceQueue()
 for (let i = 0; i < pacientes.length; i++) {
-  const ticket = new Ticket(pacientes[i], triagens[i].riskRating(), StatusType.readyForConsult)
+  const ticket = new Ticket(
+    pacientes[i],
+    triagens[i].riskRating(),
+    StatusType.readyForConsult,
+  )
   fila.addTicket(ticket)
 }
 

@@ -1,5 +1,13 @@
-import { RiskRating } from '@/employes/Nurse'
+
 import { Patient } from '@/Patient'
+
+export enum RiskRating {
+  azul = 4,
+  verde = 3,
+  amarelo = 2,
+  laranja = 1,
+  vermelho = 0,
+}
 
 export class Triage {
   public symptoms: string[] = []

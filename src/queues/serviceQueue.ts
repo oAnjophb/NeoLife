@@ -1,5 +1,5 @@
 import { Ticket } from '@/attending/ticket'
-import { RiskRating } from '@/employes/Nurse'
+import { RiskRating } from '@/attending/triage'
 
 export class ServiceQueue {
   private heap: Ticket[] = []
