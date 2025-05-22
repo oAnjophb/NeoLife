@@ -1,10 +1,13 @@
 import { Ticket } from './attending/ticket'
 import { Triage } from './attending/triage'
 import { Doctor } from './employes/doctor'
-import { Positions, StatusType } from './employes/Employee'
+import { StatusType } from './employes/Employee'
+import { receptionist } from './employes/receptionist'
 import { Patient } from './Patient'
 import { ServiceQueue } from './queues/serviceQueue'
 
+const recepcioonista = new receptionist(298, 'Amanda', 11122233345)
+recepcioonista.registerPatient(pacientes)
 const pacientes = [
   new Patient(
     1,
@@ -14,7 +17,6 @@ const pacientes = [
     'M',
     'Rua A',
     new Date(),
-    StatusType.waitingTriage,
   ),
   new Patient(
     2,
@@ -24,7 +26,6 @@ const pacientes = [
     'F',
     'Rua B',
     new Date(),
-    StatusType.waitingTriage,
   ),
   new Patient(
     3,
@@ -34,7 +35,6 @@ const pacientes = [
     'M',
     'Rua C',
     new Date(),
-    StatusType.waitingTriage,
   ),
   new Patient(
     4,
@@ -44,7 +44,6 @@ const pacientes = [
     'F',
     'Rua D',
     new Date(),
-    StatusType.waitingTriage,
   ),
 ]
 
@@ -74,27 +73,21 @@ triagens[3].saturation = 99
 
 const fila = new ServiceQueue()
 for (let i = 0; i < pacientes.length; i++) {
-  const ticket = new Ticket(pacientes[i], triagens[i].riskRating())
+  const ticket = new Ticket(pacientes[i], triagens[i].riskRating(), StatusType.readyForConsult)
   fila.addTicket(ticket)
 }
 
-console.log('\nFila inicial:')
+console.log('\nFila para CONSULTA MÉDICA:')
 fila.listQueue()
 
-const medico = new Doctor(
-  1,
-  'Dra. Maria',
-  987654321,
-  'CRM1234',
-  Positions.Doctor,
-)
+const medico = new Doctor(1, 'Dra. Maria', 987654321, 'CRM1234')
 
 let ticketChamado: Ticket | null
 do {
   ticketChamado = fila.callNextTicket()
   if (ticketChamado) {
-    medico.updateStatus(ticketChamado.paciente, StatusType.inConsult)
-    medico.updateStatus(ticketChamado.paciente, StatusType.finished)
+    medico.updateStatus(ticketChamado, StatusType.inConsult)
+    medico.updateStatus(ticketChamado, StatusType.finished)
     console.log(`Paciente ${ticketChamado.paciente.name} foi atendido.`)
     fila.listQueue()
   }

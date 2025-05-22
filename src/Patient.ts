@@ -1,4 +1,4 @@
-import { StatusType } from './employes/Employee'
+
 
 export class Patient {
   constructor(
@@ -9,6 +9,5 @@ export class Patient {
     public gender: 'M' | 'F' ,
     public address: string,
     public entryTime: Date,
-    public status: StatusType,
   ) {}
 }

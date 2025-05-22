@@ -1,16 +1,16 @@
-import { RiskRating } from "@/employes/Nurse";
-import { Patient } from "@/Patient";
+import { RiskRating } from '@/employes/Nurse'
+import { Patient } from '@/Patient'
 
 export class Triage {
-  public symptoms: string[] = [];
-  public bloodPress: number = 0;
-  public temp: number = 0;
-  public saturation: number = 0;
+  public symptoms: string[] = []
+  public bloodPress: number = 0
+  public temp: number = 0
+  public saturation: number = 0
 
   constructor(public patient: Patient) {}
 
   addSymptom(symptom: string): void {
-    this.symptoms.push(symptom);
+    this.symptoms.push(symptom)
   }
 
   recordVitals(): string[] {
@@ -18,7 +18,7 @@ export class Triage {
       `Pressão arterial: ${this.bloodPress} mmHg`,
       `Temperatura: ${this.temp} °C`,
       `Saturação: ${this.saturation}%`,
-    ];
+    ]
   }
 
   riskRating(): RiskRating {
@@ -26,25 +26,24 @@ export class Triage {
       case this.saturation < 90:
       case this.temp >= 40:
       case this.bloodPress >= 180:
-        return RiskRating.Red;
+        return RiskRating.vermelho
 
       case this.saturation < 94:
       case this.temp >= 38.5:
-        return RiskRating.orange;
+        return RiskRating.laranja
 
-      case this.symptoms.includes("dor moderada"):
-        return RiskRating.yellow;
+      case this.symptoms.includes('dor moderada'):
+        return RiskRating.amarelo
 
-      case this.symptoms.includes("dor leve"):
-        return RiskRating.grenn;
+      case this.symptoms.includes('dor leve'):
+        return RiskRating.verde
 
       default:
-        return RiskRating.blue;
+        return RiskRating.azul
     }
   }
 
   getTriageLevel(): string {
-    return RiskRating[this.riskRating()];
+    return RiskRating[this.riskRating()]
   }
-  
 }

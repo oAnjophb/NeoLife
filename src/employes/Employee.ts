@@ -1,4 +1,3 @@
-import { Patient } from '@/Patient'
 
 export enum Positions {
   Receptionist = 'Recepcionista',
@@ -22,7 +21,4 @@ export abstract class Employee {
     protected cpf: number,
     protected position: Positions,
   ) {}
-  updateStatus(patient: Patient, status: StatusType): void {
-    patient.status = status
-  }
 }

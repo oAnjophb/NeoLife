@@ -1,5 +1,6 @@
 import { Patient } from '@/Patient'
 import { Employee, Positions, StatusType } from './Employee'
+import { Ticket } from '@/attending/ticket'
 
 export class Doctor extends Employee {
   constructor(
@@ -7,8 +8,11 @@ export class Doctor extends Employee {
     name: string,
     cpf: number,
     public crm: string,
-    position: Positions,
   ) {
     super(id, name, cpf, Positions.Doctor)
+  }
+
+  updateStatus(ticket: Ticket, status: StatusType): void {
+    ticket.status = status
   }
 }
