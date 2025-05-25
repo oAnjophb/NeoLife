@@ -5,7 +5,7 @@ export class ServiceQueue {
   private heap: Ticket[] = []
 
   private compare(a: Ticket, b: Ticket): number {
-    return b.prioridade - a.prioridade // Ordem decrescente de prioridade
+    return b.prioridade - a.prioridade
   }
 
   addTicket(ticket: Ticket): void {
@@ -42,25 +42,34 @@ export class ServiceQueue {
 
   listQueue(): void {
     console.log('\nEstado atual da fila:')
-    this.heap.forEach((ticket) => {
-      console.log(
-        `Paciente: ${ticket.paciente.name}, Prioridade: ${RiskRating[ticket.prioridade]}`,
-      )
-    })
+
+    this.orderedQueue()
   }
 
-  private heapifyUp(): void {
-    let index = this.heap.length - 1
-    const element = this.heap[index]
-    while (index > 0) {
-      const parentIndex = Math.floor((index - 1) / 2)
-      const parent = this.heap[parentIndex]
-      if (this.compare(element, parent) <= 0) break
-      this.heap[index] = parent
-      index = parentIndex
-    }
-    this.heap[index] = element
+  
+  orderedQueue(): void {
+  const ordered = [...this.heap].sort((a, b) => a.prioridade - b.prioridade)
+  
+  for (const paciente of ordered) {
+    console.log(`Paciente: ${paciente.paciente.name}, Prioridade: ${RiskRating[paciente.prioridade]}`);
   }
+}
+
+private heapifyUp(): void {
+  let index = this.heap.length - 1;
+  while (index > 0) {
+    let parentIndex = Math.floor((index - 1) / 2);
+    if (this.compare(this.heap[index], this.heap[parentIndex]) > 0) {
+
+      const temp = this.heap[index];
+      this.heap[index] = this.heap[parentIndex];
+      this.heap[parentIndex] = temp;
+      index = parentIndex;
+    } else {
+      break;
+    }
+  }
+}
 
   private extractMax(): Ticket {
     const max = this.heap[0]
@@ -75,32 +84,33 @@ export class ServiceQueue {
   private heapifyDown(): void {
     let index = 0
     const length = this.heap.length
-    const element = this.heap[0]
+    
     while (true) {
       let leftChildIndex = 2 * index + 1
       let rightChildIndex = 2 * index + 2
-      let swapIndex = null
+      let swapIndex = index
 
       if (
         leftChildIndex < length &&
-        this.compare(this.heap[leftChildIndex], element) > 0
+        this.compare(this.heap[leftChildIndex], this.heap[index]) > 0
       ) {
         swapIndex = leftChildIndex
       }
 
       if (
         rightChildIndex < length &&
-        this.compare(this.heap[rightChildIndex], element) > 0 &&
-        this.compare(this.heap[rightChildIndex], this.heap[leftChildIndex]) > 0
-      ) {
+        this.compare(this.heap[rightChildIndex], this.heap[index]) > 0 ) {
         swapIndex = rightChildIndex
       }
 
-      if (swapIndex === null) break
+      if (swapIndex === index) break
+      
+      const temp = this.heap[index];
       this.heap[index] = this.heap[swapIndex]
+      this.heap[swapIndex] = temp
+
       index = swapIndex
     }
-    this.heap[index] = element
   }
 
   private reorganizeHeap(): void {

@@ -26,8 +26,8 @@
         "dotenv": "^16"
     },
     "devDependencies": {
-        "@types/jest": "^29",
-        "@types/node": "^22",
+        "@types/jest": "^29.5.14",
+        "@types/node": "^22.15.21",
         "@typescript-eslint/eslint-plugin": "^8",
         "@typescript-eslint/parser": "^8",
         "eslint": "^9",
@@ -51,5 +51,6 @@
         "tsconfig-paths": "^4",
         "typescript": "^5",
         "typescript-transform-paths": "^3"
-    }
+    },
+    "packageManager": "yarn@4.9.1+sha512.f95ce356460e05be48d66401c1ae64ef84d163dd689964962c6888a9810865e39097a5e9de748876c2e0bf89b232d583c33982773e9903ae7a76257270986538"
 }

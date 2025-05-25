@@ -1,75 +1,77 @@
-type Comparator<T> = (a: T, b: T) => number;
 
-export class GenericHeap<T> {
-  private heap: T[] = [];
-  private comparator: Comparator<T>;
+class Heap<K> {
+    protected items: Array<K>;
+    public compare: ((a: K, b: K) => number);
 
-  constructor(comparator: Comparator<T>) {
-    this.comparator = comparator;
-  }
-
-  size(): number {
-    return this.heap.length;
-  }
-
-  peek(): T | undefined {
-    return this.heap[0];
-  }
-
-  push(value: T): void {
-    this.heap.push(value);
-    this.heapifyUp();
-  }
-
-  pop(): T | undefined {
-    if (this.size() === 0) return undefined;
-    const top = this.heap[0];
-    const end = this.heap.pop()!;
-    if (this.size() > 0) {
-      this.heap[0] = end;
-      this.heapifyDown();
+    public constructor(cf: (a: K, b: K) => number) {
+        this.items = new Array<K>();
+        this.compare = cf;
     }
-    return top;
-  }
 
-  private heapifyUp() {
-    let idx = this.heap.length - 1;
-    const value = this.heap[idx];
-    while (idx > 0) {
-      const parentIdx = Math.floor((idx - 1) / 2);
-      const parent = this.heap[parentIdx];
-      if (this.comparator(value, parent) >= 0) break;
-      this.heap[idx] = parent;
-      idx = parentIdx;
+    public extract(): K {
+        let res = this.items[0];
+        this.swap(0, this.size() - 1);
+        this.items.pop();
+        this.heapify(0);
+        return res;
     }
-    this.heap[idx] = value;
-  }
 
-  private heapifyDown() {
-    let idx = 0;
-    const length = this.heap.length;
-    const value = this.heap[0];
-    while (true) {
-      let leftIdx = 2 * idx + 1;
-      let rightIdx = 2 * idx + 2;
-      let smallest = idx;
-
-      if (
-        leftIdx < length &&
-        this.comparator(this.heap[leftIdx], this.heap[smallest]) < 0
-      ) {
-        smallest = leftIdx;
-      }
-      if (
-        rightIdx < length &&
-        this.comparator(this.heap[rightIdx], this.heap[smallest]) < 0
-      ) {
-        smallest = rightIdx;
-      }
-      if (smallest === idx) break;
-      this.heap[idx] = this.heap[smallest];
-      idx = smallest;
+    public insert(item: K): void {
+        this.items.push(item);
+        this.rootify(this.size() - 1);
     }
-    this.heap[idx] = value;
-  }
-}\\
+
+    public isEmpty(): boolean {
+        return this.size() == 0;
+    }
+
+    public size(): number {
+        return this.items.length;
+    }
+
+    public toArray(): Array<K> {
+        return this.items;
+    }
+
+    protected heapify(i: number): void {
+        let l = Heap.left(i);
+        let r = Heap.right(i);
+        let min = i;
+        if(r < this.size()) {
+            min = this.compare(this.items[l], this.items[r]) == -1 ? l : r;
+        } else if(l < this.size()) {
+            min = l;
+        }
+        if(this.compare(this.items[i], this.items[min]) == 1) {
+            this.swap(i, min);
+            this.heapify(min);
+        }
+    }
+
+    protected rootify(i: number): void {
+        let p = Heap.parent(i);
+        let n = this.compare(this.items[i], this.items[p]);
+        if (n == -1) {
+            this.swap(i, p);
+            this.rootify(p);
+        }
+    }
+
+    protected swap(i: number, j: number): void {
+        let temp = this.items[i];
+        this.items[i] = this.items[j];
+        this.items[j] = temp;
+    }
+
+    protected static parent(i: number): number {
+        return Math.max(0, Math.ceil(i / 2) - 1);
+    }
+
+    protected static left(i: number): number {
+        return 2 * i + 1;
+    }
+
+    protected static right(i: number): number {
+        return 2 * i + 2;
+    }
+}
