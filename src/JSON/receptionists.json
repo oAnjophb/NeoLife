@@ -1,10 +1,10 @@
 [
   {
-    "name": "Carlos Alberto",
+    "nome": "Carlos Alberto",
     "cpf": 45678912309
   },
   {
-    "name": "Fernanda Souza",
+    "nome": "Fernanda Souza",
     "cpf": 99988877766
   }
 ]

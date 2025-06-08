@@ -1,34 +1,30 @@
 [
-    {
-      "name": "João Silva",
-      "cpf": "123.456.789-00",
-      "age": 35,
-      "gender": "M",
-      "address": "Rua A",
-      "entryTime": "2025-05-22T09:00:00.000Z"
-    },
-    {
-      "name": "Maria Souza",
-      "cpf": "987.654.321-00",
-      "age": 28,
-      "gender": "F",
-      "address": "Rua B",
-      "entryTime": "2025-05-22T09:05:00.000Z"
-    },
-    {
-      "name": "Pedro Lima",
-      "cpf": "234.567.890-11",
-      "age": 65,
-      "gender": "M",
-      "address": "Rua C",
-      "entryTime": "2025-05-22T09:10:00.000Z"
-    },
-    {
-      "name": "Ana Paula",
-      "cpf": "321.654.987-00",
-      "age": 12,
-      "gender": "F",
-      "address": "Rua D",
-      "entryTime": "2025-05-22T09:15:00.000Z"
-    }
-  ]
+  {
+    "nome": "João Silva",
+    "CPF": 12345678900,
+    "data_Nascimento": "1990-06-08",
+    "genero": "M",
+    "endereco": "Rua A"
+  },
+  {
+    "nome": "Maria Souza",
+    "CPF": 98765432100,
+    "data_Nascimento": "1997-03-15",
+    "genero": "F",
+    "endereco": "Rua B"
+  },
+  {
+    "nome": "Pedro Lima",
+    "CPF": 23456789011,
+    "data_Nascimento": "1960-12-01",
+    "genero": "M",
+    "endereco": "Rua C"
+  },
+  {
+    "nome": "Ana Paula",
+    "CPF": 32165498700,
+    "data_Nascimento": "2013-11-22",
+    "genero": "F",
+    "endereco": "Rua D"
+  }
+]

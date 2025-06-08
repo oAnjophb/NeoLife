@@ -7,10 +7,10 @@ export function importPatients(db: any, jsonFile: string) {
 
   db.prepare('DELETE FROM PACIENTE').run()
   const stmt = db.prepare(
-    `INSERT INTO paciente(name, cpf, age, gender, address, entryTime) VALUES (?, ?, ?, ?, ?, ?)`,
+    `INSERT INTO PACIENTE(nome, CPF, data_Nascimento, genero, endereco) VALUES (?, ?, ?, ?, ?)`,
   )
   for (const p of patientData) {
-    stmt.run(p.name, p.cpf, p.age, p.gender, p.address, p.entryTime)
+    stmt.run(p.nome, p.CPF, p.data_Nascimento, p.genero, p.endereco)
   }
 }
 
@@ -19,7 +19,7 @@ export function importDoctors(db: any, jsonFile: string) {
   const doctorData = JSON.parse(json)
 
   db.prepare('DELETE FROM MEDICO').run()
-  const stmt = db.prepare(`INSERT INTO medico(nome, crm) VALUES (?, ?)`)
+  const stmt = db.prepare(`INSERT INTO MEDICO(nome, CRM) VALUES (?, ?)`)
   for (const d of doctorData) {
     stmt.run(d.nome, d.crm)
   }
@@ -29,9 +29,9 @@ export function importReceptionist(db: any, jsonFile: string) {
   let json = fs.readFileSync(jsonFile).toString()
   const data = JSON.parse(json)
 
-  db.prepare('DELETE FROM recepcionista').run()
+  db.prepare('DELETE FROM RECEPCIONISTA').run()
   const stmt = db.prepare(
-    `INSERT INTO recepcionista(nome, cpf) VALUES (?, ?)`,
+    `INSERT INTO RECEPCIONISTA(nome, CPF) VALUES (?, ?)`,
   )
   for (const r of data) {
     stmt.run(r.nome, r.cpf)
@@ -42,9 +42,9 @@ export function importEnfermeiras(db: any, jsonFile: string) {
   let json = fs.readFileSync(jsonFile).toString()
   const data = JSON.parse(json)
 
-  db.prepare('DELETE FROM enfermeira').run()
+  db.prepare('DELETE FROM ENFERMEIRO').run()
   const stmt = db.prepare(
-    `INSERT INTO enfermeira(nome, coren) VALUES (?, ?)`,
+    `INSERT INTO ENFERMEIRO(nome, COREN) VALUES (?, ?)`,
   )
   for (const e of data) {
     stmt.run(e.nome, e.coren)

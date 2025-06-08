@@ -1,11 +1,11 @@
 [
   {
-    "name": "Luiz Fernando",
+    "nome": "Luiz Fernando",
     "cpf": 12345678901,
     "crm": "43210-CRM"
   },
   {
-    "name": "Pedro Martins",
+    "nome": "Pedro Martins",
     "cpf": 22233344455,
     "crm": "54321-CRM"
   }

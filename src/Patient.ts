@@ -27,8 +27,8 @@ export class Patient {
     const db = new Database()
     
     const stmt = db.prepare(
-      `INSERT INTO paciente (name, cpf, age, gender, address, entryTime)
-       VALUES (?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO paciente (name, cpf, idade, genero, endereco)
+       VALUES (?, ?, ?, ?, ?)`,
     )
     const info = stmt.run(
       patient.name,

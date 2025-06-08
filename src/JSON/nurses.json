@@ -1,12 +1,12 @@
 [
   {
+    "nome": "Patrícia Gomes",
     "coren": "12345-ENF",
-    "name": "Patrícia Gomes",
     "cpf": 98765432100
   },
   {
+    "nome": "Roberta Lima",
     "coren": "67890-ENF",
-    "name": "Roberta Lima",
     "cpf": 11122233344
   }
 ]
