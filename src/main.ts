@@ -5,7 +5,7 @@ import {
   importDoctors,
   importReceptionist,
   importEnfermeiras,
-} from './import_data'
+} from './Data/import_data'
 
 function main() {
   const db = new Database('./pronto_socorro.db')
