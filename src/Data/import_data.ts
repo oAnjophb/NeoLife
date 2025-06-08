@@ -6,11 +6,26 @@ export function importPatients(db: any, jsonFile: string) {
   const patientData = JSON.parse(json)
 
   db.prepare('DELETE FROM PACIENTE').run()
-  const stmt = db.prepare(
-    `INSERT INTO PACIENTE(nome, CPF, data_Nascimento, genero, endereco) VALUES (?, ?, ?, ?, ?)`,
+  db.prepare('DELETE FROM ENDERECO_PACIENTE').run()
+
+  const enderecoStmt = db.prepare(
+    `INSERT INTO ENDERECO_PACIENTE(rua, bairro, cidade, estado) VALUES (?, ?, ?, ?)`,
   )
+  const pacienteStmt = db.prepare(
+    `INSERT INTO PACIENTE(nome, CPF, data_Nascimento, genero, id_endereco) VALUES (?, ?, ?, ?, ?)`,
+  )
+
   for (const p of patientData) {
-    stmt.run(p.nome, p.CPF, p.data_Nascimento, p.genero, p.endereco)
+    const endereco = p.endereco
+    const enderecoResult = enderecoStmt.run(
+      endereco.rua,
+      endereco.bairro,
+      endereco.cidade,
+      endereco.estado,
+    )
+    const enderecoId = enderecoResult.lastInsertRowid
+
+    pacienteStmt.run(p.nome, p.CPF, p.data_Nascimento, p.genero, enderecoId)
   }
 }
 
@@ -30,9 +45,7 @@ export function importReceptionist(db: any, jsonFile: string) {
   const data = JSON.parse(json)
 
   db.prepare('DELETE FROM RECEPCIONISTA').run()
-  const stmt = db.prepare(
-    `INSERT INTO RECEPCIONISTA(nome, CPF) VALUES (?, ?)`,
-  )
+  const stmt = db.prepare(`INSERT INTO RECEPCIONISTA(nome, CPF) VALUES (?, ?)`)
   for (const r of data) {
     stmt.run(r.nome, r.cpf)
   }
@@ -43,9 +56,7 @@ export function importEnfermeiras(db: any, jsonFile: string) {
   const data = JSON.parse(json)
 
   db.prepare('DELETE FROM ENFERMEIRO').run()
-  const stmt = db.prepare(
-    `INSERT INTO ENFERMEIRO(nome, COREN) VALUES (?, ?)`,
-  )
+  const stmt = db.prepare(`INSERT INTO ENFERMEIRO(nome, COREN) VALUES (?, ?)`)
   for (const e of data) {
     stmt.run(e.nome, e.coren)
   }
@@ -53,10 +64,8 @@ export function importEnfermeiras(db: any, jsonFile: string) {
 
 const db = new Database('./pronto_socorro.db')
 
-importPatients(db, './src/JSON/patients.json')
-importDoctors(db, './src/JSON/doctors.json')
-importReceptionist(db, './src/JSON/receptionists.json')
-importEnfermeiras(db, './src/JSON/nurses.json')
+importPatients(db, './JSON/patients.json')
+importDoctors(db, './JSON/doctors.json')
+importReceptionist(db, './JSON/receptionists.json')
+importEnfermeiras(db, './JSON/nurses.json')
 db.close()
-
-console.log('Importação concluída com sucesso!')
