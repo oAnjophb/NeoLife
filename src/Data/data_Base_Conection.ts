@@ -12,7 +12,7 @@ export class Database {
   static connect(): void {
     if (this.connection) return
 
-    const dbFilename = './pronto_socorro.db' // <-- alterado
+    const dbFilename = './pronto_socorro.db'
     if (!fs.existsSync(dbFilename))
       throw new Error(`Database file not found: ${dbFilename}`)
 
