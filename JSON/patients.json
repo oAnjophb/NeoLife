@@ -1,7 +1,7 @@
 [
   {
     "nome": "João Silva",
-    "CPF": "12345678901",
+    "CPF": 12345678901,
     "data_Nascimento": "1990-01-01",
     "genero": "M",
     "endereco": {
@@ -13,7 +13,7 @@
   },
   {
     "nome": "Maria Souza",
-    "CPF": "98765432100",
+    "CPF": 98765432100,
     "data_Nascimento": "1985-05-10",
     "genero": "F",
     "endereco": {
@@ -25,7 +25,7 @@
   },
   {
     "nome": "Carlos Pereira",
-    "CPF": "11122233344",
+    "CPF": 11122233344,
     "data_Nascimento": "1978-12-09",
     "genero": "M",
     "endereco": {
@@ -37,7 +37,7 @@
   },
   {
     "nome": "Ana Paula",
-    "CPF": "55566677788",
+    "CPF": 55566677788,
     "data_Nascimento": "1992-07-23",
     "genero": "F",
     "endereco": {
@@ -49,7 +49,7 @@
   },
   {
     "nome": "Pedro Henrique",
-    "CPF": "33344455566",
+    "CPF": 33344455566,
     "data_Nascimento": "1988-05-17",
     "genero": "M",
     "endereco": {
@@ -61,7 +61,7 @@
   },
   {
     "nome": "Fernanda Souza",
-    "CPF": "22233344455",
+    "CPF": 22233344455,
     "data_Nascimento": "1995-09-12",
     "genero": "F",
     "endereco": {
@@ -73,7 +73,7 @@
   },
   {
     "nome": "Lucas Lima",
-    "CPF": "44455566677",
+    "CPF": 44455566677,
     "data_Nascimento": "1991-03-29",
     "genero": "M",
     "endereco": {
@@ -85,7 +85,7 @@
   },
   {
     "nome": "Patrícia Oliveira",
-    "CPF": "66677788899",
+    "CPF": 66677788899,
     "data_Nascimento": "1983-11-01",
     "genero": "F",
     "endereco": {
@@ -97,7 +97,7 @@
   },
   {
     "nome": "Ricardo Santos",
-    "CPF": "77788899900",
+    "CPF": 77788899900,
     "data_Nascimento": "1986-08-30",
     "genero": "M",
     "endereco": {
@@ -109,7 +109,7 @@
   },
   {
     "nome": "Juliana Costa",
-    "CPF": "88899900011",
+    "CPF": 88899900011,
     "data_Nascimento": "1993-02-14",
     "genero": "F",
     "endereco": {
@@ -121,7 +121,7 @@
   },
   {
     "nome": "André Gomes",
-    "CPF": "99900011122",
+    "CPF": 99900011122,
     "data_Nascimento": "1990-04-21",
     "genero": "M",
     "endereco": {
@@ -133,7 +133,7 @@
   },
   {
     "nome": "Camila Ferreira",
-    "CPF": "00011122233",
+    "CPF": 111222233,
     "data_Nascimento": "1994-12-05",
     "genero": "F",
     "endereco": {
@@ -145,7 +145,7 @@
   },
   {
     "nome": "Roberto Alves",
-    "CPF": "11133355577",
+    "CPF": 11133355577,
     "data_Nascimento": "1987-06-07",
     "genero": "M",
     "endereco": {
@@ -157,7 +157,7 @@
   },
   {
     "nome": "Larissa Mendes",
-    "CPF": "22244466688",
+    "CPF": 22244466688,
     "data_Nascimento": "1996-10-11",
     "genero": "F",
     "endereco": {
@@ -169,7 +169,7 @@
   },
   {
     "nome": "Fábio Silva",
-    "CPF": "33355577799",
+    "CPF": 33355577799,
     "data_Nascimento": "1989-01-15",
     "genero": "M",
     "endereco": {
@@ -181,7 +181,7 @@
   },
   {
     "nome": "Beatriz Lima",
-    "CPF": "44466688800",
+    "CPF": 44466688800,
     "data_Nascimento": "1992-09-23",
     "genero": "F",
     "endereco": {
@@ -193,7 +193,7 @@
   },
   {
     "nome": "Daniel Barbosa",
-    "CPF": "55577799911",
+    "CPF": 55577799911,
     "data_Nascimento": "1991-07-19",
     "genero": "M",
     "endereco": {
@@ -205,7 +205,7 @@
   },
   {
     "nome": "Isabela Rocha",
-    "CPF": "66688800022",
+    "CPF": 66688800022,
     "data_Nascimento": "1984-03-27",
     "genero": "F",
     "endereco": {
@@ -217,7 +217,7 @@
   },
   {
     "nome": "Thiago Martins",
-    "CPF": "77799911133",
+    "CPF": 77799911133,
     "data_Nascimento": "1997-05-12",
     "genero": "M",
     "endereco": {
@@ -229,7 +229,7 @@
   },
   {
     "nome": "Priscila Nogueira",
-    "CPF": "88800022244",
+    "CPF": 88800022244,
     "data_Nascimento": "1993-11-03",
     "genero": "F",
     "endereco": {
