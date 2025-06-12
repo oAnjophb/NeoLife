@@ -14,6 +14,13 @@ export function importPatients(db: any, jsonFile: string) {
   const pacienteStmt = db.prepare(
     `INSERT INTO PACIENTE(nome, CPF, data_Nascimento, genero, id_endereco) VALUES (?, ?, ?, ?, ?)`,
   )
+  
+
+  // JOIN, serve para dados de tabelas distintas interagirem entre si.
+  
+  const patient_Queue = db.join(
+    `INSERT INTO FILA_PARA_ATENDIMENTO()`
+  )
 
   for (const p of patientData) {
     const endereco = p.endereco
