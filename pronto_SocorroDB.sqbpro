@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/Users/anjos/Documents/UESPI/2025.1/POO/emptyDB.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="2388"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="ATENDIMENTO" custom_title="0" dock_id="3" table="4,11:mainATENDIMENTO"/><dock_state state="000000ff00000000fd00000001000000020000055a00000283fc0100000003fb000000160064006f0063006b00420072006f007700730065003101000000000000055a0000000000000000fb000000160064006f0063006b00420072006f007700730065003201000000000000055a0000000000000000fb000000160064006f0063006b00420072006f007700730065003301000000000000055a0000012400ffffff0000026f0000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1*">CREATE TABLE PACIENTE (
+    id_paciente INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    cpf TEXT NOT NULL,
+    data_nascimento TEXT,
+    genero TEXT
+);
+
+CREATE TABLE ENDERECO (
+    id_endereco INTEGER PRIMARY KEY AUTOINCREMENT,
+    rua TEXT NOT NULL,
+    bairro TEXT NOT NULL,
+	cidade TEXT NOT NULL,
+	estado TEXT NOT NULL
+);
+
+CREATE TABLE ENDERECO_PACIENTE (
+    id_paciente INTEGER NOT NULL,
+    id_endereco INTEGER NOT NULL,
+    PRIMARY KEY (id_paciente, id_endereco),
+    FOREIGN KEY (id_paciente) REFERENCES PACIENTE(id_paciente),
+    FOREIGN KEY (id_endereco) REFERENCES ENDERECO(id_endereco)
+);
+
+CREATE TABLE RECEPCIONISTA (
+    id_recepcionista INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    cpf TEXT NOT NULL
+);
+
+CREATE TABLE MARCA_CONSULTA (
+    id_consulta INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_paciente INTEGER NOT NULL,
+    id_recepcionista INTEGER NOT NULL,
+    data_consulta_marcada TEXT NOT NULL,
+    FOREIGN KEY (id_paciente) REFERENCES PACIENTE(id_paciente),
+    FOREIGN KEY (id_recepcionista) REFERENCES RECEPCIONISTA(id_recepcionista)
+);
+
+CREATE TABLE CLASSIFICACAO_RISCOS (
+    id_classificacao_risco INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome_classificacao TEXT NOT NULL,
+    cor TEXT NOT NULL
+);
+
+CREATE TABLE TRIAGEM (
+    id_triagem INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_classificacao_risco INTEGER NOT NULL,
+    sintomas TEXT NOT NULL,
+    temperatura REAL,
+    saturacao REAL,
+    pressao_sanguinea REAL,
+    data_triagem TEXT,
+    FOREIGN KEY (id_classificacao_risco) REFERENCES CLASSIFICACAO_RISCOS(id_classificacao_risco)
+);
+
+CREATE TABLE ENFERMEIRO (
+    id_enfermeiro INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    coren TEXT NOT NULL
+);
+
+CREATE TABLE TRIAGEM_ENFERMEIRO (
+    id_triagem INTEGER NOT NULL,
+    id_enfermeiro INTEGER NOT NULL,
+    PRIMARY KEY (id_triagem, id_enfermeiro),
+    FOREIGN KEY (id_triagem) REFERENCES TRIAGEM(id_triagem),
+    FOREIGN KEY (id_enfermeiro) REFERENCES ENFERMEIRO(id_enfermeiro)
+);
+
+CREATE TABLE MEDICO (
+    id_medico INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome TEXT NOT NULL,
+    crm TEXT NOT NULL
+);
+
+CREATE TABLE ATENDIMENTO (
+    id_atendimento INTEGER PRIMARY KEY AUTOINCREMENT,
+    id_paciente INTEGER NOT NULL,
+    id_triagem INTEGER NOT NULL,
+    id_medico INTEGER NOT NULL,
+    data_atendimento TEXT NOT NULL,
+    FOREIGN KEY (id_paciente) REFERENCES PACIENTE(id_paciente),
+    FOREIGN KEY (id_triagem) REFERENCES TRIAGEM(id_triagem),
+    FOREIGN KEY (id_medico) REFERENCES MEDICO(id_medico)
+);
+
+CREATE TABLE DIAGNOSTICO (
+    id_atendimento INTEGER PRIMARY KEY,
+    descricao_diagnostico TEXT NOT NULL,
+    FOREIGN KEY (id_atendimento) REFERENCES ATENDIMENTO(id_atendimento)
+);</sql><current_tab id="0"/></tab_sql></sqlb_project>
