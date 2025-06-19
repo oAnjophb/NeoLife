@@ -24,8 +24,8 @@ const routes = [
         component: CadastroPaciente,
       },
       {
-        path: 'table',
-        name: 'Fila',
+        path: '/FilaPrioridade',
+        name: 'FilaPrioridade',
         component: FilaPrioridade,
       },
       {

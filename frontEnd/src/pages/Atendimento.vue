@@ -53,7 +53,7 @@ export default {
       return {vermelho: 'Vermelho', laranja: 'Laranja', amarelo: 'Amarelo', verde: 'Verde', azul: 'Azul'}[prio] || prio
     },
     encerrarAtendimento() {
-      this.$router.push('/table')
+      this.$router.push('/FilaPrioridade')
     },
   },
 };

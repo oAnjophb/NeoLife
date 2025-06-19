@@ -2,8 +2,10 @@
   <div class="form-centralizado">
     <md-card>
       <md-card-header class="custom-card-header">
-        <md-icon class="header-icon" style="font-size: 32px; color: #2196f3">assignment</md-icon>
-        <h4 class="title">Cadastro de Triagem</h4>
+        <span class="header-icon-title">
+          <md-icon class="header-icon" style="font-size: 32px; color: #2196f3">assignment</md-icon>
+          <h4 class="title">Cadastro de Triagem</h4>
+        </span>
       </md-card-header>
       <md-card-content>
         <form @submit.prevent="cadastrarTriagem">
@@ -138,13 +140,13 @@ export default {
   justify-content: center;
   background: #fafbfd;
   padding: 24px;
-  width: 100%; /* Corrigido aqui */
+  width: 100%;
   box-sizing: border-box;
-  overflow-x: hidden; /* impede scroll lateral */
+  overflow-x: hidden;
 }
 .md-card {
   width: 100%;
-  max-width: 800px;  /* Ajuste aqui para o tamanho que quiser */
+  max-width: 800px;
   padding: 40px 40px 32px 40px;
   box-sizing: border-box;
   border-radius: 18px;
@@ -154,17 +156,28 @@ export default {
 .custom-card-header {
   display: flex;
   align-items: center;
-  gap: 16px;
   padding-bottom: 16px;
+  /* Remove o gap padrão */
+}
+.header-icon-title {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espaço exato entre ícone e título */
 }
 .header-icon {
-  margin-right: 8px;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .title {
   margin: 0 0 4px 0;
   font-size: 2em;
   font-weight: 600;
   color: #333;
+  line-height: 1;
 }
 .form-row {
   display: flex;

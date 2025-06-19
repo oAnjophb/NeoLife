@@ -1,310 +1,291 @@
 <template>
-  <div class="content">
-    <div class="md-layout">
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
-      >
-        <chart-card
-          :chart-data="dailySalesChart.data"
-          :chart-options="dailySalesChart.options"
-          :chart-type="'Line'"
-          data-background-color="blue"
-        >
-          <template slot="content">
-            <h4 class="title">Daily Sales</h4>
-            <p class="category">
-              <span class="text-success"
-                ><i class="fas fa-long-arrow-alt-up"></i> 55%
-              </span>
-              increase in today sales.
-            </p>
-          </template>
+  <div class="dashboard-home">
+    <!-- Gráficos -->
+    <div class="dashboard-row">
+      <md-card class="dashboard-graph">
+        <div class="card-title">Triagens por Classificação de Risco (Hoje)</div>
+        <canvas id="graficoRiscos"></canvas>
+      </md-card>
+      <md-card class="dashboard-graph">
+        <div class="card-title">Triagens por Dia (Últimos 7 dias)</div>
+        <canvas id="graficoTriagens"></canvas>
+      </md-card>
+    </div>
 
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>access_time</md-icon>
-              updated 4 minutes ago
+    <!-- Listas -->
+    <div class="dashboard-row">
+      <md-card class="dashboard-list">
+        <div class="card-title card-title-list">Próximas Consultas</div>
+        <md-list>
+          <md-list-item v-for="consulta in proximasConsultas" :key="consulta.id">
+            <md-avatar class="list-avatar" md-theme="default">
+              <md-icon>person</md-icon>
+            </md-avatar>
+            <div class="list-content">
+              <span class="list-title">{{ consulta.nome_paciente }}</span>
+              <span class="list-date">{{ consulta.data_hora }}</span>
             </div>
-          </template>
-        </chart-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
-      >
-        <chart-card
-          :chart-data="emailsSubscriptionChart.data"
-          :chart-options="emailsSubscriptionChart.options"
-          :chart-responsive-options="emailsSubscriptionChart.responsiveOptions"
-          :chart-type="'Bar'"
-          data-background-color="red"
-        >
-          <template slot="content">
-            <h4 class="title">Email Subscription</h4>
-            <p class="category">Last Campaign Performance</p>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>access_time</md-icon>
-              updated 10 days ago
+            <md-chip class="chip-status" md-color="primary">Marcada</md-chip>
+          </md-list-item>
+          <md-list-item v-if="proximasConsultas.length === 0">
+            <span>Nenhuma consulta agendada.</span>
+          </md-list-item>
+        </md-list>
+      </md-card>
+      <md-card class="dashboard-list">
+        <div class="card-title card-title-list">Pacientes em Situação Crítica</div>
+        <md-list>
+          <md-list-item v-for="pac in pacientesCriticos" :key="pac.id">
+            <md-avatar class="list-avatar" md-theme="default" :style="{background: getCorRisco(pac.classificacao)}">
+              <md-icon>priority_high</md-icon>
+            </md-avatar>
+            <div class="list-content">
+              <span class="list-title">{{ pac.nome }}</span>
+              <span class="list-date" :style="{color: getCorRisco(pac.classificacao)}">{{ pac.classificacao }}</span>
             </div>
-          </template>
-        </chart-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-33"
-      >
-        <chart-card
-          :chart-data="dataCompletedTasksChart.data"
-          :chart-options="dataCompletedTasksChart.options"
-          :chart-type="'Line'"
-          data-background-color="green"
-        >
-          <template slot="content">
-            <h4 class="title">Completed Tasks</h4>
-            <p class="category">Last Campaign Performance</p>
-          </template>
+            <md-chip class="chip-status" :style="{background: getCorRisco(pac.classificacao), color: '#fff'}">Crítico</md-chip>
+          </md-list-item>
+          <md-list-item v-if="pacientesCriticos.length === 0">
+            <span>Nenhum paciente crítico no momento.</span>
+          </md-list-item>
+        </md-list>
+      </md-card>
+    </div>
 
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>access_time</md-icon>
-              campaign sent 26 minutes ago
-            </div>
-          </template>
-        </chart-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
-        <stats-card data-background-color="green">
-          <template slot="header">
-            <md-icon>store</md-icon>
-          </template>
-
-          <template slot="content">
-            <p class="category">Revenue</p>
-            <h3 class="title">$34,245</h3>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>date_range</md-icon>
-              Last 24 Hours
-            </div>
-          </template>
-        </stats-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
-        <stats-card data-background-color="orange">
-          <template slot="header">
-            <md-icon>content_copy</md-icon>
-          </template>
-
-          <template slot="content">
-            <p class="category">Used Space</p>
-            <h3 class="title">
-              49/50
-              <small>GB</small>
-            </h3>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon class="text-danger">warning</md-icon>
-              <a href="#pablo">Get More Space...</a>
-            </div>
-          </template>
-        </stats-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
-        <stats-card data-background-color="red">
-          <template slot="header">
-            <md-icon>info_outline</md-icon>
-          </template>
-
-          <template slot="content">
-            <p class="category">Fixed Issues</p>
-            <h3 class="title">75</h3>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>local_offer</md-icon>
-              Tracked from Github
-            </div>
-          </template>
-        </stats-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-50 md-xsmall-size-100 md-size-25"
-      >
-        <stats-card data-background-color="blue">
-          <template slot="header">
-            <i class="fab fa-twitter"></i>
-          </template>
-
-          <template slot="content">
-            <p class="category">Folowers</p>
-            <h3 class="title">+245</h3>
-          </template>
-
-          <template slot="footer">
-            <div class="stats">
-              <md-icon>update</md-icon>
-              Just Updated
-            </div>
-          </template>
-        </stats-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
-      >
-        <md-card>
-          <md-card-header data-background-color="orange">
-            <h4 class="title">Employees Stats</h4>
-            <p class="category">New employees on 15th September, 2016</p>
-          </md-card-header>
-          <md-card-content>
-            <ordered-table table-header-color="orange"></ordered-table>
-          </md-card-content>
-        </md-card>
-      </div>
-      <div
-        class="md-layout-item md-medium-size-100 md-xsmall-size-100 md-size-50"
-      >
-        <nav-tabs-card>
-          <template slot="content">
-            <span class="md-nav-tabs-title">Tasks:</span>
-            <md-tabs class="md-success" md-alignment="left">
-              <md-tab id="tab-home" md-label="Bugs" md-icon="bug_report">
-                <nav-tabs-table></nav-tabs-table>
-              </md-tab>
-
-              <md-tab id="tab-pages" md-label="Website" md-icon="code">
-                <nav-tabs-table></nav-tabs-table>
-              </md-tab>
-
-              <md-tab id="tab-posts" md-label="server" md-icon="cloud">
-                <nav-tabs-table></nav-tabs-table>
-              </md-tab>
-            </md-tabs>
-          </template>
-        </nav-tabs-card>
-      </div>
+    <!-- Atalhos -->
+    <div class="dashboard-actions">
+      <md-button class="md-primary" @click="goTo('/cadastro-paciente')">Cadastrar Paciente</md-button>
+      <md-button class="md-primary" @click="goTo('/cadastro-triagem')">Nova Triagem</md-button>
+      <md-button class="md-primary" @click="goTo('/FilaPrioridade')">Novo Atendimento</md-button>
     </div>
   </div>
 </template>
 
 <script>
-import {
-  StatsCard,
-  ChartCard,
-  NavTabsCard,
-  NavTabsTable,
-  OrderedTable,
-} from "@/components";
+import Chart from 'chart.js/auto'
 
 export default {
-  components: {
-    StatsCard,
-    ChartCard,
-    NavTabsCard,
-    NavTabsTable,
-    OrderedTable,
-  },
+  name: 'DashboardHome',
   data() {
     return {
-      dailySalesChart: {
-        data: {
-          labels: ["M", "T", "W", "T", "F", "S", "S"],
-          series: [[12, 17, 7, 17, 23, 18, 38]],
-        },
-        options: {
-          lineSmooth: this.$Chartist.Interpolation.cardinal({
-            tension: 0,
-          }),
-          low: 0,
-          high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-          },
-        },
-      },
-      dataCompletedTasksChart: {
-        data: {
-          labels: ["12am", "3pm", "6pm", "9pm", "12pm", "3am", "6am", "9am"],
-          series: [[230, 750, 450, 300, 280, 240, 200, 190]],
-        },
-
-        options: {
-          lineSmooth: this.$Chartist.Interpolation.cardinal({
-            tension: 0,
-          }),
-          low: 0,
-          high: 1000, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
-          chartPadding: {
-            top: 0,
-            right: 0,
-            bottom: 0,
-            left: 0,
-          },
-        },
-      },
-      emailsSubscriptionChart: {
-        data: {
-          labels: [
-            "Ja",
-            "Fe",
-            "Ma",
-            "Ap",
-            "Mai",
-            "Ju",
-            "Jul",
-            "Au",
-            "Se",
-            "Oc",
-            "No",
-            "De",
-          ],
-          series: [
-            [542, 443, 320, 780, 553, 453, 326, 434, 568, 610, 756, 895],
-          ],
-        },
-        options: {
-          axisX: {
-            showGrid: false,
-          },
-          low: 0,
-          high: 1000,
-          chartPadding: {
-            top: 0,
-            right: 5,
-            bottom: 0,
-            left: 0,
-          },
-        },
-        responsiveOptions: [
-          [
-            "screen and (max-width: 640px)",
-            {
-              seriesBarDistance: 5,
-              axisX: {
-                labelInterpolationFnc: function (value) {
-                  return value[0];
-                },
-              },
-            },
-          ],
-        ],
-      },
-    };
+      proximasConsultas: [
+        { id: 1, nome_paciente: "João Silva", data_hora: "2025-06-20 08:00" },
+        { id: 2, nome_paciente: "Maria Souza", data_hora: "2025-06-20 09:20" }
+      ],
+      pacientesCriticos: [
+        { id: 1, nome: "Carlos Oliveira", classificacao: "Vermelho" }
+      ],
+      graficosIniciados: false
+    }
   },
-};
+  methods: {
+    goTo(route) {
+      this.$router.push(route)
+    },
+    desenharGraficoRiscos() {
+      const ctx = document.getElementById('graficoRiscos').getContext('2d')
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Vermelho', 'Laranja', 'Amarelo', 'Verde', 'Azul'],
+          datasets: [{
+            data: [2, 3, 7, 12, 4],
+            backgroundColor: ['#e53935', '#ffa726', '#fbc02d', '#43a047', '#1e88e5']
+          }]
+        },
+        options: {
+          plugins: { legend: { position: 'bottom' } }
+        }
+      })
+    },
+    desenharGraficoTriagens() {
+      const ctx = document.getElementById('graficoTriagens').getContext('2d')
+      new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: ['13/06', '14/06', '15/06', '16/06', '17/06', '18/06', '19/06'],
+          datasets: [{
+            label: 'Triagens',
+            data: [10, 12, 8, 15, 11, 14, 28],
+            backgroundColor: '#2196f3'
+          }]
+        },
+        options: {
+          scales: { y: { beginAtZero: true } },
+          plugins: { legend: { display: false } }
+        }
+      })
+    },
+    getCorRisco(nome) {
+      const cores = {
+        'Vermelho': '#e53935',
+        'Laranja': '#ffa726',
+        'Amarelo': '#fbc02d',
+        'Verde': '#43a047',
+        'Azul': '#1e88e5'
+      }
+      return cores[nome] || '#888'
+    }
+  },
+  mounted() {
+    if (!this.graficosIniciados) {
+      this.$nextTick(() => {
+        this.desenharGraficoRiscos()
+        this.desenharGraficoTriagens()
+        this.graficosIniciados = true
+      })
+    }
+  }
+}
 </script>
+
+<style scoped>
+.dashboard-home {
+  width: 100%;
+  max-width: 1260px;
+  margin: 0 auto;
+  padding: 32px 24px 48px 24px;
+  min-height: 100vh;
+  background: #f4f7fa;
+  box-sizing: border-box;
+}
+.dashboard-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.dashboard-graph {
+  flex: 1 1 0;
+  min-width: 240px;
+  min-height: 220px;
+  padding: 18px 14px 10px 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 #0000000a;
+}
+.card-title {
+  font-weight: 600;
+  font-size: 1.1em;
+  margin-bottom: 20px;
+  color: #1976d2;
+  padding: 0 14px 0 14px;
+  word-break: break-word;
+  box-sizing: border-box;
+}
+.card-title-list {
+  /* Garante que o título das listas nunca fique pra fora */
+  padding-top: 14px;
+  padding-bottom: 10px;
+  padding-left: 18px;
+  padding-right: 18px;
+  margin-bottom: 0px;
+  font-size: 1.08em;
+}
+.dashboard-list {
+  flex: 1 1 0;
+  min-width: 200px;
+  min-height: 120px;
+  padding: 0;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 #00000010;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.md-list {
+  padding: 0 10px 10px 10px;
+}
+.md-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid #f2f4f7;
+  min-height: 44px;
+}
+.md-list-item:last-child {
+  border-bottom: none;
+}
+.list-avatar {
+  margin-right: 8px;
+  min-width: 30px;
+  min-height: 30px;
+  width: 30px;
+  height: 30px;
+  font-size: 1.15em;
+  background: #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.list-content {
+  flex: 1 1 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.list-title {
+  font-weight: 500;
+  font-size: 0.95em;
+}
+.list-date {
+  font-size: 0.86em;
+  color: #888;
+}
+.chip-status {
+  font-size: 0.76em;
+  font-weight: 500;
+  border-radius: 10px;
+  padding: 2px 8px;
+  background: #e3f2fd;
+  margin-left: 8px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.dashboard-actions {
+  margin-top: 22px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+}
+@media (max-width: 1200px) {
+  .dashboard-home {
+    max-width: 99vw;
+    padding: 20px 8px 32px 8px;
+  }
+}
+@media (max-width: 900px) {
+  .dashboard-row {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+  .dashboard-graph, .dashboard-list {
+    min-width: 320px;
+    max-width: 100vw;
+  }
+}
+@media (max-width: 600px) {
+  .dashboard-row {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .dashboard-graph, .dashboard-list {
+    min-width: 90vw;
+    max-width: 98vw;
+    height: auto;
+    padding: 8px 8px;
+  }
+  .dashboard-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+}
+</style>
