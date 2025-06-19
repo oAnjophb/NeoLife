@@ -6,10 +6,10 @@ export function importPatients(db: any, jsonFile: string) {
   const patientData = JSON.parse(json)
 
   db.prepare('DELETE FROM PACIENTE').run()
-  db.prepare('DELETE FROM ENDERECO_PACIENTE').run()
+  db.prepare('DELETE FROM ENDERECO').run()
 
   const enderecoStmt = db.prepare(
-    `INSERT INTO ENDERECO_PACIENTE(rua, bairro, cidade, estado) VALUES (?, ?, ?, ?)`,
+    `INSERT INTO ENDERECO(rua, bairro, cidade, estado) VALUES (?, ?, ?, ?)`,
   )
   const pacienteStmt = db.prepare(
     `INSERT INTO PACIENTE(nome, CPF, data_Nascimento, genero, id_endereco) VALUES (?, ?, ?, ?, ?)`,
