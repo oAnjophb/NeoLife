@@ -9,7 +9,7 @@
           <div class="form-row">
             <md-field>
               <label>Nome</label>
-              <md-input v-model="paciente.name" required />
+              <md-input v-model="paciente.nome" required />
             </md-field>
             <md-field>
               <label>CPF</label>
@@ -23,10 +23,10 @@
           </div>
           <div class="form-row">
             <div class="date-static-label">
-              <label class="label-estatico" for="birthDate">Data de Nascimento</label>
+              <label class="label-estatico" for="data_nascimento">Data de Nascimento</label>
               <input
-                id="birthDate"
-                v-model="paciente.birthDate"
+                id="data_nascimento"
+                v-model="paciente.data_nascimento"
                 type="date"
                 class="md-input md-theme-default"
                 required
@@ -34,54 +34,45 @@
             </div>
             <md-field>
               <label>Gênero</label>
-              <md-select v-model="paciente.gender" required>
+              <md-select v-model="paciente.genero" required>
                 <md-option value="M">Masculino</md-option>
                 <md-option value="F">Feminino</md-option>
                 <md-option value="nao-informar">Não informar</md-option>
               </md-select>
             </md-field>
-            <div class="date-static-label">
-              <label class="label-estatico" for="entryDate">Data do Cadastro</label>
-              <input
-                id="entryDate"
-                v-model="paciente.entryDate"
-                type="date"
-                class="md-input md-theme-default"
-                required
-              />
-            </div>
           </div>
           <div class="form-row">
             <md-field>
               <label>CEP</label>
               <md-input
-                v-model="paciente.cep"
+                v-model.number="paciente.endereco.cep"
                 @blur="buscarEndereco"
                 maxlength="8"
                 required
+                type="number"
               />
             </md-field>
             <md-field>
               <label>Rua</label>
-              <md-input v-model="paciente.street" required />
+              <md-input v-model="paciente.endereco.rua" required />
             </md-field>
             <md-field>
               <label>Número</label>
-              <md-input v-model="paciente.number" required />
+              <md-input v-model.number="paciente.endereco.numero" required type="number" />
             </md-field>
           </div>
           <div class="form-row">
             <md-field>
               <label>Bairro</label>
-              <md-input v-model="paciente.neighborhood" required />
+              <md-input v-model="paciente.endereco.bairro" required />
             </md-field>
             <md-field>
               <label>Cidade</label>
-              <md-input v-model="paciente.city" required />
+              <md-input v-model="paciente.endereco.cidade" required />
             </md-field>
             <md-field>
               <label>Estado</label>
-              <md-input v-model="paciente.state" required />
+              <md-input v-model="paciente.endereco.estado" required />
             </md-field>
           </div>
           <div class="actions-row">
@@ -97,36 +88,39 @@
 export default {
   name: 'CadastroPaciente',
   data() {
-    const today = new Date().toISOString().slice(0, 10)
     return {
       paciente: {
-        name: '',
+        nome: '',
         cpf: '',
-        birthDate: '',
-        gender: '',
-        entryDate: today,
-        cep: '',
-        street: '',
-        number: '',
-        neighborhood: '',
-        city: '',
-        state: '',
+        data_nascimento: '',
+        genero: '',
+        endereco: {
+          cep: null,
+          rua: '',
+          numero: null,
+          bairro: '',
+          cidade: '',
+          estado: '',
+        }
       },
     }
   },
   methods: {
     async buscarEndereco() {
-      if (this.paciente.cep.length === 8) {
+      if (
+        this.paciente.endereco.cep &&
+        this.paciente.endereco.cep.toString().length === 8
+      ) {
         try {
           const response = await fetch(
-            `https://viacep.com.br/ws/${this.paciente.cep}/json/`
+            `https://viacep.com.br/ws/${this.paciente.endereco.cep}/json/`
           )
           const data = await response.json()
           if (!data.erro) {
-            this.paciente.street = data.logradouro || ''
-            this.paciente.neighborhood = data.bairro || ''
-            this.paciente.city = data.localidade || ''
-            this.paciente.state = data.uf || ''
+            this.paciente.endereco.rua = data.logradouro || ''
+            this.paciente.endereco.bairro = data.bairro || ''
+            this.paciente.endereco.cidade = data.localidade || ''
+            this.paciente.endereco.estado = data.uf || ''
           }
         } catch (error) {
           // Se der erro, ignora
@@ -134,88 +128,31 @@ export default {
       }
     },
     cadastrarPaciente() {
-      alert('Paciente cadastrado!\n' + JSON.stringify(this.paciente, null, 2))
+      // Monta o payload já no formato esperado pelo back-end
+      const payload = {
+        nome: this.paciente.nome,
+        cpf: this.paciente.cpf,
+        data_nascimento: this.paciente.data_nascimento,
+        genero: this.paciente.genero,
+        endereco: { ...this.paciente.endereco }
+      }
+      alert('Paciente cadastrado!\n' + JSON.stringify(payload, null, 2))
       // Limpa o formulário
-      const today = new Date().toISOString().slice(0, 10)
       this.paciente = {
-        name: '',
+        nome: '',
         cpf: '',
-        birthDate: '',
-        gender: '',
-        entryDate: today,
-        cep: '',
-        street: '',
-        number: '',
-        neighborhood: '',
-        city: '',
-        state: '',
+        data_nascimento: '',
+        genero: '',
+        endereco: {
+          cep: null,
+          rua: '',
+          numero: null,
+          bairro: '',
+          cidade: '',
+          estado: '',
+        }
       }
     },
   },
 }
 </script>
-
-<style>
-.form-centralizado {
-  min-height: calc(100vh - 64px); /* 64px para possível navbar/header */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  box-sizing: border-box;
-  background: #fafbfd;
-  width: 100%;
-}
-
-.md-card {
-  width: 100%;
-  max-width: 1200px;
-  padding: 32px 32px 24px 32px;
-  box-sizing: border-box;
-}
-
-.form-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 32px;
-  margin-bottom: 18px;
-}
-
-.form-row > * {
-  flex: 1 1 0;
-  min-width: 180px;
-}
-
-.date-static-label {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  margin-bottom: 0;
-  flex: 1 1 0;
-}
-
-.label-estatico {
-  font-size: 1em;
-  color: #888;
-  margin-bottom: 4px;
-  display: block;
-  font-weight: 500;
-}
-
-.date-static-label input[type="date"].md-input {
-  padding-top: 8px !important;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  background: transparent;
-  font-size: 1em;
-  color: #333;
-  width: 100%;
-  outline: none;
-}
-
-.actions-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 30px;
-}
-</style>

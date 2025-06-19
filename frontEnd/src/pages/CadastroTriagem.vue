@@ -9,26 +9,26 @@
         <form @submit.prevent="cadastrarTriagem">
           <div class="form-row">
             <md-field>
-              <label>Paciente</label>
-              <md-input v-model="triagem.paciente" placeholder="Nome do paciente" required />
+              <label>ID do Paciente</label>
+              <md-input v-model.number="triagem.id_paciente" placeholder="ID do paciente" required />
             </md-field>
           </div>
           <div class="form-row">
             <div class="date-static-label">
-              <label class="label-estatico" for="dataTriagem">Data da Triagem</label>
+              <label class="label-estatico" for="data_triagem">Data da Triagem</label>
               <input
-                id="dataTriagem"
-                v-model="triagem.dataTriagem"
+                id="data_triagem"
+                v-model="triagem.data_triagem"
                 type="date"
                 class="md-input md-theme-default"
                 required
               />
             </div>
             <div class="date-static-label">
-              <label class="label-estatico" for="horaTriagem">Hora da Triagem</label>
+              <label class="label-estatico" for="hora_triagem">Hora da Triagem</label>
               <input
-                id="horaTriagem"
-                v-model="triagem.horaTriagem"
+                id="hora_triagem"
+                v-model="triagem.hora_triagem"
                 type="time"
                 class="md-input md-theme-default"
                 required
@@ -36,27 +36,27 @@
             </div>
             <md-field>
               <label>Classificação Manchester</label>
-              <md-select v-model="triagem.classificacaoRisco" required>
-                <md-option value="vermelho" class="risk-red">Vermelho (emergência)</md-option>
-                <md-option value="laranja" class="risk-orange">Laranja (muito urgente)</md-option>
-                <md-option value="amarelo" class="risk-yellow">Amarelo (urgente)</md-option>
-                <md-option value="verde" class="risk-green">Verde (pouco urgente)</md-option>
-                <md-option value="azul" class="risk-blue">Azul (não urgente)</md-option>
+              <md-select v-model.number="triagem.id_classificacao_risco" required>
+                <md-option :value="1" class="risk-red">Vermelho (emergência)</md-option>
+                <md-option :value="2" class="risk-orange">Laranja (muito urgente)</md-option>
+                <md-option :value="3" class="risk-yellow">Amarelo (urgente)</md-option>
+                <md-option :value="4" class="risk-green">Verde (pouco urgente)</md-option>
+                <md-option :value="5" class="risk-blue">Azul (não urgente)</md-option>
               </md-select>
             </md-field>
           </div>
           <div class="form-row">
             <md-field>
-              <label>Pressão Arterial</label>
-              <md-input v-model="triagem.pressaoArterial" placeholder="Ex: 120/80" />
+              <label>Pressão Sanguínea (mmHg)</label>
+              <md-input v-model.number="triagem.pressao_sanguinea" type="number" placeholder="Ex: 120" />
             </md-field>
             <md-field>
               <label>Temperatura (°C)</label>
-              <md-input v-model="triagem.temperatura" type="number" step="0.1" placeholder="Ex: 36.5" />
+              <md-input v-model.number="triagem.temperatura" type="number" step="0.1" placeholder="Ex: 36.5" />
             </md-field>
             <md-field>
               <label>Saturação O₂ (%)</label>
-              <md-input v-model="triagem.saturacao" type="number" placeholder="Ex: 98" />
+              <md-input v-model.number="triagem.saturacao" type="number" placeholder="Ex: 98" />
             </md-field>
           </div>
           <div class="form-row">
@@ -84,31 +84,45 @@ export default {
     const now = new Date().toISOString().slice(11, 16)
     return {
       triagem: {
-        paciente: '',
-        dataTriagem: today,
-        horaTriagem: now,
-        classificacaoRisco: '',
-        pressaoArterial: '',
-        temperatura: '',
-        saturacao: '',
+        id_paciente: null,
+        data_triagem: today,
+        hora_triagem: now,
+        id_classificacao_risco: null,
+        pressao_sanguinea: null,
+        temperatura: null,
+        saturacao: null,
         sintomas: '',
       },
     }
   },
   methods: {
     cadastrarTriagem() {
-      alert('Triagem salva!\n' + JSON.stringify(this.triagem, null, 2))
+      // Junta data e hora em data_triagem (formato ISO)
+      let dataHoraTriagem = this.triagem.data_triagem;
+      if (this.triagem.hora_triagem) {
+        dataHoraTriagem += 'T' + this.triagem.hora_triagem;
+      }
+      const payload = {
+        id_paciente: this.triagem.id_paciente,
+        data_triagem: dataHoraTriagem,
+        id_classificacao_risco: this.triagem.id_classificacao_risco,
+        sintomas: this.triagem.sintomas,
+        temperatura: this.triagem.temperatura,
+        saturacao: this.triagem.saturacao,
+        pressao_sanguinea: this.triagem.pressao_sanguinea,
+      }
+      alert('Triagem salva!\n' + JSON.stringify(payload, null, 2))
       // Limpa o formulário
       const today = new Date().toISOString().slice(0, 10)
       const now = new Date().toISOString().slice(11, 16)
       this.triagem = {
-        paciente: '',
-        dataTriagem: today,
-        horaTriagem: now,
-        classificacaoRisco: '',
-        pressaoArterial: '',
-        temperatura: '',
-        saturacao: '',
+        id_paciente: null,
+        data_triagem: today,
+        hora_triagem: now,
+        id_classificacao_risco: null,
+        pressao_sanguinea: null,
+        temperatura: null,
+        saturacao: null,
         sintomas: '',
       }
     },
