@@ -5,9 +5,9 @@ export function importPatients(db: any, jsonFile: string) {
   let json = fs.readFileSync(jsonFile).toString()
   const patientData = JSON.parse(json)
 
+  db.prepare('DELETE FROM ENDERECO_PACIENTE').run()
   db.prepare('DELETE FROM PACIENTE').run()
   db.prepare('DELETE FROM ENDERECO').run()
-  db.prepare('DELETE FROM ENDERECO_PACIENTE').run()
 
   const enderecoStmt = db.prepare(
     `INSERT INTO ENDERECO(rua, bairro, cidade, estado, cep, numero) VALUES (?, ?, ?, ?, ?, ?)`,

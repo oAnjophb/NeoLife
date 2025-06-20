@@ -158,8 +158,7 @@ export default {
           body: JSON.stringify(payload)
         });
         if (!response.ok) throw new Error('Erro ao salvar paciente');
-        const data = await response.json();
-        alert('Paciente cadastrado!\n' + JSON.stringify(data, null, 2));
+        alert('Paciente cadastrado com sucesso!\n');
         // Limpa o formulário
         this.paciente = {
           nome: '',
