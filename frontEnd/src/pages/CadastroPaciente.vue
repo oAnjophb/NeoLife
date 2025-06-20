@@ -29,7 +29,7 @@
               <label class="label-estatico" for="data_nascimento">Data de Nascimento</label>
               <input
                 id="data_nascimento"
-                v-model="paciente.data_nascimento"
+                v-model="paciente.data_Nascimento"
                 type="date"
                 class="md-input md-theme-default"
                 required
@@ -48,11 +48,11 @@
             <md-field>
               <label>CEP</label>
               <md-input
-                v-model.number="paciente.endereco.cep"
+                v-model="paciente.endereco.cep"
                 @blur="buscarEndereco"
                 maxlength="8"
                 required
-                type="number"
+                type="text"
               />
             </md-field>
             <md-field>
@@ -61,7 +61,7 @@
             </md-field>
             <md-field>
               <label>Número</label>
-              <md-input v-model.number="paciente.endereco.numero" required type="number" />
+              <md-input v-model="paciente.endereco.numero" required type="number" />
             </md-field>
           </div>
           <div class="form-row">
@@ -79,7 +79,10 @@
             </md-field>
           </div>
           <div class="actions-row">
-            <md-button class="md-primary" type="submit">Cadastrar</md-button>
+            <md-button class="md-primary" type="submit" :disabled="loading">
+              <span v-if="loading">Cadastrando...</span>
+              <span v-else>Cadastrar</span>
+            </md-button>
           </div>
         </form>
       </md-card-content>
@@ -95,17 +98,18 @@ export default {
       paciente: {
         nome: '',
         cpf: '',
-        data_nascimento: '',
+        data_Nascimento: '',
         genero: '',
         endereco: {
-          cep: null,
+          cep: '',
           rua: '',
-          numero: null,
+          numero: '',
           bairro: '',
           cidade: '',
           estado: '',
         }
       },
+      loading: false,
     }
   },
   methods: {
@@ -130,159 +134,52 @@ export default {
         }
       }
     },
-    cadastrarPaciente() {
-      // Monta o payload já no formato esperado pelo back-end
+    async cadastrarPaciente() {
+      // Ajuste para os nomes dos campos esperados no backend
       const payload = {
         nome: this.paciente.nome,
-        cpf: this.paciente.cpf,
-        data_nascimento: this.paciente.data_nascimento,
+        CPF: this.paciente.cpf,
+        data_Nascimento: this.paciente.data_Nascimento,
         genero: this.paciente.genero,
-        endereco: { ...this.paciente.endereco }
-      }
-      alert('Paciente cadastrado!\n' + JSON.stringify(payload, null, 2))
-      // Limpa o formulário
-      this.paciente = {
-        nome: '',
-        cpf: '',
-        data_nascimento: '',
-        genero: '',
         endereco: {
-          cep: null,
-          rua: '',
-          numero: null,
-          bairro: '',
-          cidade: '',
-          estado: '',
+          rua: this.paciente.endereco.rua,
+          numero: this.paciente.endereco.numero,
+          bairro: this.paciente.endereco.bairro,
+          cidade: this.paciente.endereco.cidade,
+          estado: this.paciente.endereco.estado,
+          cep: this.paciente.endereco.cep
         }
       }
+      this.loading = true;
+      try {
+        const response = await fetch('http://localhost:3001/api/pacientes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!response.ok) throw new Error('Erro ao salvar paciente');
+        const data = await response.json();
+        alert('Paciente cadastrado!\n' + JSON.stringify(data, null, 2));
+        // Limpa o formulário
+        this.paciente = {
+          nome: '',
+          cpf: '',
+          data_Nascimento: '',
+          genero: '',
+          endereco: {
+            cep: '',
+            rua: '',
+            numero: '',
+            bairro: '',
+            cidade: '',
+            estado: '',
+          }
+        }
+      } catch (e) {
+        alert('Erro ao cadastrar: ' + e.message);
+      }
+      this.loading = false;
     },
   },
 }
 </script>
-
-<style>
-.form-centralizado {
-  min-height: calc(100vh - 64px);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  background: #fafbfd;
-  padding: 24px;
-  width: 100vw;
-  box-sizing: border-box;
-  overflow-x: hidden;
-}
-.md-card {
-  width: 100vw;
-  max-width: 1300px;
-  padding: 40px 40px 32px 40px;
-  box-sizing: border-box;
-  border-radius: 18px;
-  box-shadow: 0 6px 24px 2px #00000012;
-  background: #fff;
-}
-.custom-card-header {
-  display: flex;
-  align-items: center;
-  padding-bottom: 16px;
-}
-.header-icon-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.header-icon {
-  margin: 0;
-  padding: 0;
-  line-height: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.title {
-  margin: 0 0 4px 0;
-  font-size: 2em;
-  font-weight: 600;
-  color: #333;
-  line-height: 1;
-}
-.form-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 28px;
-  margin-bottom: 24px;
-}
-.form-row > * {
-  flex: 1 1 0;
-  min-width: 200px;
-}
-.date-static-label {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  flex: 1 1 0;
-}
-.label-estatico {
-  font-size: 1em;
-  color: #888;
-  margin-bottom: 4px;
-  font-weight: 500;
-}
-.date-static-label input[type="date"].md-input,
-.date-static-label input[type="time"].md-input {
-  padding-top: 8px !important;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  background: transparent;
-  font-size: 1em;
-  color: #333;
-  width: 100%;
-  outline: none;
-}
-.actions-row {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 28px;
-}
-.md-button md-icon {
-  margin-right: 8px;
-}
-
-@media (max-width: 1500px) {
-  .md-card {
-    max-width: 99vw;
-    padding: 18px 2vw 10px 2vw;
-  }
-  .form-row {
-    gap: 12px;
-    margin-bottom: 16px;
-  }
-}
-
-@media (max-width: 900px) {
-  .md-card {
-    max-width: 100vw;
-    padding: 14px 1vw 8px 1vw;
-  }
-}
-
-@media (max-width: 600px) {
-  .form-centralizado {
-    padding: 0;
-  }
-  .md-card {
-    max-width: 100vw;
-    border-radius: 0;
-    padding: 6vw 2vw 2vw 2vw;
-    box-shadow: none;
-  }
-  .form-row {
-    flex-direction: column;
-    gap: 8px;
-    margin-bottom: 10px;
-  }
-  .form-row > * {
-    min-width: 0;
-  }
-}
-</style>

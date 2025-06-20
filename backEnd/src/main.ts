@@ -1,23 +1,18 @@
+import express from 'express'
 import Database from 'better-sqlite3'
-// Importe as funções do seu arquivo de importação
-import {
-  importPatients,
-  importDoctors,
-  importReceptionist,
-  importEnfermeiras,
-} from './Data/import_data'
+import pacienteRoute from './routes/pacienteRoute'
+import cors from 'cors'
 
-function main() {
-  const db = new Database('./pronto_socorro.db')
+const app = express()
+app.use(express.json())
+app.use(cors())
 
-  // Importar dados
-importPatients(db, './JSON/patients.json')
-importDoctors(db, './JSON/doctors.json')
-importReceptionist(db, './JSON/receptionists.json')
-importEnfermeiras(db, './JSON/nurses.json')
+const db = new Database('./pronto_socorro.db')
+app.set('db', db)
 
-  db.close()
-  console.log('Importação concluída com sucesso!')
-}
+app.use(pacienteRoute)
 
-main()
+const PORT = 3001
+app.listen(PORT, () => {
+  console.log(`API rodando em http://localhost:${PORT}`)
+})
