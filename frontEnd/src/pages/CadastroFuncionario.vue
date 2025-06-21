@@ -14,11 +14,7 @@
 
       <md-field>
         <label>Nome</label>
-        <md-input
-          v-model="nome"
-          required
-          maxlength="100"
-        ></md-input>
+        <md-input v-model="nome" required maxlength="100"></md-input>
       </md-field>
 
       <md-field>
@@ -37,19 +33,11 @@
 
       <md-field v-if="tipo === 'medico'">
         <label>CRM</label>
-        <md-input
-          v-model="crm"
-          required
-          maxlength="15"
-        ></md-input>
+        <md-input v-model="crm" required maxlength="15"></md-input>
       </md-field>
       <md-field v-if="tipo === 'enfermeiro'">
         <label>COREN</label>
-        <md-input
-          v-model="coren"
-          required
-          maxlength="15"
-        ></md-input>
+        <md-input v-model="coren" required maxlength="15"></md-input>
       </md-field>
 
       <md-field>
@@ -73,65 +61,98 @@
 
 <script>
 export default {
-  name: "Register",
+  name: 'Register',
   data() {
     return {
-      tipo: "",
-      nome: "",
-      cpf: "",
-      crm: "",
-      coren: "",
-      senha: "",
+      tipo: '',
+      nome: '',
+      cpf: '',
+      crm: '',
+      coren: '',
+      senha: '',
       loading: false,
-      erro: ""
-    };
+      erro: '',
+    }
   },
   methods: {
     async doRegister() {
-      this.erro = "";
-      this.loading = true;
+      this.erro = ''
+      this.loading = true
 
       if (!this.tipo) {
-        this.erro = "Selecione o tipo de usuário.";
-        this.loading = false;
-        return;
+        this.erro = 'Selecione o tipo de usuário.'
+        this.loading = false
+        return
       }
       if (!this.nome || this.nome.length > 100) {
-        this.erro = "Nome deve ser preenchido e ter no máximo 100 caracteres.";
-        this.loading = false;
-        return;
+        this.erro = 'Nome deve ser preenchido e ter no máximo 100 caracteres.'
+        this.loading = false
+        return
       }
       if (!/^\d{11}$/.test(this.cpf)) {
-        this.erro = "CPF deve conter exatamente 11 números.";
-        this.loading = false;
-        return;
+        this.erro = 'CPF deve conter exatamente 11 números.'
+        this.loading = false
+        return
       }
-      if (this.tipo === "medico" && (!this.crm || this.crm.length > 15)) {
-        this.erro = "CRM deve ser preenchido e ter no máximo 15 caracteres.";
-        this.loading = false;
-        return;
+      if (this.tipo === 'medico' && (!this.crm || this.crm.length > 15)) {
+        this.erro = 'CRM deve ser preenchido e ter no máximo 15 caracteres.'
+        this.loading = false
+        return
       }
-      if (this.tipo === "enfermeiro" && (!this.coren || this.coren.length > 15)) {
-        this.erro = "COREN deve ser preenchido e ter no máximo 15 caracteres.";
-        this.loading = false;
-        return;
+      if (
+        this.tipo === 'enfermeiro' &&
+        (!this.coren || this.coren.length > 15)
+      ) {
+        this.erro = 'COREN deve ser preenchido e ter no máximo 15 caracteres.'
+        this.loading = false
+        return
       }
       if (!this.senha || this.senha.length < 6 || this.senha.length > 20) {
-        this.erro = "Senha deve ter entre 6 e 20 caracteres.";
-        this.loading = false;
-        return;
+        this.erro = 'Senha deve ter entre 6 e 20 caracteres.'
+        this.loading = false
+        return
       }
 
-      // Simulação de requisição ao backend: substitua pelo axios/fetch na real
-      setTimeout(() => {
-        this.loading = false;
-        // Simulando id vindo do backend
-        const idCriado = Math.floor(Math.random() * 10000) + 1;
-        this.$router.push({ name: "RegisterFeedback", params: { id: idCriado } });
-      }, 1200);
-    }
-  }
-};
+      // ATENÇÃO: O payload usa crm minúsculo!
+      let payload = {
+        type:
+          this.tipo === 'medico'
+            ? 'doctor'
+            : this.tipo === 'enfermeiro'
+            ? 'nurse'
+            : 'receptionist',
+        nome: this.nome,
+        cpf: this.cpf,
+        senha: this.senha,
+      }
+      if (this.tipo === 'medico') payload.crm = this.crm
+      if (this.tipo === 'enfermeiro') payload.coren = this.coren
+
+      try {
+        const resp = await fetch('http://localhost:3001/api/employees', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+        })
+        if (!resp.ok) {
+          const errData = await resp.json()
+          this.erro = errData.erro || 'Erro ao cadastrar funcionário.'
+          this.loading = false
+          return
+        }
+        const data = await resp.json()
+        this.loading = false
+        this.$router.push({
+          name: 'RegisterFeedback',
+          params: { id: data.dbId || data.jsonId },
+        })
+      } catch (e) {
+        this.erro = 'Erro de conexão com o servidor.'
+        this.loading = false
+      }
+    },
+  },
+}
 </script>
 
 <style scoped>
@@ -145,7 +166,7 @@ export default {
 .register-card {
   background: #fff;
   border-radius: 14px;
-  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.13);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.13);
   padding: 36px 32px 28px 32px;
   width: 100%;
   max-width: 350px;
