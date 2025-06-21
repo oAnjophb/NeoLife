@@ -9,29 +9,18 @@
         </span>
       </div>
       <nav class="sidebar-menu">
-        <router-link to="/dashboard" class="sidebar-link" active-class="active-link" exact>
+        <router-link
+          v-for="item in filteredMenuItems"
+          :key="item.key"
+          :to="item.to"
+          class="sidebar-link"
+          active-class="active-link"
+          exact
+        >
           <span class="icon sidebar-link-icon">
-            <md-icon>insights</md-icon>
+            <md-icon>{{ item.icon }}</md-icon>
           </span>
-          <span class="sidebar-text">Visão Geral</span>
-        </router-link>
-        <router-link to="/cadastro-paciente" class="sidebar-link" active-class="active-link">
-          <span class="icon sidebar-link-icon">
-            <md-icon>person_add</md-icon>
-          </span>
-          <span class="sidebar-text">Cadastro de Paciente</span>
-        </router-link>
-        <router-link to="/cadastro-triagem" class="sidebar-link" active-class="active-link">
-          <span class="icon sidebar-link-icon">
-            <md-icon>assignment</md-icon>
-          </span>
-          <span class="sidebar-text">Cadastro de Triagem</span>
-        </router-link>
-        <router-link to="/FilaPrioridade" class="sidebar-link" active-class="active-link">
-          <span class="icon sidebar-link-icon">
-            <md-icon>format_list_numbered</md-icon>
-          </span>
-          <span class="sidebar-text">Fila de Atendimento</span>
+          <span class="sidebar-text">{{ item.text }}</span>
         </router-link>
       </nav>
     </aside>
@@ -50,11 +39,56 @@
 import TopNavbar from './TopNavbar.vue'
 import ContentFooter from './ContentFooter.vue'
 
+// Defina os menus disponíveis
+const menuItems = [
+  {
+    key: "dashboard",
+    to: "/dashboard",
+    icon: "insights",
+    text: "Visão Geral"
+  },
+  {
+    key: "cadastro-paciente",
+    to: "/cadastro-paciente",
+    icon: "person_add",
+    text: "Cadastro de Paciente"
+  },
+  {
+    key: "cadastro-triagem",
+    to: "/cadastro-triagem",
+    icon: "assignment",
+    text: "Cadastro de Triagem"
+  },
+  {
+    key: "fila",
+    to: "/FilaPrioridade",
+    icon: "format_list_numbered",
+    text: "Fila de Atendimento"
+  }
+]
+
+// Permissões por tipo de usuário
+const permissoes = {
+  medico:        ["dashboard", "fila"],
+  recepcionista: ["dashboard", "cadastro-paciente"],
+  enfermeiro:    ["dashboard", "cadastro-triagem", "dashboard"]
+}
+
 export default {
   components: {
     TopNavbar,
     ContentFooter,
   },
+  computed: {
+    userType() {
+      // Busca do localStorage, não do Vuex!
+      const usuario = JSON.parse(localStorage.getItem("usuario"));
+      return usuario?.tipo || "recepcionista";
+    },
+    filteredMenuItems() {
+      return menuItems.filter(item => permissoes[this.userType]?.includes(item.key))
+    }
+  }
 }
 </script>
 
@@ -79,7 +113,7 @@ export default {
 .sidebar-header {
   display: flex;
   align-items: center;
-  justify-content: center; /* Centraliza o conteúdo na sidebar */
+  justify-content: center;
   background: #fff;
   padding: 22px 20px 18px 20px;
   margin-bottom: 8px;
@@ -89,7 +123,7 @@ export default {
 .sidebar-header-inner {
   display: flex;
   align-items: center;
-  gap: 4px; /* Colados, mas com leve respiro */
+  gap: 4px;
 }
 .sidebar-logo {
   font-size: 34px !important;
@@ -111,7 +145,7 @@ export default {
 .sidebar-link {
   display: flex;
   align-items: center;
-  gap: 8px; /* Menor espaço entre ícone e texto */
+  gap: 8px;
   padding: 11px 30px;
   border-radius: 6px;
   color: #222;
@@ -160,7 +194,6 @@ export default {
   background: #f4f7fa;
 }
 
-/* Responsivo: sidebar recolhe em telas pequenas */
 @media (max-width: 900px) {
   .sidebar {
     width: 58px;

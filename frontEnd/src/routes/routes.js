@@ -4,9 +4,30 @@ import Dashboard from '@/pages/Dashboard.vue'
 import CadastroPaciente from '@/pages/CadastroPaciente.vue'
 import FilaPrioridade from '@/pages/FilaPrioridade.vue'
 import CadastroTriagem from '@/pages/CadastroTriagem.vue'
-import Atendimento from '@/pages/Atendimento.vue' // <-- ADICIONADO!
+import Atendimento from '@/pages/Atendimento.vue'
+import PerfilUsuario from '@/pages/PerfilUsuario.vue'
+import Register from '@/pages/Register.vue'
+import Login from '@/pages/Login'
+import RegisterFeedback from '@/pages/RegisterFeedback'
+import FeedBackCadastro from '@/pages/FeedbackCadastro'
 
 const routes = [
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+  },
+  {
+    path: '/register-feedback/:id',
+    name: 'RegisterFeedback',
+    component: RegisterFeedback,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+
   {
     path: '/',
     component: DashboardLayout,
@@ -24,12 +45,17 @@ const routes = [
         component: CadastroPaciente,
       },
       {
-        path: '/FilaPrioridade',
+        path: 'feedback-cadastro/:nome?',
+        name: 'FeedBackCadastro',
+        component: FeedBackCadastro,
+      },
+      {
+        path: 'FilaPrioridade',
         name: 'FilaPrioridade',
         component: FilaPrioridade,
       },
       {
-        path: 'atendimento/:id', // <-- NOVA ROTA!
+        path: 'atendimento/:id',
         name: 'Atendimento',
         component: Atendimento,
         props: true,
@@ -38,6 +64,12 @@ const routes = [
         path: 'cadastro-triagem',
         name: 'Cadastro de Triagem',
         component: CadastroTriagem,
+      },
+      {
+        path: 'perfil',
+        name: 'PerfilUsuario',
+        component: PerfilUsuario,
+        meta: { requiresAuth: true },
       },
     ],
   },

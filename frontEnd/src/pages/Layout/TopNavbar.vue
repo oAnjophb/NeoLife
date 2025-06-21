@@ -30,56 +30,24 @@
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
             </md-list-item>
-
-            <!-- <md-list-item href="#/notifications" class="dropdown">
-              <drop-down>
-                <a slot="title" class="dropdown-toggle" data-toggle="dropdown">
-                  <i class="material-icons">notifications</i>
-                  <span class="notification">5</span>
-                  <p class="hidden-lg hidden-md">Notifications</p>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-right">
-                  <li><a href="#">Mike John responded to your email</a></li>
-                  <li><a href="#">You have 5 new tasks</a></li>
-                  <li><a href="#">You're now friend with Andrew</a></li>
-                  <li><a href="#">Another Notification</a></li>
-                  <li><a href="#">Another One</a></li>
-                </ul>
-              </drop-down>
-            </md-list-item> -->
-
+            <!-- Avatar do usuário -->
             <li class="md-list-item">
-              <a
-                href="#/notifications"
-                class="md-list-item-router md-list-item-container md-button-clean dropdown"
+              <div
+                class="user-avatar"
+                @click="goToPerfil"
+                title="Meu Perfil"
+                style="cursor: pointer; display: flex; align-items: center"
               >
-                <div class="md-list-item-content">
-                  <drop-down>
-                    <md-button
-                      slot="title"
-                      class="md-button md-just-icon md-simple"
-                      data-toggle="dropdown"
-                    >
-                      <md-icon>notifications</md-icon>
-                      <span class="notification">5</span>
-                      <p class="hidden-lg hidden-md">Notifications</p>
-                    </md-button>
-                    <ul class="dropdown-menu dropdown-menu-right">
-                      <li><a href="#">Mike John responded to your email</a></li>
-                      <li><a href="#">You have 5 new tasks</a></li>
-                      <li><a href="#">You're now friend with Andrew</a></li>
-                      <li><a href="#">Another Notification</a></li>
-                      <li><a href="#">Another One</a></li>
-                    </ul>
-                  </drop-down>
-                </div>
-              </a>
+                <img
+                  :src="userAvatarUrl"
+                  alt="Avatar"
+                  class="avatar-img"
+                  width="32"
+                  height="32"
+                />
+                <span class="hidden-lg hidden-md">Perfil</span>
+              </div>
             </li>
-
-            <md-list-item href="#/user">
-              <i class="material-icons">person</i>
-              <p class="hidden-lg hidden-md">Profile</p>
-            </md-list-item>
           </md-list>
         </div>
       </div>
@@ -93,23 +61,43 @@ export default {
     return {
       selectedEmployee: null,
       employees: [
-        "Jim Halpert",
-        "Dwight Schrute",
-        "Michael Scott",
-        "Pam Beesly",
-        "Angela Martin",
-        "Kelly Kapoor",
-        "Ryan Howard",
-        "Kevin Malone",
+        'Jim Halpert',
+        'Dwight Schrute',
+        'Michael Scott',
+        'Pam Beesly',
+        'Angela Martin',
+        'Kelly Kapoor',
+        'Ryan Howard',
+        'Kevin Malone',
       ],
-    };
+      // Avatar padrão online
+      userAvatarUrl: 'https://ui-avatars.com/api/?name=User&background=random',
+    }
   },
   methods: {
     toggleSidebar() {
-      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar);
+      this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
+    },
+    goToPerfil() {
+      // Evita navegação duplicada para /perfil
+      if (this.$route.path !== '/perfil') {
+        this.$router.push('/perfil')
+      }
     },
   },
-};
+}
 </script>
 
-<style lang="css"></style>
+<style scoped>
+.avatar-img {
+  border-radius: 50%;
+  object-fit: cover;
+  background: #eee;
+  margin-right: 8px;
+}
+.user-avatar {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+</style>

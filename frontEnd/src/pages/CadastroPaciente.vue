@@ -3,7 +3,9 @@
     <md-card>
       <md-card-header class="custom-card-header">
         <span class="header-icon-title">
-          <md-icon class="header-icon" style="font-size: 32px; color: #2196f3">person_add</md-icon>
+          <md-icon class="header-icon" style="font-size: 32px; color: #2196f3"
+            >person_add</md-icon
+          >
           <h4 class="title">Cadastro de Paciente</h4>
         </span>
       </md-card-header>
@@ -26,7 +28,9 @@
           </div>
           <div class="form-row">
             <div class="date-static-label">
-              <label class="label-estatico" for="data_nascimento">Data de Nascimento</label>
+              <label class="label-estatico" for="data_nascimento"
+                >Data de Nascimento</label
+              >
               <input
                 id="data_nascimento"
                 v-model="paciente.data_Nascimento"
@@ -61,7 +65,11 @@
             </md-field>
             <md-field>
               <label>Número</label>
-              <md-input v-model="paciente.endereco.numero" required type="number" />
+              <md-input
+                v-model="paciente.endereco.numero"
+                required
+                type="number"
+              />
             </md-field>
           </div>
           <div class="form-row">
@@ -107,7 +115,7 @@ export default {
           bairro: '',
           cidade: '',
           estado: '',
-        }
+        },
       },
       loading: false,
     }
@@ -135,7 +143,6 @@ export default {
       }
     },
     async cadastrarPaciente() {
-      // Ajuste para os nomes dos campos esperados no backend
       const payload = {
         nome: this.paciente.nome,
         CPF: this.paciente.cpf,
@@ -147,19 +154,21 @@ export default {
           bairro: this.paciente.endereco.bairro,
           cidade: this.paciente.endereco.cidade,
           estado: this.paciente.endereco.estado,
-          cep: this.paciente.endereco.cep
-        }
+          cep: this.paciente.endereco.cep,
+        },
       }
-      this.loading = true;
+      this.loading = true
       try {
         const response = await fetch('http://localhost:3001/api/pacientes', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        if (!response.ok) throw new Error('Erro ao salvar paciente');
-        alert('Paciente cadastrado com sucesso!\n');
-        // Limpa o formulário
+          body: JSON.stringify(payload),
+        })
+        if (!response.ok) throw new Error('Erro ao salvar paciente')
+        // Limpa o formulário ANTES de redirecionar
+        const data = await response.json()
+        const nome = this.paciente.nome
+        const id = data.id
         this.paciente = {
           nome: '',
           cpf: '',
@@ -172,12 +181,14 @@ export default {
             bairro: '',
             cidade: '',
             estado: '',
-          }
+          },
         }
+        // Redireciona para feedback
+        this.$router.push({ name: 'FeedBackCadastro', query: { nome, id } })
       } catch (e) {
-        alert('Erro ao cadastrar: ' + e.message);
+        alert('Erro ao cadastrar: ' + e.message)
       }
-      this.loading = false;
+      this.loading = false
     },
   },
 }

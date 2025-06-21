@@ -28,9 +28,11 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   try {
     const patients = readPatients();
+    // Gera um id único
     const newPatient: Patient = { ...req.body, id: Date.now() };
     patients.push(newPatient);
     savePatients(patients);
+    // Retorna o paciente criado (com id)
     res.status(201).json(newPatient);
   } catch (err) {
     console.log('Error saving patient', err)

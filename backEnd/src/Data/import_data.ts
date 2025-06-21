@@ -76,6 +76,8 @@ export function insertPatient(db: any, patient: any) {
     const pacienteId = pacienteResult.lastInsertRowid
 
     associativaStmt.run(pacienteId, enderecoId)
+
+    return pacienteId
   } catch (err) {
     console.error('Erro detalhado ao inserir paciente:', err)
     throw err

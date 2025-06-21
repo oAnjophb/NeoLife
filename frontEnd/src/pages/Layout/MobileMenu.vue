@@ -7,14 +7,14 @@
       </md-field>
     </li>
     <li>
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+      <a @click.prevent="goToDashboard" class="dropdown-toggle">
         <i class="material-icons">dashboard</i>
-        <p>Dashboard</p></a
-      >
+        <p>Dashboard</p>
+      </a>
     </li>
     <li>
       <drop-down>
-        <a slot="title" class="dropdown-toggle" data-toggle="dropdown">
+        <a slot="title" class="dropdown-toggle">
           <i class="material-icons">notifications</i>
           <span class="notification">5</span>
           <p>Notifications</p>
@@ -29,30 +29,56 @@
       </drop-down>
     </li>
     <li>
-      <a href="#" data-toggle="dropdown" class="dropdown-toggle"
-        ><i class="material-icons">person</i>
-        <p>Profile</p></a
-      >
+      <a @click.prevent="goToPerfil" class="dropdown-toggle">
+        <i class="material-icons">person</i>
+        <p>Perfil</p>
+      </a>
     </li>
   </ul>
 </template>
+
 <script>
 export default {
   data() {
     return {
       search: null,
-      selectedEmployee: null,
-      employees: [
-        "Jim Halpert",
-        "Dwight Schrute",
-        "Michael Scott",
-        "Pam Beesly",
-        "Angela Martin",
-        "Kelly Kapoor",
-        "Ryan Howard",
-        "Kevin Malone",
-      ],
     };
+  },
+  methods: {
+    goToDashboard() {
+      if (this.$route.path !== "/") {
+        this.$router.push("/");
+      }
+    },
+    goToPerfil() {
+      if (this.$route.path !== "/perfil") {
+        this.$router.push("/perfil");
+      }
+    },
   },
 };
 </script>
+
+<style scoped>
+.nav-mobile-menu {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.nav-mobile-menu li {
+  margin: 8px 0;
+}
+.material-icons {
+  vertical-align: middle;
+  margin-right: 4px;
+}
+.notification {
+  background: #e74c3c;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 11px;
+  padding: 2px 7px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+</style>
