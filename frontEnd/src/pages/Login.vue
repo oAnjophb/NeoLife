@@ -39,8 +39,19 @@
       <md-button class="md-raised md-primary" type="submit" :disabled="loading">
         {{ loading ? 'Entrando...' : 'Entrar' }}
       </md-button>
+
       <p v-if="erro" class="erro-msg">{{ erro }}</p>
     </form>
+
+    <!-- Botão super minimalista e discreto -->
+    <button
+      class="admin-link"
+      @click.prevent="irParaLoginAdmin"
+      type="button"
+      aria-label="Entrar como admin"
+    >
+      Entrar como admin
+    </button>
   </div>
 </template>
 
@@ -91,6 +102,10 @@ export default {
 
         this.$router.push("/dashboard");
       }, 1000);
+    },
+    irParaLoginAdmin() {
+      // Redireciona para a página de login do admin
+      this.$router.push("/admin-login");
     }
   }
 }
@@ -103,6 +118,7 @@ export default {
   align-items: center;
   justify-content: center;
   background: #f3f5f8;
+  position: relative;
 }
 .login-card {
   background: #fff;
@@ -121,5 +137,23 @@ export default {
   color: #e74c3c;
   margin-top: 14px;
   font-size: 1em;
+}
+.admin-link {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  background: none;
+  border: none;
+  color: #888;
+  font-size: 0.97em;
+  text-decoration: underline;
+  cursor: pointer;
+  opacity: 0.55;
+  transition: opacity 0.18s;
+  z-index: 20;
+}
+.admin-link:hover {
+  opacity: 1;
+  color: #1e88e5;
 }
 </style>

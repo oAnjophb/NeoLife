@@ -6,17 +6,16 @@ import FilaPrioridade from '@/pages/FilaPrioridade.vue'
 import CadastroTriagem from '@/pages/CadastroTriagem.vue'
 import Atendimento from '@/pages/Atendimento.vue'
 import PerfilUsuario from '@/pages/PerfilUsuario.vue'
-import Register from '@/pages/Register.vue'
 import Login from '@/pages/Login'
 import RegisterFeedback from '@/pages/RegisterFeedback'
 import FeedBackCadastro from '@/pages/FeedbackCadastro'
 
+// IMPORTA AS TELAS DE ADMIN
+import AdminLogin from '@/pages/AdminLogin.vue'
+import CadastroFuncionario from '@/pages/CadastroFuncionario.vue'
+// (Opcional) import AdminDashboard from '@/pages/AdminDashboard.vue'
+
 const routes = [
-  {
-    path: '/register',
-    name: 'Register',
-    component: Register,
-  },
   {
     path: '/register-feedback/:id',
     name: 'RegisterFeedback',
@@ -27,6 +26,26 @@ const routes = [
     name: 'Login',
     component: Login,
   },
+  // ROTA DE LOGIN DO ADMIN
+  {
+    path: '/admin-login',
+    name: 'AdminLogin',
+    component: AdminLogin,
+  },
+  // ROTA PARA CADASTRO DE FUNCIONÁRIOS (SÓ ADMIN ACESSA)
+  {
+    path: '/cadastro-funcionario',
+    name: 'CadastroFuncionario',
+    component: CadastroFuncionario,
+    meta: { requiresAdmin: true },
+  },
+  // (Opcional) Painel Admin
+  // {
+  //   path: '/admin-dashboard',
+  //   name: 'AdminDashboard',
+  //   component: AdminDashboard,
+  //   meta: { requiresAdmin: true },
+  // },
 
   {
     path: '/',
