@@ -2,19 +2,19 @@ import express from 'express'
 import fs from 'fs'
 import path from 'path'
 import {
-  insertDoctor,
-  insertNurse,
-  insertReceptionist,
+  inserirMedico,
+  inserirEnfermeiro,
+  inserirRecepcionista,
 } from '../Data/import_data'
 
 const router = express.Router()
 
 function saveEmployeeToJson(type: string, data: any) {
   let filename = ''
-  if (type === 'doctor') filename = 'doctors.json'
-  else if (type === 'nurse') filename = 'nurses.json'
-  else if (type === 'receptionist') filename = 'receptionists.json'
-  else throw new Error('Invalid employee type')
+  if (type === 'medico') filename = 'medicos.json'
+  else if (type === 'enfermeiro') filename = 'enfermeiros.json'
+  else if (type === 'recepcionista') filename = 'recepcionistas.json'
+  else throw new Error('Tipo de funcionário inválido')
 
   const filePath = path.join(process.cwd(), 'JSON', filename)
   let list: any[] = []
@@ -27,39 +27,34 @@ function saveEmployeeToJson(type: string, data: any) {
   return newEmployee
 }
 
-// AJUSTE AQUI: apenas barra!
 router.post('/', (req, res) => {
   try {
     const db = req.app.get('db')
-    const { type, ...payload } = req.body
+    const { tipo, ...payload } = req.body
 
-    console.log('Payload recebido', payload)
-    if (!type) return res.status(400).json({ erro: 'Employee type is required' })
+    if (!tipo) return res.status(400).json({ erro: 'Tipo de funcionário é obrigatório' })
 
     let dbId: number | undefined
-    if (type === 'doctor') dbId = insertDoctor(db, payload)
-    else if (type === 'nurse') dbId = insertNurse(db, payload)
-    else if (type === 'receptionist') dbId = insertReceptionist(db, payload)
-    else return res.status(400).json({ erro: 'Invalid employee type' })
+    if (tipo === 'medico') dbId = inserirMedico(db, payload)
+    else if (tipo === 'enfermeiro') dbId = inserirEnfermeiro(db, payload)
+    else if (tipo === 'recepcionista') dbId = inserirRecepcionista(db, payload)
+    else return res.status(400).json({ erro: 'Tipo de funcionário inválido' })
 
-    if (!dbId) { // Falhou ao inserir no banco
+    if (!dbId) {
       return res.status(500).json({ erro: 'Erro ao salvar funcionário no banco de dados' })
     }
 
-    // Tenta salvar no JSON (opcional)
     try {
-      const employeeJson = saveEmployeeToJson(type, payload)
+      const employeeJson = saveEmployeeToJson(tipo, payload)
       res.status(201).json({
         mensagem: 'Funcionário cadastrado!',
         dbId,
         jsonId: employeeJson.id,
       })
     } catch (jsonError: any) {
-      // Se salvar no JSON falhar, ainda assim retorna erro
       return res.status(500).json({ erro: 'Salvou no banco, mas falhou no JSON', detalhes: jsonError.message })
     }
   } catch (error: any) {
-    // Agora qualquer erro de banco ou lógica retorna erro mesmo
     res.status(500).json({ erro: 'Erro ao cadastrar funcionário', detalhes: error.message })
   }
 })

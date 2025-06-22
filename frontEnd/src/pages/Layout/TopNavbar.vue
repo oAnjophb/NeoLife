@@ -19,22 +19,34 @@
           <div class="md-autocomplete">
             <md-autocomplete
               class="search"
-              v-model="selectedEmployee"
-              :md-options="employees"
+              v-model="selectedCpf"
+              :md-options="pacientes"
+              :md-item-text="(patient) => patient.nome"
+              :md-item-value="(patient) => patient.cpf"
+              @md-changed="onSearch"
+              @md-selected="onSelect"
+              clearable
             >
-              <label>Search...</label>
+              <label>Buscar paciente por nome ou CPF...</label>
+              <template v-slot:md-item="{ item }">
+                <div style="display: flex; flex-direction: column">
+                  <span style="font-weight: bold">{{ item.nome }}</span>
+                  <span style="font-size: 12px; color: #888"
+                    >CPF: {{ item.cpf }}</span
+                  >
+                </div>
+              </template>
             </md-autocomplete>
           </div>
           <md-list>
-            <md-list-item href="#/">
+            <md-list-item :href="'#/dashboard'">
               <i class="material-icons">dashboard</i>
               <p class="hidden-lg hidden-md">Dashboard</p>
             </md-list-item>
-            <!-- Avatar do usuário -->
             <li class="md-list-item">
               <div
                 class="user-avatar"
-                @click="goToPerfil"
+                @click="goToProfile"
                 title="Meu Perfil"
                 style="cursor: pointer; display: flex; align-items: center"
               >
@@ -56,21 +68,14 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
-      selectedEmployee: null,
-      employees: [
-        'Jim Halpert',
-        'Dwight Schrute',
-        'Michael Scott',
-        'Pam Beesly',
-        'Angela Martin',
-        'Kelly Kapoor',
-        'Ryan Howard',
-        'Kevin Malone',
-      ],
-      // Avatar padrão online
+      selectedCpf: '',
+      pacientes: [],
+      searchTimer: null,
       userAvatarUrl: 'https://ui-avatars.com/api/?name=User&background=random',
     }
   },
@@ -78,10 +83,42 @@ export default {
     toggleSidebar() {
       this.$sidebar.displaySidebar(!this.$sidebar.showSidebar)
     },
-    goToPerfil() {
-      // Evita navegação duplicada para /perfil
+    goToProfile() {
       if (this.$route.path !== '/perfil') {
         this.$router.push('/perfil')
+      }
+    },
+    onSearch(term) {
+      const value = typeof term === 'string' ? term : this.selectedCpf
+      clearTimeout(this.searchTimer)
+      if (!value || value.replace(/\D/g, '').length < 3) {
+        this.pacientes = []
+        return
+      }
+      this.searchTimer = setTimeout(() => {
+        axios
+          .get(`/api/pacientes?search=${encodeURIComponent(value)}`)
+          .then((res) => {
+            console.log('Pacientes retornados:', res.data)
+            this.pacientes = res.data || []
+          })
+          .catch(() => {
+            this.pacientes = []
+          })
+      }, 350)
+    },
+    onSelect(cpf) {
+      const patient = this.pacientes.find((p) => String(p.cpf) === String(cpf))
+      if (patient && (patient.id_paciente || patient.id)) {
+        this.selectedCpf = ''
+        this.pacientes = []
+        // Garante que navega para /paciente/:id dentro do DashboardLayout
+        this.$router.push({
+          name: 'DetalhePaciente',
+          params: {
+            id: patient.id_paciente || patient.id,
+          },
+        })
       }
     },
   },

@@ -19,10 +19,13 @@
             <md-field>
               <label>CPF</label>
               <md-input
-                v-model="paciente.cpf"
+                :value="paciente.cpf"
+                @input="onCpfInput"
                 type="text"
                 required
-                maxlength="11"
+                maxlength="14"
+                autocomplete="off"
+                inputmode="numeric"
               />
             </md-field>
           </div>
@@ -33,7 +36,7 @@
               >
               <input
                 id="data_nascimento"
-                v-model="paciente.data_Nascimento"
+                v-model="paciente.data_nascimento"
                 type="date"
                 class="md-input md-theme-default"
                 required
@@ -57,6 +60,7 @@
                 maxlength="8"
                 required
                 type="text"
+                inputmode="numeric"
               />
             </md-field>
             <md-field>
@@ -106,7 +110,7 @@ export default {
       paciente: {
         nome: '',
         cpf: '',
-        data_Nascimento: '',
+        data_nascimento: '', // <-- Corrigido aqui
         genero: '',
         endereco: {
           cep: '',
@@ -121,6 +125,16 @@ export default {
     }
   },
   methods: {
+    onCpfInput(value) {
+      value = (value || '').replace(/\D/g, '').slice(0, 11)
+      if (value.length > 9)
+        value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4")
+      else if (value.length > 6)
+        value = value.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3")
+      else if (value.length > 3)
+        value = value.replace(/(\d{3})(\d{1,3})/, "$1.$2")
+      this.paciente.cpf = value
+    },
     async buscarEndereco() {
       if (
         this.paciente.endereco.cep &&
@@ -145,8 +159,8 @@ export default {
     async cadastrarPaciente() {
       const payload = {
         nome: this.paciente.nome,
-        CPF: this.paciente.cpf,
-        data_Nascimento: this.paciente.data_Nascimento,
+        cpf: this.paciente.cpf.replace(/\D/g, ''),
+        data_nascimento: this.paciente.data_nascimento, // <-- Corrigido aqui
         genero: this.paciente.genero,
         endereco: {
           rua: this.paciente.endereco.rua,
@@ -172,7 +186,7 @@ export default {
         this.paciente = {
           nome: '',
           cpf: '',
-          data_Nascimento: '',
+          data_nascimento: '', // <-- Corrigido aqui
           genero: '',
           endereco: {
             cep: '',

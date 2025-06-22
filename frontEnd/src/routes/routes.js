@@ -10,6 +10,8 @@ import RegisterFeedback from '@/pages/RegisterFeedback'
 import FeedBackCadastro from '@/pages/FeedbackCadastro'
 import AdminLogin from '@/pages/AdminLogin.vue'
 import CadastroFuncionario from '@/pages/CadastroFuncionario.vue'
+// IMPORTANTE: Importe a nova tela de detalhes do paciente
+import DetalhePaciente from '@/pages/DetalhePaciente.vue'
 
 const routes = [
   {
@@ -79,6 +81,13 @@ const routes = [
         name: 'PerfilUsuario',
         component: PerfilUsuario,
       },
+      // NOVA ROTA: detalhes do paciente
+      {
+        path: 'paciente/:id',
+        name: 'DetalhePaciente',
+        component: DetalhePaciente,
+        props: true
+      }
     ],
   },
 ]

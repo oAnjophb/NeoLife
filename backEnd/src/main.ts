@@ -11,9 +11,16 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+// Banco de dados SQLite
 const db = new Database('./pronto_socorro.db')
 app.set('db', db)
 
+// Teste rápido (opcional)
+app.get('/teste', (req, res) => {
+  res.send('OK')
+})
+
+// Rotas corretas!
 app.use('/api/admin', adminRoute)
 app.use('/api/pacientes', pacienteRoute)
 app.use('/api/employees', employeeRoute)

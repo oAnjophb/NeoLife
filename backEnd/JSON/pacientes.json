@@ -1,0 +1,17 @@
+[
+  {
+    "nome": "Ruan Pedro De Araujo Anjos",
+    "cpf": "12312312313",
+    "data_nascimento": "3333-12-23",
+    "genero": "M",
+    "endereco": {
+      "rua": "Rua Tubarão do Litoral",
+      "numero": "115",
+      "bairro": "Alto Santa Maria",
+      "cidade": "Parnaíba",
+      "estado": "PI",
+      "cep": "64212310"
+    },
+    "id": 1750562452289
+  }
+]
