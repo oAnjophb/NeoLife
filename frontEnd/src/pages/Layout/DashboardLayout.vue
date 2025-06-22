@@ -71,7 +71,7 @@ const menuItems = [
 const permissoes = {
   medico:        ["dashboard", "fila"],
   recepcionista: ["dashboard", "cadastro-paciente"],
-  enfermeiro:    ["dashboard", "cadastro-triagem", "dashboard"]
+  enfermeiro:    ["dashboard", "cadastro-triagem"]
 }
 
 export default {
@@ -81,12 +81,17 @@ export default {
   },
   computed: {
     userType() {
-      // Busca do localStorage, não do Vuex!
-      const usuario = JSON.parse(localStorage.getItem("usuario"));
-      return usuario?.tipo || "recepcionista";
+      try {
+        const usuario = JSON.parse(localStorage.getItem("usuario"));
+        return usuario?.tipo || "recepcionista";
+      } catch {
+        return "recepcionista";
+      }
     },
     filteredMenuItems() {
-      return menuItems.filter(item => permissoes[this.userType]?.includes(item.key))
+      const tipo = this.userType;
+      const permissoesTipo = permissoes[tipo] || ["dashboard"];
+      return menuItems.filter(item => permissoesTipo.includes(item.key))
     }
   }
 }

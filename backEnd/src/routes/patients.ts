@@ -3,7 +3,8 @@ import fs from 'fs';
 import path from 'path';
 
 const router = Router();
-const dbPath = path.join(process.cwd(), '../../JSON/patients.json');
+
+const dbPath = path.join(process.cwd(), 'JSON/patients.json');
 
 interface Patient {
   id: number;
@@ -19,6 +20,7 @@ function readPatients(): Patient[] {
 function savePatients(patients: Patient[]): void {
   fs.writeFileSync(dbPath, JSON.stringify(patients, null, 2), 'utf-8');
 }
+
 
 router.get('/', (req, res) => {
   const patients = readPatients();

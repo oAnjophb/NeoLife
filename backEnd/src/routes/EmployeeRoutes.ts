@@ -27,7 +27,8 @@ function saveEmployeeToJson(type: string, data: any) {
   return newEmployee
 }
 
-router.post('/api/employees', (req, res) => {
+// AJUSTE AQUI: apenas barra!
+router.post('/', (req, res) => {
   try {
     const db = req.app.get('db')
     const { type, ...payload } = req.body

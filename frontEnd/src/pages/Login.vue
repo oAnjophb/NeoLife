@@ -89,19 +89,33 @@ export default {
         return;
       }
 
-      // Aqui vai a integração real com o backend
-      setTimeout(() => {
-        this.loading = false;
-        // Simulação de login aceito
+      // Integração real com o backend
+      try {
+        const resp = await fetch("http://localhost:3001/api/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            tipo: this.tipo,
+            id: this.id,
+            senha: this.senha
+          })
+        });
+        if (!resp.ok) {
+          const errData = await resp.json();
+          this.erro = errData.erro || "ID ou senha inválidos.";
+          this.loading = false;
+          return;
+        }
+        const user = await resp.json();
 
-        // Salva no localStorage para uso global no app (tipo, id)
-        localStorage.setItem("usuario", JSON.stringify({
-          id: this.id,
-          tipo: this.tipo
-        }));
+        // Salva no localStorage para uso global no app (todos os dados do usuário)
+        localStorage.setItem("usuario", JSON.stringify(user));
 
         this.$router.push("/dashboard");
-      }, 1000);
+      } catch (e) {
+        this.erro = "Erro de conexão com o servidor.";
+      }
+      this.loading = false;
     },
     irParaLoginAdmin() {
       // Redireciona para a página de login do admin

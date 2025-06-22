@@ -14,7 +14,7 @@ export function importPatients(db: any, jsonFile: string) {
     `INSERT INTO ENDERECO(rua, bairro, cidade, estado, cep, numero) VALUES (?, ?, ?, ?, ?, ?)`
   )
   const pacienteStmt = db.prepare(
-    `INSERT INTO PACIENTE(nome, CPF, data_Nascimento, genero) VALUES (?, ?, ?, ?)`
+    `INSERT INTO PACIENTE(nome, cpf, data_Nascimento, genero) VALUES (?, ?, ?, ?)`
   )
   const associativaStmt = db.prepare(
     `INSERT INTO ENDERECO_PACIENTE(id_paciente, id_endereco) VALUES (?, ?)`
@@ -28,7 +28,7 @@ export function importPatients(db: any, jsonFile: string) {
     const enderecoId = enderecoResult.lastInsertRowid
 
     const pacienteResult = pacienteStmt.run(
-      p.nome, p.CPF, p.data_Nascimento, p.genero
+      p.nome, p.cpf, p.data_Nascimento, p.genero
     )
     const pacienteId = pacienteResult.lastInsertRowid
 
@@ -39,14 +39,14 @@ export function importPatients(db: any, jsonFile: string) {
 // Inserir UM paciente via API
 export function insertPatient(db: any, patient: any) {
   try {
-    if (!patient.nome || !patient.CPF || !patient.data_Nascimento || !patient.genero || !patient.endereco) {
+    if (!patient.nome || !patient.cpf || !patient.data_Nascimento || !patient.genero || !patient.endereco) {
       throw new Error('Campos obrigatórios de paciente faltando.')
     }
     const enderecoStmt = db.prepare(
       `INSERT INTO ENDERECO(rua, bairro, cidade, estado, cep, numero) VALUES (?, ?, ?, ?, ?, ?)`
     )
     const pacienteStmt = db.prepare(
-      `INSERT INTO PACIENTE(nome, CPF, data_Nascimento, genero) VALUES (?, ?, ?, ?)`
+      `INSERT INTO PACIENTE(nome, cpf, data_Nascimento, genero) VALUES (?, ?, ?, ?)`
     )
     const associativaStmt = db.prepare(
       `INSERT INTO ENDERECO_PACIENTE(id_paciente, id_endereco) VALUES (?, ?)`
@@ -59,7 +59,7 @@ export function insertPatient(db: any, patient: any) {
     const enderecoId = enderecoResult.lastInsertRowid
 
     const pacienteResult = pacienteStmt.run(
-      patient.nome, patient.CPF, patient.data_Nascimento, patient.genero
+      patient.nome, patient.cpf, patient.data_Nascimento, patient.genero
     )
     const pacienteId = pacienteResult.lastInsertRowid
 
@@ -78,20 +78,20 @@ export function importDoctors(db: any, jsonFile: string) {
   const doctorData = JSON.parse(json)
 
   db.prepare('DELETE FROM MEDICO').run()
-  const stmt = db.prepare(`INSERT INTO MEDICO(nome, crm, senha) VALUES (?, ?, ?)`)
+  const stmt = db.prepare(`INSERT INTO MEDICO(nome, cpf, crm, senha) VALUES (?, ?, ?, ?)`)
   for (const d of doctorData) {
-    stmt.run(d.nome, d.crm, d.senha)
+    stmt.run(d.nome, d.cpf, d.crm, d.senha)
   }
 }
 
 export function insertDoctor(db: any, doctor: any) {
   try {
     // Verifica se todos os campos obrigatórios estão presentes
-    if (!doctor.nome || !doctor.crm || !doctor.senha) {
-      throw new Error('Nome, CRM e senha são obrigatórios para cadastrar médico.')
+    if (!doctor.nome || !doctor.cpf || !doctor.crm || !doctor.senha) {
+      throw new Error('Nome, CPF, CRM e senha são obrigatórios para cadastrar médico.')
     }
-    const stmt = db.prepare(`INSERT INTO MEDICO(nome, crm, senha) VALUES (?, ?, ?)`)
-    const result = stmt.run(doctor.nome, doctor.crm, doctor.senha)
+    const stmt = db.prepare(`INSERT INTO MEDICO(nome, cpf, crm, senha) VALUES (?, ?, ?, ?)`)
+    const result = stmt.run(doctor.nome, doctor.cpf, doctor.crm, doctor.senha)
     return result.lastInsertRowid
   } catch (err) {
     console.error('Erro ao inserir médico:', err)
@@ -105,19 +105,19 @@ export function importReceptionist(db: any, jsonFile: string) {
   const data = JSON.parse(json)
 
   db.prepare('DELETE FROM RECEPCIONISTA').run()
-  const stmt = db.prepare(`INSERT INTO RECEPCIONISTA(nome, CPF) VALUES (?, ?)`)
+  const stmt = db.prepare(`INSERT INTO RECEPCIONISTA(nome, cpf, senha) VALUES (?, ?, ?)`)
   for (const r of data) {
-    stmt.run(r.nome, r.cpf)
+    stmt.run(r.nome, r.cpf, r.senha)
   }
 }
 
 export function insertReceptionist(db: any, recep: any) {
   try {
-    if (!recep.nome || !recep.cpf) {
-      throw new Error('Nome e CPF são obrigatórios para cadastrar recepcionista.')
+    if (!recep.nome || !recep.cpf || !recep.senha) {
+      throw new Error('Nome, CPF e senha são obrigatórios para cadastrar recepcionista.')
     }
-    const stmt = db.prepare(`INSERT INTO RECEPCIONISTA(nome, CPF) VALUES (?, ?)`)
-    const result = stmt.run(recep.nome, recep.cpf)
+    const stmt = db.prepare(`INSERT INTO RECEPCIONISTA(nome, cpf, senha) VALUES (?, ?, ?)`)
+    const result = stmt.run(recep.nome, recep.cpf, recep.senha)
     return result.lastInsertRowid
   } catch (err) {
     console.error('Erro ao inserir recepcionista:', err)
@@ -125,25 +125,25 @@ export function insertReceptionist(db: any, recep: any) {
   }
 }
 
-// ------------ ENFERMEIRA ------------
+// ------------ ENFERMEIRO ------------
 export function importEnfermeiras(db: any, jsonFile: string) {
   let json = fs.readFileSync(jsonFile).toString()
   const data = JSON.parse(json)
 
   db.prepare('DELETE FROM ENFERMEIRO').run()
-  const stmt = db.prepare(`INSERT INTO ENFERMEIRO(nome, COREN) VALUES (?, ?)`)
+  const stmt = db.prepare(`INSERT INTO ENFERMEIRO(nome, cpf, coren, senha) VALUES (?, ?, ?, ?)`)
   for (const e of data) {
-    stmt.run(e.nome, e.coren)
+    stmt.run(e.nome, e.cpf, e.coren, e.senha)
   }
 }
 
 export function insertNurse(db: any, nurse: any) {
   try {
-    if (!nurse.nome || !nurse.coren) {
-      throw new Error('Nome e COREN são obrigatórios para cadastrar enfermeiro.')
+    if (!nurse.nome || !nurse.cpf || !nurse.coren || !nurse.senha) {
+      throw new Error('Nome, CPF, COREN e senha são obrigatórios para cadastrar enfermeiro.')
     }
-    const stmt = db.prepare(`INSERT INTO ENFERMEIRO(nome, COREN) VALUES (?, ?)`)
-    const result = stmt.run(nurse.nome, nurse.coren)
+    const stmt = db.prepare(`INSERT INTO ENFERMEIRO(nome, cpf, coren, senha) VALUES (?, ?, ?, ?)`)
+    const result = stmt.run(nurse.nome, nurse.cpf, nurse.coren, nurse.senha)
     return result.lastInsertRowid
   } catch (err) {
     console.error('Erro ao inserir enfermeiro:', err)

@@ -3,7 +3,8 @@ import { insertPatient } from '../Data/import_data'
 
 const router = express.Router()
 
-router.post('/api/pacientes', (req, res) => {
+
+router.post('/', (req, res) => {
   try {
     const db = req.app.get('db')
     const payload = req.body
