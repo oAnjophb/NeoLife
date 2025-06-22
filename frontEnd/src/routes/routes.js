@@ -10,10 +10,8 @@ import Login from '@/pages/Login'
 import RegisterFeedback from '@/pages/RegisterFeedback'
 import FeedBackCadastro from '@/pages/FeedbackCadastro'
 
-// IMPORTA AS TELAS DE ADMIN
 import AdminLogin from '@/pages/AdminLogin.vue'
 import CadastroFuncionario from '@/pages/CadastroFuncionario.vue'
-// (Opcional) import AdminDashboard from '@/pages/AdminDashboard.vue'
 
 const routes = [
   {
@@ -32,23 +30,16 @@ const routes = [
     name: 'AdminLogin',
     component: AdminLogin,
   },
-  // ROTA PARA CADASTRO DE FUNCIONÁRIOS (SÓ ADMIN ACESSA)
+
   {
     path: '/cadastro-funcionario',
     name: 'CadastroFuncionario',
     component: CadastroFuncionario,
     meta: { requiresAdmin: true },
   },
-  // (Opcional) Painel Admin
-  // {
-  //   path: '/admin-dashboard',
-  //   name: 'AdminDashboard',
-  //   component: AdminDashboard,
-  //   meta: { requiresAdmin: true },
-  // },
 
   {
-    path: '/',
+    path: '/login',
     component: DashboardLayout,
     redirect: '/dashboard',
     children: [
