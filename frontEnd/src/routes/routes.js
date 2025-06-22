@@ -1,5 +1,4 @@
 import DashboardLayout from '@/pages/Layout/DashboardLayout.vue'
-
 import Dashboard from '@/pages/Dashboard.vue'
 import CadastroPaciente from '@/pages/CadastroPaciente.vue'
 import FilaPrioridade from '@/pages/FilaPrioridade.vue'
@@ -9,39 +8,39 @@ import PerfilUsuario from '@/pages/PerfilUsuario.vue'
 import Login from '@/pages/Login'
 import RegisterFeedback from '@/pages/RegisterFeedback'
 import FeedBackCadastro from '@/pages/FeedbackCadastro'
-
 import AdminLogin from '@/pages/AdminLogin.vue'
 import CadastroFuncionario from '@/pages/CadastroFuncionario.vue'
 
 const routes = [
   {
-    path: '/register-feedback/:id',
-    name: 'RegisterFeedback',
-    component: RegisterFeedback,
+    path: '/',
+    redirect: '/login',
   },
   {
     path: '/login',
     name: 'Login',
     component: Login,
   },
-  // ROTA DE LOGIN DO ADMIN
   {
     path: '/admin-login',
     name: 'AdminLogin',
     component: AdminLogin,
   },
-
+  {
+    path: '/register-feedback/:id',
+    name: 'RegisterFeedback',
+    component: RegisterFeedback,
+  },
   {
     path: '/cadastro-funcionario',
     name: 'CadastroFuncionario',
     component: CadastroFuncionario,
     meta: { requiresAdmin: true },
   },
-
   {
-    path: '/login',
+    path: '/',
     component: DashboardLayout,
-    redirect: '/dashboard',
+    meta: { requiresAuth: true },
     children: [
       {
         path: 'dashboard',
@@ -79,7 +78,6 @@ const routes = [
         path: 'perfil',
         name: 'PerfilUsuario',
         component: PerfilUsuario,
-        meta: { requiresAuth: true },
       },
     ],
   },
