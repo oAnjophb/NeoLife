@@ -5,14 +5,6 @@ export enum Positions {
   Doctor = 'Medico',
 }
 
-export enum StatusType {
-  waitingTriage = 'Aguardando Triagem',
-  inTriage = 'Em Triagem',
-  readyForConsult = 'Pronto Para Consulta',
-  inConsult = 'Em Atendimento',
-  finished = 'Finalizado',
-  cancel = 'Cancelado',
-}
 
 export abstract class Employee {
   constructor(

@@ -1,6 +1,6 @@
 
-import { Employee, Positions, StatusType } from './Employee'
-import { Ticket } from '@/attending/ticket'
+import { Employee, Positions} from './Employee'
+import { Ticket, StatusType } from '@/attending/ticket'
 
 export class Doctor extends Employee {
   constructor(

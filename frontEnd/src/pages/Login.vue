@@ -111,6 +111,15 @@ export default {
         // Salva no localStorage para uso global no app (todos os dados do usuário)
         localStorage.setItem("usuario", JSON.stringify(user));
 
+        // Salva o token separadamente para uso em requisições autenticadas
+        if (user.token) {
+          localStorage.setItem("token", user.token);
+        } else {
+          this.erro = "Falha ao obter token de autenticação.";
+          this.loading = false;
+          return;
+        }
+
         this.$router.push("/dashboard");
       } catch (e) {
         this.erro = "Erro de conexão com o servidor.";

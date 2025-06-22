@@ -9,16 +9,4 @@ export class receptionist extends Employee {
   ) {
     super(id, name, cpf, Positions.Receptionist)
   }
-
-  registerPatient(patient: Patient) {
-    new Patient(
-      patient.id,
-      patient.name,
-      patient.cpf,
-      patient.age,
-      patient.gender,
-      patient.address,
-      patient.entryTime,
-    )
-  }
 }

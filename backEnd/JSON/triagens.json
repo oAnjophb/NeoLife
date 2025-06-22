@@ -1,0 +1,79 @@
+[
+  {
+    "id_paciente": 1,
+    "data_triagem": "2025-06-22T16:01",
+    "id_classificacao_risco": 3,
+    "sintomas": "fimose",
+    "temperatura": 38,
+    "saturacao": 99,
+    "pressao_sanguinea": 120,
+    "id_enfermeiro": 1,
+    "id_triagem": 1750618903811
+  },
+  {
+    "id_paciente": 2,
+    "data_triagem": "2025-06-22T16:04",
+    "id_classificacao_risco": 2,
+    "sintomas": "fimose",
+    "temperatura": 40,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750619161327
+  },
+  {
+    "id_paciente": 2,
+    "data_triagem": "2025-06-22T16:43",
+    "id_classificacao_risco": 4,
+    "sintomas": "fimose aguda",
+    "temperatura": 38,
+    "saturacao": 99,
+    "pressao_sanguinea": "120",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750621443714
+  },
+  {
+    "id_paciente": 1,
+    "data_triagem": "2025-06-22T16:44",
+    "id_classificacao_risco": 2,
+    "sintomas": "fimose moderada",
+    "temperatura": 38,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750621479704
+  },
+  {
+    "id_paciente": 2,
+    "data_triagem": "2025-06-22T17:00",
+    "id_classificacao_risco": 2,
+    "sintomas": "fimose aguda",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750622467312
+  },
+  {
+    "id_paciente": 2,
+    "data_triagem": "2025-06-22T17:09",
+    "id_classificacao_risco": 3,
+    "sintomas": "fimose aguda",
+    "temperatura": 38,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750623012296
+  },
+  {
+    "id_paciente": 2,
+    "data_triagem": "2025-06-22T17:22",
+    "id_classificacao_risco": 3,
+    "sintomas": "fimose aguda",
+    "temperatura": 38,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750623809873
+  }
+]

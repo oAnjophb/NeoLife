@@ -81,7 +81,7 @@ const routes = [
         name: 'PerfilUsuario',
         component: PerfilUsuario,
       },
-      // NOVA ROTA: detalhes do paciente
+      
       {
         path: 'paciente/:id',
         name: 'DetalhePaciente',

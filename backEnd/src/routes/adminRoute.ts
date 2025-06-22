@@ -27,7 +27,6 @@ router.post('/', (req, res) => {
   }
 })
 
-// Rota para cadastrar admin (apenas para teste inicial, depois remova ou proteja!)
 router.post('/', (req, res) => {
   const db = req.app.get('db')
   const { usuario, senha } = req.body
@@ -35,12 +34,10 @@ router.post('/', (req, res) => {
     const id = insertAdmin(db, { usuario, senha })
     res.status(201).json({ mensagem: 'Admin cadastrado', id })
   } catch (error) {
-    res
-      .status(400)
-      .json({
-        erro: 'Erro ao cadastrar admin',
-        detalhes: getErrorMessage(error),
-      })
+    res.status(400).json({
+      erro: 'Erro ao cadastrar admin',
+      detalhes: getErrorMessage(error),
+    })
   }
 })
 

@@ -2,7 +2,9 @@
   <div class="pagina-centralizada">
     <md-card>
       <md-card-header>
-        <md-icon style="font-size: 32px; color: #2196f3">format_list_numbered</md-icon>
+        <md-icon style="font-size: 32px; color: #2196f3"
+          >format_list_numbered</md-icon
+        >
         <h4 class="title">Fila de Prioridade</h4>
       </md-card-header>
       <md-card-content>
@@ -18,14 +20,20 @@
             :class="`risk-${item.prioridade}`"
           >
             <md-table-cell>
-              <span :class="`badge badge-${item.prioridade}`">{{ prioridadeLabel(item.prioridade) }}</span>
+              <span :class="`badge badge-${item.prioridade}`">{{
+                prioridadeLabel(item.prioridade)
+              }}</span>
             </md-table-cell>
             <md-table-cell>{{ item.paciente }}</md-table-cell>
             <md-table-cell>{{ item.horaTriagem }}</md-table-cell>
           </md-table-row>
         </md-table>
         <div class="actions-row">
-          <md-button class="md-primary" :disabled="!fila.length" @click="chamarProximo">
+          <md-button
+            class="md-primary"
+            :disabled="!fila.length"
+            @click="chamarProximo"
+          >
             <md-icon>arrow_forward</md-icon>
             Chamar Próximo
           </md-button>
@@ -40,19 +48,44 @@ export default {
   name: 'FilaPrioridade',
   data() {
     return {
-      fila: [
-        { id: 1, prioridade: 'vermelho', paciente: 'João da Silva', horaTriagem: '09:12' },
-        { id: 2, prioridade: 'amarelo', paciente: 'Maria Souza', horaTriagem: '09:25' },
-      ],
+      fila: [],
     }
+  },
+  mounted() {
+    this.carregarFila()
   },
   methods: {
     prioridadeLabel(prio) {
-      return {vermelho: 'Vermelho', laranja: 'Laranja', amarelo: 'Amarelo', verde: 'Verde', azul: 'Azul'}[prio] || prio
+      return (
+        {
+          vermelho: 'Vermelho',
+          laranja: 'Laranja',
+          amarelo: 'Amarelo',
+          verde: 'Verde',
+          azul: 'Azul',
+        }[prio] || prio
+      )
     },
-    chamarProximo() {
-      if (this.fila.length) {
-        this.$router.push(`/atendimento/${String(this.fila[0].id)}`)
+    async carregarFila() {
+      try {
+        const res = await fetch('/api/fila')
+        if (res.ok) {
+          this.fila = await res.json()
+        }
+      } catch (e) {
+        this.fila = []
+      }
+    },
+    async chamarProximo() {
+      if (!this.fila.length) return
+      try {
+        const res = await fetch('/api/fila/chamar', { method: 'POST' })
+        if (res.ok) {
+          const ticket = await res.json()
+          this.$router.push(`/atendimento/${String(ticket.id)}`)
+        }
+      } catch (e) {
+        // opcional: mostrar erro
       }
     },
   },
@@ -92,17 +125,46 @@ export default {
   margin-left: 10px;
 }
 
-.risk-vermelho { background: #fdeaea; }
-.risk-laranja { background: #fff3e0; }
-.risk-amarelo { background: #fffde7; }
-.risk-verde { background: #e8f5e9; }
-.risk-azul { background: #e3f2fd; }
-.badge { padding: 4px 10px; border-radius: 9px; font-weight: 600; }
-.badge-vermelho { background: #e53935; color: #fff; }
-.badge-laranja { background: #ffa726; color: #fff; }
-.badge-amarelo { background: #fbc02d; color: #fff; }
-.badge-verde { background: #43a047; color: #fff; }
-.badge-azul { background: #1e88e5; color: #fff; }
+.risk-vermelho {
+  background: #fdeaea;
+}
+.risk-laranja {
+  background: #fff3e0;
+}
+.risk-amarelo {
+  background: #fffde7;
+}
+.risk-verde {
+  background: #e8f5e9;
+}
+.risk-azul {
+  background: #e3f2fd;
+}
+.badge {
+  padding: 4px 10px;
+  border-radius: 9px;
+  font-weight: 600;
+}
+.badge-vermelho {
+  background: #e53935;
+  color: #fff;
+}
+.badge-laranja {
+  background: #ffa726;
+  color: #fff;
+}
+.badge-amarelo {
+  background: #fbc02d;
+  color: #fff;
+}
+.badge-verde {
+  background: #43a047;
+  color: #fff;
+}
+.badge-azul {
+  background: #1e88e5;
+  color: #fff;
+}
 
 .actions-row {
   display: flex;

@@ -1,18 +1,23 @@
-import { Ticket } from '@/attending/ticket'
+import { StatusType, Ticket } from '@/attending/ticket'
 import { RiskRating } from '@/attending/triage'
 
 export class ServiceQueue {
   private heap: Ticket[] = []
 
+  public get tickets(): Ticket[] {
+    return [...this.heap]
+  }
+
   private compare(a: Ticket, b: Ticket): number {
-    return b.prioridade - a.prioridade
+    return a.prioridade - b.prioridade
   }
 
   addTicket(ticket: Ticket): void {
     this.heap.push(ticket)
     this.heapifyUp()
+    
     console.log(
-      `Paciente ${ticket.paciente.name} adicionado à fila com prioridade ${RiskRating[ticket.prioridade]}.`,
+      `Paciente ${ticket.paciente.nome} adicionado à fila com prioridade ${RiskRating[ticket.prioridade]}.`,
     )
   }
 
@@ -22,14 +27,18 @@ export class ServiceQueue {
       return null
     }
     const ticket = this.extractMax()
+    
     console.log(
-      `\nChamando paciente ${ticket.paciente.name} com prioridade ${RiskRating[ticket.prioridade]}.`,
+      `\nChamando paciente ${ticket.paciente.nome} com prioridade ${RiskRating[ticket.prioridade]}.`,
     )
     return ticket
   }
 
-  removePatient(id: number): boolean {
-    const index = this.heap.findIndex((t) => t.paciente.id === id)
+  
+  removePatient(id_paciente: number): boolean {
+    const index = this.heap.findIndex(
+      (t) => t.paciente.id_paciente === id_paciente,
+    )
     if (index === -1) return false
     const last = this.heap.length - 1
     if (index !== last) {
@@ -40,15 +49,10 @@ export class ServiceQueue {
     return true
   }
 
-  listQueue(): void {
-    console.log('\nEstado atual da fila:')
-    const ordered = [...this.heap].sort((a, b) => a.prioridade - b.prioridade)
-
-    for (const ticket of ordered) {
-      console.log(
-        `Paciente: ${ticket.paciente.name}, Prioridade: ${RiskRating[ticket.prioridade]}`,
-      )
-    }
+  public getOrderedQueue(): Ticket[] {
+    return [...this.heap]
+      .filter((t) => t.status === StatusType.readyForConsult)
+      .sort((a, b) => b.prioridade - a.prioridade)
   }
 
   private heapifyUp(): void {
@@ -56,9 +60,10 @@ export class ServiceQueue {
     while (index > 0) {
       let parentIndex = Math.floor((index - 1) / 2)
       if (this.compare(this.heap[index], this.heap[parentIndex]) > 0) {
-        const temp = this.heap[index]
-        this.heap[index] = this.heap[parentIndex]
-        this.heap[parentIndex] = temp
+        ;[this.heap[index], this.heap[parentIndex]] = [
+          this.heap[parentIndex],
+          this.heap[index],
+        ]
         index = parentIndex
       } else {
         break
@@ -78,12 +83,11 @@ export class ServiceQueue {
 
   private heapifyDownFrom(index: number): void {
     const length = this.heap.length
-    const element = this.heap[index]
     while (true) {
       let left = 2 * index + 1
       let right = 2 * index + 2
       let swap = index
-      
+
       if (left < length && this.compare(this.heap[left], this.heap[swap]) > 0)
         swap = left
       if (right < length && this.compare(this.heap[right], this.heap[swap]) > 0)
@@ -94,3 +98,5 @@ export class ServiceQueue {
     }
   }
 }
+
+export const serviceQueue = new ServiceQueue()
