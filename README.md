@@ -1,4 +1,4 @@
-# Sistema de Gerenciamento de Fila de Atendimento
+# Sistema de Gerenciamento de Fila de Atendimento (NeoLife)
 
 Este projeto implementa o back-end de um sistema para gerenciamento de fila de atendimento de pacientes em um pronto-socorro. O sistema permite o registro de pacientes, triagem, organização da fila de atendimento e consulta de histórico, seguindo regras importantes para priorização e segurança dos dados.
 
