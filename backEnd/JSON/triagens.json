@@ -111,5 +111,113 @@
     "pressao_sanguinea": "120/80",
     "id_enfermeiro": 1,
     "id_triagem": 1750659495002
+  },
+  {
+    "id_paciente": 14,
+    "id_atendimento": 10,
+    "data_triagem": "2025-06-23T14:46",
+    "id_classificacao_risco": 4,
+    "sintomas": "múltiplas dores no corpo",
+    "temperatura": 37,
+    "saturacao": 101,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750690045007
+  },
+  {
+    "id_paciente": 13,
+    "id_atendimento": 9,
+    "data_triagem": "2025-06-23T14:55",
+    "id_classificacao_risco": 4,
+    "sintomas": "dores",
+    "temperatura": 37,
+    "saturacao": 102,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750690534322
+  },
+  {
+    "id_paciente": 8,
+    "id_atendimento": 5,
+    "data_triagem": "2025-06-23T14:55",
+    "id_classificacao_risco": 3,
+    "sintomas": "diarreia",
+    "temperatura": 38.8,
+    "saturacao": 97,
+    "pressao_sanguinea": "120/90",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750690584823
+  },
+  {
+    "id_paciente": 14,
+    "id_atendimento": 8,
+    "data_triagem": "2025-06-23T15:13",
+    "id_classificacao_risco": 4,
+    "sintomas": "dores",
+    "temperatura": 36,
+    "saturacao": 95,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750691598986
+  },
+  {
+    "id_paciente": 8,
+    "id_atendimento": 4,
+    "data_triagem": "2025-06-23T15:13",
+    "id_classificacao_risco": 3,
+    "sintomas": "dor de cabeça",
+    "temperatura": 37,
+    "saturacao": 98,
+    "pressao_sanguinea": "120/98",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750691623312
+  },
+  {
+    "id_paciente": 13,
+    "id_atendimento": 7,
+    "data_triagem": "2025-06-23T15:13",
+    "id_classificacao_risco": 1,
+    "sintomas": "variola dos macacos",
+    "temperatura": 38,
+    "saturacao": 100,
+    "pressao_sanguinea": "120/90",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750691646912
+  },
+  {
+    "id_paciente": 8,
+    "id_atendimento": 3,
+    "data_triagem": "2025-06-23T15:23",
+    "id_classificacao_risco": 1,
+    "sintomas": "dengue hemorragica",
+    "temperatura": 38,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750692239711
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 12,
+    "data_triagem": "2025-06-23T15:29",
+    "id_classificacao_risco": 3,
+    "sintomas": "Ebola",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750692583969
+  },
+  {
+    "id_paciente": 4,
+    "id_atendimento": 11,
+    "data_triagem": "2025-06-23T15:29",
+    "id_classificacao_risco": 2,
+    "sintomas": "lepra",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750692601854
   }
 ]

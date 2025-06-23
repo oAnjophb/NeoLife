@@ -5,7 +5,7 @@ export class Patient {
     public id_paciente: number,
     public nome: string,
     public cpf: string,
-    public idade: string,
+    public data_nascimento: string,
     public genero: string,
     public endereco: string,
     public horario_entrada: Date,
@@ -16,7 +16,7 @@ export class Patient {
       row.id_paciente,
       row.nome,
       row.cpf,
-      row.idade,
+      row.data_nascimento,
       row.genero,
       row.endereco,
       new Date(row.horario_entrada),
@@ -26,13 +26,13 @@ export class Patient {
   static create(patient: Omit<Patient, 'id_paciente'>): number {
     const db = new Database()
     const stmt = db.prepare(
-      `INSERT INTO paciente (nome, cpf, idade, genero, endereco, horario_entrada)
+      `INSERT INTO paciente (nome, cpf, data_nascimento, genero, endereco, horario_entrada)
        VALUES (?, ?, ?, ?, ?, ?)`
     )
     const info = stmt.run(
       patient.nome,
       patient.cpf,
-      patient.idade,
+      patient.data_nascimento,
       patient.genero,
       patient.endereco,
       patient.horario_entrada.toISOString(),

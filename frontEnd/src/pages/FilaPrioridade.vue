@@ -68,7 +68,7 @@ export default {
     },
     async carregarFila() {
       try {
-        const res = await fetch('/api/fila')
+        const res = await fetch('/api/fila-prioridade')
         if (res.ok) {
           this.fila = await res.json()
         }
@@ -79,13 +79,22 @@ export default {
     async chamarProximo() {
       if (!this.fila.length) return
       try {
-        const res = await fetch('/api/fila/chamar', { method: 'POST' })
+        const res = await fetch('/api/fila-prioridade/chamar', {
+          method: 'POST',
+        })
         if (res.ok) {
           const ticket = await res.json()
-          this.$router.push(`/atendimento/${String(ticket.id)}`)
+          console.log('Ticket retornado:', ticket)
+          if (ticket && ticket.id_atendimento) {
+            this.$router.push(`/atendimento/${ticket.id_atendimento}`)
+          } else {
+            alert(
+              'Não foi possível chamar o próximo paciente: id_atendimento não encontrado.'
+            )
+          }
         }
       } catch (e) {
-        // opcional: mostrar erro
+        alert('Erro ao chamar próximo paciente.')
       }
     },
   },

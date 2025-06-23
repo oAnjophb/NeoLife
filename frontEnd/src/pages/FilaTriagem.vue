@@ -55,7 +55,7 @@ export default {
   },
   async mounted() {
     try {
-      const { data } = await axios.get('/api/fila')
+      const { data } = await axios.get('/api/fila-triagem')
       this.atendimentos = data
     } catch {
       this.erro = 'Erro ao carregar fila.'

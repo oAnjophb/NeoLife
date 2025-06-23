@@ -193,7 +193,7 @@ export default {
 
     // Busca paciente relacionado ao atendimento
     try {
-      const { data } = await axios.get('/api/fila')
+      const { data } = await axios.get('/api/fila-triagem')
       // Debug log para entender o que está vindo da API
       console.log('Fila retornada:', data)
       console.log('Procurando id_atendimento:', id_atendimento)

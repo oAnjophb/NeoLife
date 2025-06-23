@@ -113,7 +113,7 @@ export function buscarPacientePorId(id_paciente: number) {
            e.rua, e.bairro, e.cidade, e.estado, e.cep, e.numero
     FROM PACIENTE p
     LEFT JOIN ENDERECO_PACIENTE ep ON ep.id_paciente = p.id_paciente
-    LEFT JOIN ENDERECO e ON e.id = ep.id_endereco
+    LEFT JOIN ENDERECO e ON e.id_endereco = ep.id_endereco
     WHERE p.id_paciente = ?
     LIMIT 1
   `)

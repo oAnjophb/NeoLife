@@ -47,7 +47,6 @@ type RowAtendimentoPaciente = {
   estado?: string
   cep?: string
   numero?: number | string
-  idade?: number | string
 }
 
 function salvarPacienteNoJson(novoPaciente: PacientePayload) {
@@ -107,6 +106,18 @@ router.post('/', (req, res) => {
     let payload: PacientePayload = req.body
     console.log('Payload recebido no cadastro de paciente:', payload)
     payload = normalizarPayloadPaciente(payload)
+
+    // Verifica se já existe paciente com esse CPF
+    const db = Database.getDatabase()
+    const pacienteExistente = db
+      .prepare('SELECT * FROM PACIENTE WHERE cpf = ?')
+      .get(payload.cpf)
+    if (pacienteExistente) {
+      return res
+        .status(409)
+        .json({ erro: 'Já existe paciente cadastrado com este CPF.' })
+    }
+
     const pacienteJson = salvarPacienteNoJson(payload)
     // <- Aqui, insere no banco e PEGA o id gerado
     const id_paciente = inserirPaciente(payload)
@@ -115,7 +126,6 @@ router.post('/', (req, res) => {
       throw new Error('Falha ao inserir paciente no banco de dados.')
     }
 
-    const db = Database.getDatabase()
     const data_hora_entrada = new Date().toISOString()
 
     // Busca o próximo ticket
@@ -143,7 +153,7 @@ router.post('/', (req, res) => {
         `
       SELECT a.id_atendimento, a.id_paciente, COALESCE(a.data_hora_entrada, ?) as horario_entrada,
         p.nome, p.cpf, p.data_nascimento, p.genero,
-        e.rua, e.bairro, e.cidade, e.estado, e.cep, e.numero, p.idade
+        e.rua, e.bairro, e.cidade, e.estado, e.cep, e.numero
       FROM atendimento a
       JOIN paciente p ON a.id_paciente = p.id_paciente
       LEFT JOIN endereco_paciente ep ON p.id_paciente = ep.id_paciente
@@ -167,16 +177,12 @@ router.post('/', (req, res) => {
 
     if (rowPaciente) {
       const enderecoStr = montarEndereco(rowPaciente)
-      const idade =
-        rowPaciente.idade !== undefined && rowPaciente.idade !== null
-          ? String(rowPaciente.idade)
-          : String(calcularIdade(rowPaciente.data_nascimento))
       const genero: 'M' | 'F' = rowPaciente.genero === 'M' ? 'M' : 'F'
       const pacienteTicket = new Patient(
         rowPaciente.id_paciente,
         rowPaciente.nome,
         rowPaciente.cpf,
-        idade,
+        rowPaciente.data_nascimento,
         genero,
         enderecoStr,
         dataEntrada,
@@ -264,7 +270,7 @@ router.post('/atendimento', (req, res) => {
         `
       SELECT a.id_atendimento, a.id_paciente, COALESCE(a.data_hora_entrada, ?) as horario_entrada,
         p.nome, p.cpf, p.data_nascimento, p.genero,
-        e.rua, e.bairro, e.cidade, e.estado, e.cep, e.numero, p.idade
+        e.rua, e.bairro, e.cidade, e.estado, e.cep, e.numero
       FROM atendimento a
       JOIN paciente p ON a.id_paciente = p.id_paciente
       LEFT JOIN endereco_paciente ep ON p.id_paciente = ep.id_paciente
@@ -288,16 +294,12 @@ router.post('/atendimento', (req, res) => {
 
     if (rowPaciente) {
       const enderecoStr = montarEndereco(rowPaciente)
-      const idade =
-        rowPaciente.idade !== undefined && rowPaciente.idade !== null
-          ? String(rowPaciente.idade)
-          : String(calcularIdade(rowPaciente.data_nascimento))
       const genero: 'M' | 'F' = rowPaciente.genero === 'M' ? 'M' : 'F'
       const pacienteTicket = new Patient(
         rowPaciente.id_paciente,
         rowPaciente.nome,
         rowPaciente.cpf,
-        idade,
+        rowPaciente.data_nascimento,
         genero,
         enderecoStr,
         dataEntrada,

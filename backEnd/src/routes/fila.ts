@@ -25,8 +25,8 @@ router.post('/chamar', (req, res) => {
   const ticket = serviceQueue.callNextTicket()
   if (!ticket) return res.status(404).json({ erro: 'Fila vazia' })
   res.json({
-    id: ticket.paciente.id_paciente,  
-    paciente: ticket.paciente.nome,   
+    id_atendimento: ticket.id_atendimento,
+    paciente: ticket.paciente.nome,
     prioridade: RiskRating[ticket.prioridade].toLowerCase(),
     horaTriagem: new Date(ticket.dataTriagem).toLocaleTimeString([], {
       hour: '2-digit',

@@ -11,6 +11,7 @@ import AuthRoutes from './routes/AuthRoutes'
 import filaTriagemRouter from './routes/filaTriagem'
 import triagemRoute from './routes/triagemRoute'
 import filaRouter from './routes/fila'
+import atendimentoRoute from './routes/atendimentoRoute'
 
 const app = express()
 app.use(express.json())
@@ -18,7 +19,6 @@ app.use(cors())
 
 try {
   Database.connect()
-  // Log do caminho absoluto do banco de dados
   console.log('Conexão com o banco de dados estabelecida.')
   console.log('Banco em uso:', path.resolve('pronto_socorro.db'))
 } catch (err: any) {
@@ -34,9 +34,10 @@ app.use('/api/admin', adminRoute)
 app.use('/api/pacientes', pacienteRoute)
 app.use('/api/employees', employeeRoute)
 app.use('/api/login', AuthRoutes)
-app.use('/api/fila', filaTriagemRouter)
+app.use('/api/fila-triagem', filaTriagemRouter)
 app.use('/api/triagem', triagemRoute)
-app.use('/api/fila', filaRouter)
+app.use('/api/fila-prioridade', filaRouter)
+app.use('/api/atendimento', atendimentoRoute)
 
 const PORT = 3001
 app.listen(PORT, () => {
