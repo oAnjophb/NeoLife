@@ -1,13 +1,18 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
+import { Database } from '../Data/data_Base_Conection'
 
 const router = express.Router()
 const JWT_SECRET = 'seuSegredoUltraSecreto'
 
 router.post('/', (req, res) => {
   const { tipo, id, senha } = req.body
-  const db = req.app.get('db')
-  let user = null
+  if (!tipo || !id || !senha) {
+    return res.status(400).json({ erro: 'Tipo, id e senha são obrigatórios' })
+  }
+
+  const db = Database.getDatabase()
+  let user: any = null
 
   if (tipo === 'medico') {
     user = db
@@ -27,6 +32,8 @@ router.post('/', (req, res) => {
         'SELECT id_recepcionista as id, nome, cpf FROM RECEPCIONISTA WHERE id_recepcionista = ? AND senha = ?',
       )
       .get(id, senha)
+  } else {
+    return res.status(400).json({ erro: 'Tipo inválido' })
   }
 
   if (!user) {

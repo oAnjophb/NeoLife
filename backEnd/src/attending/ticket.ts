@@ -15,6 +15,7 @@ export class Ticket {
     public paciente: Patient,
     public prioridade: RiskRating,
     public status: StatusType,
-    public data_triagem: Date = new Date(),
+    public dataTriagem: Date,
+    public id_atendimento: number 
   ) {}
 }

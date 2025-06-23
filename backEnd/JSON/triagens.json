@@ -75,5 +75,41 @@
     "pressao_sanguinea": "120/80",
     "id_enfermeiro": 1,
     "id_triagem": 1750623809873
+  },
+  {
+    "id_paciente": 8,
+    "id_atendimento": 1,
+    "data_triagem": "2025-06-23T05:38",
+    "id_classificacao_risco": 2,
+    "sintomas": "dor de cabeça",
+    "temperatura": 39,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750657158798
+  },
+  {
+    "id_paciente": 8,
+    "id_atendimento": 2,
+    "data_triagem": "2025-06-23T05:48",
+    "id_classificacao_risco": 4,
+    "sintomas": "dor no cocs",
+    "temperatura": 39,
+    "saturacao": 101,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750657732041
+  },
+  {
+    "id_paciente": 12,
+    "id_atendimento": 6,
+    "data_triagem": "2025-06-23T06:17",
+    "id_classificacao_risco": 4,
+    "sintomas": "dor",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750659495002
   }
 ]

@@ -1,5 +1,5 @@
 import express from 'express'
-import { getAdminByUsuario, insertAdmin } from '../models/adminModel'
+import { getAdminByUsuario, insertAdmin, Admin } from '../models/adminModel'
 
 const router = express.Router()
 
@@ -16,10 +16,10 @@ function getErrorMessage(error: unknown): string {
   return 'Erro desconhecido'
 }
 
-router.post('/', (req, res) => {
-  const db = req.app.get('db')
+// Rota de login de admin
+router.post('/login', (req, res) => {
   const { usuario, senha } = req.body
-  const admin = getAdminByUsuario(db, usuario)
+  const admin: Admin | undefined = getAdminByUsuario(usuario)
   if (admin && admin.senha === senha) {
     res.json({ mensagem: 'Login admin OK', usuario: admin.usuario })
   } else {
@@ -27,11 +27,11 @@ router.post('/', (req, res) => {
   }
 })
 
-router.post('/', (req, res) => {
-  const db = req.app.get('db')
+// Rota de cadastro de admin
+router.post('/cadastro', (req, res) => {
   const { usuario, senha } = req.body
   try {
-    const id = insertAdmin(db, { usuario, senha })
+    const id = insertAdmin({ usuario, senha })
     res.status(201).json({ mensagem: 'Admin cadastrado', id })
   } catch (error) {
     res.status(400).json({

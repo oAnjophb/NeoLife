@@ -29,19 +29,22 @@ function saveEmployeeToJson(type: string, data: any) {
 
 router.post('/', (req, res) => {
   try {
-    const db = req.app.get('db')
     const { tipo, ...payload } = req.body
 
-    if (!tipo) return res.status(400).json({ erro: 'Tipo de funcionário é obrigatório' })
+    if (!tipo) {
+      return res.status(400).json({ erro: 'Tipo de funcionário é obrigatório' })
+    }
 
     let dbId: number | undefined
-    if (tipo === 'medico') dbId = inserirMedico(db, payload)
-    else if (tipo === 'enfermeiro') dbId = inserirEnfermeiro(db, payload)
-    else if (tipo === 'recepcionista') dbId = inserirRecepcionista(db, payload)
+    if (tipo === 'medico') dbId = inserirMedico(payload)
+    else if (tipo === 'enfermeiro') dbId = inserirEnfermeiro(payload)
+    else if (tipo === 'recepcionista') dbId = inserirRecepcionista(payload)
     else return res.status(400).json({ erro: 'Tipo de funcionário inválido' })
 
     if (!dbId) {
-      return res.status(500).json({ erro: 'Erro ao salvar funcionário no banco de dados' })
+      return res
+        .status(500)
+        .json({ erro: 'Erro ao salvar funcionário no banco de dados' })
     }
 
     try {
@@ -52,10 +55,15 @@ router.post('/', (req, res) => {
         jsonId: employeeJson.id,
       })
     } catch (jsonError: any) {
-      return res.status(500).json({ erro: 'Salvou no banco, mas falhou no JSON', detalhes: jsonError.message })
+      return res.status(500).json({
+        erro: 'Salvou no banco, mas falhou no JSON',
+        detalhes: jsonError.message,
+      })
     }
   } catch (error: any) {
-    res.status(500).json({ erro: 'Erro ao cadastrar funcionário', detalhes: error.message })
+    res
+      .status(500)
+      .json({ erro: 'Erro ao cadastrar funcionário', detalhes: error.message })
   }
 })
 

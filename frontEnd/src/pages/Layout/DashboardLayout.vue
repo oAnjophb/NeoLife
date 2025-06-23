@@ -28,8 +28,8 @@
     <!-- Main content -->
     <div class="main-panel">
       <top-navbar class="top-navbar"></top-navbar>
-      <notifications/>
-      <router-view/>
+      <notifications />
+      <router-view />
       <content-footer v-if="!$route.meta.hideFooter"></content-footer>
     </div>
   </div>
@@ -42,36 +42,56 @@ import ContentFooter from './ContentFooter.vue'
 // Defina os menus disponíveis
 const menuItems = [
   {
-    key: "dashboard",
-    to: "/dashboard",
-    icon: "insights",
-    text: "Visão Geral"
+    key: 'dashboard',
+    to: '/dashboard',
+    icon: 'insights',
+    text: 'Visão Geral',
   },
   {
-    key: "cadastro-paciente",
-    to: "/cadastro-paciente",
-    icon: "person_add",
-    text: "Cadastro de Paciente"
+    key: 'cadastro-paciente',
+    to: '/cadastro-paciente',
+    icon: 'person_add',
+    text: 'Cadastro de Paciente',
   },
   {
-    key: "cadastro-triagem",
-    to: "/cadastro-triagem",
-    icon: "assignment",
-    text: "Cadastro de Triagem"
+    key: 'pesquisa-paciente',
+    to: '/pesquisa-paciente',
+    icon: 'search',
+    text: 'Pesquisar Paciente',
   },
   {
-    key: "fila",
-    to: "/FilaPrioridade",
-    icon: "format_list_numbered",
-    text: "Fila de Atendimento"
-  }
+    key: 'cadastro-triagem',
+    to: '/cadastro-triagem',
+    icon: 'assignment',
+    text: 'Cadastro de Triagem',
+  },
+  {
+    key: 'fila-prioridade',
+    to: '/FilaPrioridade', // <- Caminho certo!
+    icon: 'format_list_numbered',
+    text: 'Fila de Prioridade',
+  },
+  {
+    key: 'fila-triagem',
+    to: '/triagem/fila',
+    icon: 'format_list_numbered',
+    text: 'Fila de Triagem',
+  },
 ]
 
 // Permissões por tipo de usuário
 const permissoes = {
-  medico:        ["dashboard", "fila"],
-  recepcionista: ["dashboard", "cadastro-paciente"],
-  enfermeiro:    ["dashboard", "cadastro-triagem"]
+  admin: [
+    'dashboard',
+    'cadastro-paciente',
+    'pesquisa-paciente',
+    'cadastro-triagem',
+    'fila-triagem',
+    'fila-prioridade',
+  ],
+  medico: ['dashboard', 'fila-prioridade'], // Médico só vê Fila de Prioridade!
+  recepcionista: ['dashboard', 'cadastro-paciente', 'pesquisa-paciente'],
+  enfermeiro: ['dashboard', 'cadastro-triagem', 'fila-triagem'],
 }
 
 export default {
@@ -82,22 +102,25 @@ export default {
   computed: {
     userType() {
       try {
-        const usuario = JSON.parse(localStorage.getItem("usuario"));
-        return usuario?.tipo || "recepcionista";
+        const usuario = JSON.parse(localStorage.getItem('usuario'))
+        // Para teste rápido, descomente a linha abaixo:
+        // return "admin";
+        return usuario?.tipo || 'recepcionista'
       } catch {
-        return "recepcionista";
+        return 'recepcionista'
       }
     },
     filteredMenuItems() {
-      const tipo = this.userType;
-      const permissoesTipo = permissoes[tipo] || ["dashboard"];
-      return menuItems.filter(item => permissoesTipo.includes(item.key))
-    }
-  }
+      const tipo = this.userType
+      const permissoesTipo = permissoes[tipo] || ['dashboard']
+      return menuItems.filter((item) => permissoesTipo.includes(item.key))
+    },
+  },
 }
 </script>
 
 <style scoped>
+/* ... seu CSS igual ao anterior ... */
 .dashboard-layout {
   display: flex;
   min-height: 100vh;
@@ -169,7 +192,8 @@ export default {
   min-width: 24px;
   min-height: 24px;
 }
-.icon md-icon, .sidebar-link-icon md-icon {
+.icon md-icon,
+.sidebar-link-icon md-icon {
   font-size: 22px !important;
   color: #1976d2 !important;
   vertical-align: middle;

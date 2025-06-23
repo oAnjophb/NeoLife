@@ -3,9 +3,9 @@
     <md-card>
       <md-card-header class="custom-card-header">
         <span class="header-icon-title">
-          <md-icon class="header-icon" style="font-size: 32px; color: #2196f3"
-            >person_add</md-icon
-          >
+          <md-icon class="header-icon" style="font-size: 32px; color: #2196f3">
+            person_add
+          </md-icon>
           <h4 class="title">Cadastro de Paciente</h4>
         </span>
       </md-card-header>
@@ -13,27 +13,28 @@
         <form @submit.prevent="cadastrarPaciente">
           <div class="form-row">
             <md-field>
-              <label>Nome</label>
-              <md-input v-model="paciente.nome" required />
+              <label for="nome">Nome</label>
+              <md-input id="nome" v-model="paciente.nome" required />
             </md-field>
             <md-field>
-              <label>CPF</label>
+              <label for="cpf">CPF</label>
               <md-input
+                id="cpf"
                 :value="paciente.cpf"
                 @input="onCpfInput"
                 type="text"
-                required
                 maxlength="14"
                 autocomplete="off"
                 inputmode="numeric"
+                required
               />
             </md-field>
           </div>
           <div class="form-row">
             <div class="date-static-label">
-              <label class="label-estatico" for="data_nascimento"
-                >Data de Nascimento</label
-              >
+              <label class="label-estatico" for="data_nascimento">
+                Data de Nascimento
+              </label>
               <input
                 id="data_nascimento"
                 v-model="paciente.data_nascimento"
@@ -43,18 +44,19 @@
               />
             </div>
             <md-field>
-              <label>Gênero</label>
-              <md-select v-model="paciente.genero" required>
+              <label for="genero">Gênero</label>
+              <md-select id="genero" v-model="paciente.genero" required>
                 <md-option value="M">Masculino</md-option>
                 <md-option value="F">Feminino</md-option>
-                <md-option value="nao-informar">Não informar</md-option>
+                <md-option value="nao-informar">Prefiro não informar</md-option>
               </md-select>
             </md-field>
           </div>
           <div class="form-row">
             <md-field>
-              <label>CEP</label>
+              <label for="cep">CEP</label>
               <md-input
+                id="cep"
                 v-model="paciente.endereco.cep"
                 @blur="buscarEndereco"
                 maxlength="8"
@@ -64,12 +66,13 @@
               />
             </md-field>
             <md-field>
-              <label>Rua</label>
-              <md-input v-model="paciente.endereco.rua" required />
+              <label for="rua">Rua</label>
+              <md-input id="rua" v-model="paciente.endereco.rua" required />
             </md-field>
             <md-field>
-              <label>Número</label>
+              <label for="numero">Número</label>
               <md-input
+                id="numero"
                 v-model="paciente.endereco.numero"
                 required
                 type="number"
@@ -78,16 +81,28 @@
           </div>
           <div class="form-row">
             <md-field>
-              <label>Bairro</label>
-              <md-input v-model="paciente.endereco.bairro" required />
+              <label for="bairro">Bairro</label>
+              <md-input
+                id="bairro"
+                v-model="paciente.endereco.bairro"
+                required
+              />
             </md-field>
             <md-field>
-              <label>Cidade</label>
-              <md-input v-model="paciente.endereco.cidade" required />
+              <label for="cidade">Cidade</label>
+              <md-input
+                id="cidade"
+                v-model="paciente.endereco.cidade"
+                required
+              />
             </md-field>
             <md-field>
-              <label>Estado</label>
-              <md-input v-model="paciente.endereco.estado" required />
+              <label for="estado">Estado</label>
+              <md-input
+                id="estado"
+                v-model="paciente.endereco.estado"
+                required
+              />
             </md-field>
           </div>
           <div class="actions-row">
@@ -110,7 +125,7 @@ export default {
       paciente: {
         nome: '',
         cpf: '',
-        data_nascimento: '', // <-- Corrigido aqui
+        data_nascimento: '',
         genero: '',
         endereco: {
           cep: '',
@@ -128,11 +143,11 @@ export default {
     onCpfInput(value) {
       value = (value || '').replace(/\D/g, '').slice(0, 11)
       if (value.length > 9)
-        value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4")
+        value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, '$1.$2.$3-$4')
       else if (value.length > 6)
-        value = value.replace(/(\d{3})(\d{3})(\d{1,3})/, "$1.$2.$3")
+        value = value.replace(/(\d{3})(\d{3})(\d{1,3})/, '$1.$2.$3')
       else if (value.length > 3)
-        value = value.replace(/(\d{3})(\d{1,3})/, "$1.$2")
+        value = value.replace(/(\d{3})(\d{1,3})/, '$1.$2')
       this.paciente.cpf = value
     },
     async buscarEndereco() {
@@ -152,7 +167,7 @@ export default {
             this.paciente.endereco.estado = data.uf || ''
           }
         } catch (error) {
-          // Se der erro, ignora
+          // Ignora erro de consulta
         }
       }
     },
@@ -160,7 +175,7 @@ export default {
       const payload = {
         nome: this.paciente.nome,
         cpf: this.paciente.cpf.replace(/\D/g, ''),
-        data_nascimento: this.paciente.data_nascimento, // <-- Corrigido aqui
+        data_nascimento: this.paciente.data_nascimento,
         genero: this.paciente.genero,
         endereco: {
           rua: this.paciente.endereco.rua,
@@ -179,14 +194,14 @@ export default {
           body: JSON.stringify(payload),
         })
         if (!response.ok) throw new Error('Erro ao salvar paciente')
-        // Limpa o formulário ANTES de redirecionar
+        // Limpa o formulário antes de redirecionar
         const data = await response.json()
         const nome = this.paciente.nome
         const id = data.id
         this.paciente = {
           nome: '',
           cpf: '',
-          data_nascimento: '', // <-- Corrigido aqui
+          data_nascimento: '',
           genero: '',
           endereco: {
             cep: '',
@@ -207,3 +222,87 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.form-centralizado {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-left: 260px;
+  box-sizing: border-box;
+  background: #f5f5f5;
+}
+
+.md-card {
+  width: 100%;
+  max-width: 800px;
+  min-width: 420px;
+  box-shadow: 0 8px 24px rgba(33, 150, 243, 0.07),
+    0 1.5px 6px rgba(33, 150, 243, 0.08);
+  border-radius: 14px;
+}
+
+.form-row {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 18px;
+}
+.form-row > * {
+  flex: 1;
+}
+.header-icon-title {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.custom-card-header {
+  background: #f6f8fa;
+  border-bottom: 2px solid #2196f3;
+  padding: 24px 28px 18px 28px;
+}
+.title {
+  margin: 0;
+  font-size: 26px;
+  color: #222;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.actions-row {
+  margin-top: 32px;
+  display: flex;
+  justify-content: flex-end;
+}
+.date-static-label {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.label-estatico {
+  margin-bottom: 4px;
+  font-weight: 500;
+  color: #333;
+}
+.md-input,
+.md-theme-default {
+  background: #fff;
+}
+.md-field label {
+  color: #333;
+  font-weight: 600;
+  font-size: 15px;
+}
+.md-button.md-primary {
+  background: #2196f3;
+  color: #fff;
+  font-weight: 700;
+  border-radius: 4px;
+  min-width: 120px;
+  font-size: 16px;
+  transition: background 0.2s;
+}
+.md-button.md-primary[disabled] {
+  background: #90caf9;
+  color: #fff;
+}
+</style>

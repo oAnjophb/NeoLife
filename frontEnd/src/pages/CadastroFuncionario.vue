@@ -115,12 +115,7 @@ export default {
 
       // ATENÇÃO: O payload usa crm minúsculo!
       let payload = {
-        type:
-          this.tipo === 'medico'
-            ? 'doctor'
-            : this.tipo === 'enfermeiro'
-            ? 'nurse'
-            : 'receptionist',
+        tipo: this.tipo,
         nome: this.nome,
         cpf: this.cpf,
         senha: this.senha,

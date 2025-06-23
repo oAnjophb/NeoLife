@@ -1,17 +1,19 @@
-import DashboardLayout from '@/pages/Layout/DashboardLayout.vue'
-import Dashboard from '@/pages/Dashboard.vue'
-import CadastroPaciente from '@/pages/CadastroPaciente.vue'
-import FilaPrioridade from '@/pages/FilaPrioridade.vue'
-import CadastroTriagem from '@/pages/CadastroTriagem.vue'
-import Atendimento from '@/pages/Atendimento.vue'
-import PerfilUsuario from '@/pages/PerfilUsuario.vue'
+import DashboardLayout from '@/pages/Layout/DashboardLayout'
+import Dashboard from '@/pages/Dashboard'
+import CadastroPaciente from '@/pages/CadastroPaciente'
+import FilaPrioridade from '@/pages/FilaPrioridade'
+import CadastroTriagem from '@/pages/CadastroTriagem'
+import Atendimento from '@/pages/Atendimento'
+import PerfilUsuario from '@/pages/PerfilUsuario'
 import Login from '@/pages/Login'
 import RegisterFeedback from '@/pages/RegisterFeedback'
 import FeedBackCadastro from '@/pages/FeedbackCadastro'
 import AdminLogin from '@/pages/AdminLogin.vue'
-import CadastroFuncionario from '@/pages/CadastroFuncionario.vue'
-// IMPORTANTE: Importe a nova tela de detalhes do paciente
-import DetalhePaciente from '@/pages/DetalhePaciente.vue'
+import CadastroFuncionario from '@/pages/CadastroFuncionario'
+import PesquisaPaciente from '@/pages/PesquisaPaciente.vue'
+import DetalhePaciente from '@/pages/DetalhePaciente'
+import EditarPaciente from '@/pages/EditarPaciente'
+import FilaTriagem from '@/pages/FilaTriagem'
 
 const routes = [
   {
@@ -56,6 +58,12 @@ const routes = [
         component: CadastroPaciente,
       },
       {
+        path: 'pesquisa-paciente',
+        name: 'PesquisaPaciente',
+        icon: 'search',
+        component: PesquisaPaciente,
+      },
+      {
         path: 'feedback-cadastro/:nome?',
         name: 'FeedBackCadastro',
         component: FeedBackCadastro,
@@ -81,13 +89,22 @@ const routes = [
         name: 'PerfilUsuario',
         component: PerfilUsuario,
       },
-      
       {
         path: 'paciente/:id',
         name: 'DetalhePaciente',
         component: DetalhePaciente,
-        props: true
-      }
+        props: true,
+      },
+      {
+        path: '/pacientes/:id/editar',
+        name: 'EditarPaciente',
+        component: EditarPaciente,
+      },
+      {
+        path: '/triagem/fila',
+        name: 'FilaTriagem',
+        component: FilaTriagem,
+      },
     ],
   },
 ]

@@ -4,9 +4,9 @@ export class Patient {
   constructor(
     public id_paciente: number,
     public nome: string,
-    public cpf: number,
-    public idade: number,
-    public genero: 'M' | 'F',
+    public cpf: string,
+    public idade: string,
+    public genero: string,
     public endereco: string,
     public horario_entrada: Date,
   ) {}
