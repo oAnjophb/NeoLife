@@ -66,7 +66,20 @@
 
       <transition name="slide-fade">
         <div v-if="paciente && Object.keys(paciente).length" class="resultado">
-          <h3><span class="icon">👤</span> Dados do Paciente</h3>
+          <div class="header-dados-paciente">
+            <h3><span class="icon">👤</span> Dados do Paciente</h3>
+            <button
+              class="quadrado-cinza"
+              @click="onHistoricoClick"
+              type="button"
+            >
+              <img
+                src="https://icones.pro/wp-content/uploads/2022/03/historique-icone-de-l-historique-noir.png"
+                alt="Histórico"
+                class="icone-historico"
+              />
+            </button>
+          </div>
           <ul>
             <li v-if="paciente.nome">
               <strong>Nome:</strong> {{ paciente.nome }}
@@ -153,8 +166,6 @@ export default {
       try {
         const { data } = await axios.get('/api/pacientes')
         this.pacientes = Array.isArray(data) ? data : []
-        // Para debug, descomente:
-        // console.log('Pacientes:', data)
       } catch (e) {
         this.pacientes = []
         this.erro = 'Erro ao buscar lista de pacientes.'
@@ -455,5 +466,45 @@ button.atendimento:hover {
     max-width: 100vw;
     padding-bottom: 10px;
   }
+}
+
+.header-dados-paciente {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+CSS .quadrado-cinza {
+  width: 40px;
+  height: 40px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  margin-left: 18px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: box-shadow 0.15s, background 0.15s;
+  box-shadow: 0 1.5px 8px #d3d3d344;
+}
+
+.quadrado-cinza:active {
+  background: #cccccc;
+}
+
+.quadrado-cinza:focus {
+  outline: 2px solid #3855a8;
+}
+
+.icone-historico {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  display: block;
 }
 </style>

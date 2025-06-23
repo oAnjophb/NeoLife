@@ -334,18 +334,19 @@ router.get('/', (req, res) => {
   const searchRaw = req.query.search
   const search =
     typeof searchRaw === 'string' ? searchRaw.replace(/\D/g, '') : ''
-  if (search && search.length >= 3) {
-    try {
+  const db = Database.getDatabase()
+  try {
+    if (search && search.length >= 3) {
       const results = buscarPacientesPorCPF(search)
       return res.json(results)
-    } catch (err: any) {
-      console.error('Erro ao buscar paciente(s):', err)
-      return res
-        .status(500)
-        .json({ erro: 'Erro ao buscar paciente(s)', detalhes: err.message })
+    } else {
+      const pacientes = db.prepare('SELECT * FROM PACIENTE').all()
+      console.log('PACIENTES RETORNADOS:', pacientes); // <-- Adicione este log!
+      return res.json(pacientes)
     }
+  } catch (err) {
+    return res.status(500).json({ erro: 'Erro ao buscar pacientes' })
   }
-  return res.json([])
 })
 
 router.put('/:id_paciente', (req, res) => {

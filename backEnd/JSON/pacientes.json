@@ -328,5 +328,20 @@
       "cep": "64206902"
     },
     "id": 1750689439630
+  },
+  {
+    "nome": "Julia Alves Machado",
+    "cpf": "11229900334",
+    "data_nascimento": "2003-03-12",
+    "genero": "F",
+    "endereco": {
+      "rua": "Rua Valença",
+      "numero": "56",
+      "bairro": "Bebedouro",
+      "cidade": "Parnaíba",
+      "estado": "PI",
+      "cep": "64218845"
+    },
+    "id": 1750696419959
   }
 ]
