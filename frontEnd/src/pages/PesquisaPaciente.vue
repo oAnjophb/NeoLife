@@ -226,7 +226,7 @@ export default {
   padding: 2.5rem 2rem 2rem 2rem;
   border-radius: 18px;
   box-shadow: 0 8px 32px rgba(60, 60, 100, 0.12), 0 1.5px 3px #eee;
-  max-width: 540px;
+  max-width: 1200px;
   width: 100%;
   margin: 0 auto 2rem auto;
   border: none;
