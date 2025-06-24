@@ -343,5 +343,20 @@
       "cep": "64218845"
     },
     "id": 1750696419959
+  },
+  {
+    "nome": "Alan Castro",
+    "cpf": "44512344512",
+    "data_nascimento": "1999-03-30",
+    "genero": "M",
+    "endereco": {
+      "rua": "Rua Canadá",
+      "numero": "77",
+      "bairro": "Rodoviária",
+      "cidade": "Parnaíba",
+      "estado": "PI",
+      "cep": "64212150"
+    },
+    "id": 1750777441693
   }
 ]
