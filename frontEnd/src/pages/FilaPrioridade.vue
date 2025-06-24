@@ -2,9 +2,6 @@
   <div class="pagina-centralizada">
     <md-card>
       <md-card-header>
-        <md-icon style="font-size: 32px; color: #2196f3"
-          >format_list_numbered</md-icon
-        >
         <h4 class="title">Fila de Prioridade</h4>
       </md-card-header>
       <md-card-content>

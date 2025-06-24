@@ -219,5 +219,29 @@
     "pressao_sanguinea": "120/80",
     "id_enfermeiro": 1,
     "id_triagem": 1750692601854
+  },
+  {
+    "id_paciente": 15,
+    "id_atendimento": 13,
+    "data_triagem": "2025-06-24T01:30",
+    "id_classificacao_risco": 4,
+    "sintomas": "Dores de cabeça leve, devido a prova de amanha",
+    "temperatura": 37,
+    "saturacao": 98,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750739463404
+  },
+  {
+    "id_paciente": 2,
+    "id_atendimento": 14,
+    "data_triagem": "2025-06-24T04:31",
+    "id_classificacao_risco": 2,
+    "sintomas": "Lepra, dificuldade respiratoria, fimose",
+    "temperatura": 35,
+    "saturacao": 80,
+    "pressao_sanguinea": "110/70",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750739533250
   }
 ]

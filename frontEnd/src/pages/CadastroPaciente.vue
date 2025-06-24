@@ -3,9 +3,6 @@
     <md-card>
       <md-card-header class="custom-card-header">
         <span class="header-icon-title">
-          <md-icon class="header-icon" style="font-size: 32px; color: #2196f3">
-            person_add
-          </md-icon>
           <h4 class="title">Cadastro de Paciente</h4>
         </span>
       </md-card-header>
@@ -229,7 +226,7 @@ export default {
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-left: 260px;
+  padding-left: 15px;
   box-sizing: border-box;
   background: #f5f5f5;
 }
@@ -257,9 +254,10 @@ export default {
   gap: 14px;
 }
 .custom-card-header {
-  background: #f6f8fa;
-  border-bottom: 2px solid #2196f3;
+  background:rgb(33, 150, 243);
+  border-bottom: 2px solidrgb(33, 150, 243);
   padding: 24px 28px 18px 28px;
+  border-radius: 14px;
 }
 .title {
   margin: 0;

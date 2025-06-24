@@ -1,9 +1,6 @@
 <template>
   <div class="fila-triagem-page">
     <h2>
-      <md-icon style="vertical-align: middle; color: #1976d2; margin-right: 6px"
-        >format_list_numbered</md-icon
-      >
       Fila de Triagem
     </h2>
 
@@ -89,9 +86,9 @@ export default {
 <style scoped>
 /* Deixa a página SEMPRE para a direita da sidebar fixa */
 .fila-triagem-page {
-  /* Bate com a sidebar fixa do layout! */
   padding: 32px 24px 32px 240px;
   min-height: 100vh;
+  min-weight: 1120px;
   background: #f4f7fa;
   box-sizing: border-box;
   display: flex;
@@ -137,7 +134,7 @@ h2 {
   font-weight: 700;
   border-bottom: 1.5px solid #e0e8f6;
   letter-spacing: 0.04em;
-}
+} 
 .fila-table tr {
   transition: background 0.14s;
 }

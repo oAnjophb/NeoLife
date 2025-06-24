@@ -3,9 +3,6 @@
     <md-card>
       <md-card-header class="custom-card-header">
         <span class="header-icon-title">
-          <md-icon class="header-icon" style="font-size: 32px; color: #2196f3"
-            >assignment</md-icon
-          >
           <h4 class="title">Cadastro de Triagem</h4>
         </span>
       </md-card-header>
@@ -279,7 +276,7 @@ export default {
 .form-centralizado {
   min-height: calc(100vh - 64px);
   display: flex;
-  align-items: center;
+  align-items: auto;
   justify-content: center;
   background: #fafbfd;
   padding: 32px 24px 32px 240px; /* igual à fila da triagem! */
@@ -289,7 +286,7 @@ export default {
 }
 .md-card {
   width: 100%;
-  max-width: 800px;
+  max-width: 1120px;
   padding: 40px 40px 32px 40px;
   box-sizing: border-box;
   border-radius: 18px;
@@ -300,6 +297,7 @@ export default {
   display: flex;
   align-items: center;
   padding-bottom: 16px;
+  border-radius: 14px;
 }
 .header-icon-title {
   display: flex;

@@ -2,7 +2,7 @@
   <div class="pesquisa-paciente">
     <div class="card">
       <h2><span class="icon">🔎</span> Buscar Paciente</h2>
-      <form @submit.prevent="buscarPaciente" class="form-flex">
+      <div class="form-flex">
         <div class="input-group">
           <label for="cpf">CPF</label>
           <input
@@ -10,17 +10,11 @@
             v-model="cpf"
             placeholder="Digite o CPF"
             maxlength="11"
-            required
-            @input="onCpfInput"
             autocomplete="off"
-            :class="{ error: erro }"
+            @input="onCpfInput"
           />
         </div>
-        <button type="submit" :disabled="loading || !cpfValido">
-          <span v-if="loading" class="spinner"></span>
-          <span v-else>Buscar</span>
-        </button>
-      </form>
+      </div>
 
       <transition name="fade">
         <div v-if="erro" class="erro">
@@ -28,7 +22,8 @@
         </div>
       </transition>
 
-      <div class="lista-pacientes">
+      <!-- Lista filtrada em tempo real -->
+      <div v-if="!mostrarCardPaciente" class="lista-pacientes">
         <h3 style="margin-bottom: 1rem">
           <span class="icon">📋</span> Pacientes do Hospital
         </h3>
@@ -44,7 +39,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="p in pacientes" :key="p.id_paciente">
+              <tr v-for="p in pacientesFiltrados" :key="p.id_paciente">
                 <td>{{ p.nome }}</td>
                 <td>{{ p.cpf }}</td>
                 <td>{{ p.data_nascimento }}</td>
@@ -57,15 +52,16 @@
           </table>
         </div>
         <div
-          v-if="pacientes.length === 0"
+          v-if="pacientesFiltrados.length === 0"
           style="margin-top: 1rem; color: #888"
         >
           Nenhum paciente encontrado.
         </div>
       </div>
 
+      <!-- Card de detalhes -->
       <transition name="slide-fade">
-        <div v-if="paciente && Object.keys(paciente).length" class="resultado">
+        <div v-if="mostrarCardPaciente" class="resultado">
           <div class="header-dados-paciente">
             <h3><span class="icon">👤</span> Dados do Paciente</h3>
             <button
@@ -110,64 +106,69 @@
         </div>
       </transition>
     </div>
+    <EditarCadastro
+      v-if="mostrarEditar"
+      :idPaciente="paciente.id_paciente"
+      :mostrarModal="mostrarEditar"
+      @fechar="mostrarEditar = false"
+    />
   </div>
 </template>
 
 <script>
 import axios from 'axios'
+import EditarCadastro from './EditarCadastro.vue' // Importe o modal de edição
 
 export default {
   name: 'PesquisaPaciente',
+  components: {
+    EditarCadastro, // registre o componente modal
+  },
   data() {
     return {
       cpf: '',
       paciente: {},
-      pacientes: [],
+      todosPacientes: [],
       erro: '',
       loading: false,
       iniciandoAtendimento: false,
+      mostrarEditar: false, // controla exibição do modal de edição
     }
   },
   computed: {
-    cpfValido() {
-      return this.cpf.length === 11
+    pacientesFiltrados() {
+      if (!this.cpf) return this.todosPacientes
+      return this.todosPacientes.filter(
+        (p) => p.cpf && p.cpf.startsWith(this.cpf)
+      )
+    },
+    mostrarCardPaciente() {
+      return this.paciente && this.paciente.id_paciente
+    },
+  },
+  watch: {
+    cpf() {
+      // Limpa o card e erro ao modificar o campo e mantém só números
+      if (this.cpf !== this.cpf.replace(/\D/g, '')) {
+        this.cpf = this.cpf.replace(/\D/g, '')
+      }
+      this.paciente = {}
+      this.erro = ''
     },
   },
   methods: {
     onCpfInput() {
-      this.cpf = this.cpf.replace(/\D/g, '')
-    },
-    async buscarPaciente() {
-      this.erro = ''
-      this.paciente = {}
-
-      if (!this.cpfValido) {
-        this.erro = 'Digite um CPF válido (11 números).'
-        return
-      }
-
-      this.loading = true
-      try {
-        const { data } = await axios.get(`/api/pacientes/cpf/${this.cpf}`)
-        this.paciente = data && typeof data === 'object' ? data : {}
-        if (!this.paciente || Object.keys(this.paciente).length === 0) {
-          this.erro = 'Paciente não encontrado.'
-        }
-      } catch (e) {
-        this.erro =
-          e.response && e.response.data && e.response.data.erro
-            ? e.response.data.erro
-            : 'Paciente não encontrado ou erro na busca.'
-      } finally {
-        this.loading = false
+      // Aceita só números
+      if (this.cpf !== this.cpf.replace(/\D/g, '')) {
+        this.cpf = this.cpf.replace(/\D/g, '')
       }
     },
     async getTodosPacientes() {
       try {
         const { data } = await axios.get('/api/pacientes')
-        this.pacientes = Array.isArray(data) ? data : []
+        this.todosPacientes = Array.isArray(data) ? data : []
       } catch (e) {
-        this.pacientes = []
+        this.todosPacientes = []
         this.erro = 'Erro ao buscar lista de pacientes.'
       }
     },
@@ -180,10 +181,10 @@ export default {
         this.erro = 'Paciente não carregado para edição.'
         return
       }
-      this.$router.push({
-        name: 'DetalhePaciente',
-        params: { id: this.paciente.id_paciente },
-      })
+      this.mostrarEditar = true // Exibe o modal de edição
+    },
+    fecharEditar() {
+      this.mostrarEditar = false
     },
     async iniciarAtendimento() {
       if (!this.paciente.id_paciente) {
@@ -205,6 +206,9 @@ export default {
         this.iniciandoAtendimento = false
       }
     },
+    onHistoricoClick() {
+      alert('Histórico do paciente (implemente conforme seu app)')
+    },
   },
   mounted() {
     this.getTodosPacientes()
@@ -213,6 +217,7 @@ export default {
 </script>
 
 <style scoped>
+
 .pesquisa-paciente {
   padding: 40px 0 0 0;
   min-height: 100vh;

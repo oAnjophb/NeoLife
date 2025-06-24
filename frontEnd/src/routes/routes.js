@@ -12,7 +12,7 @@ import AdminLogin from '@/pages/AdminLogin.vue'
 import CadastroFuncionario from '@/pages/CadastroFuncionario'
 import PesquisaPaciente from '@/pages/PesquisaPaciente.vue'
 import DetalhePaciente from '@/pages/DetalhePaciente'
-import EditarPaciente from '@/pages/EditarPaciente'
+import EditarCadastro from '@/pages/EditarCadastro'
 import FilaTriagem from '@/pages/FilaTriagem'
 
 const routes = [
@@ -64,6 +64,11 @@ const routes = [
         component: PesquisaPaciente,
       },
       {
+        path: '/paciente/:id/editar',
+        name: 'EditarCadastro',
+        component: EditarCadastro,
+      },
+      {
         path: 'feedback-cadastro/:nome?',
         name: 'FeedBackCadastro',
         component: FeedBackCadastro,
@@ -97,8 +102,8 @@ const routes = [
       },
       {
         path: '/pacientes/:id/editar',
-        name: 'EditarPaciente',
-        component: EditarPaciente,
+        name: 'EditarCadastro',
+        component: EditarCadastro,
       },
       {
         path: '/triagem/fila',
