@@ -1,362 +1,122 @@
 [
   {
-    "nome": "Ruan Pedro De Araujo Anjos",
-    "cpf": "12312312313",
-    "data_nascimento": "3333-12-23",
+    "nome": "Marcos Vinícius da Silva",
+    "cpf": "70938214500",
+    "data_nascimento": "1997-11-05",
     "genero": "M",
-    "endereco": {
-      "rua": "Rua Tubarão do Litoral",
-      "numero": "115",
-      "bairro": "Alto Santa Maria",
-      "cidade": "Parnaíba",
+    "address": {
+      "rua": "Quadra 351",
+      "numero": "88",
+      "bairro": "Itararé",
+      "cidade": "Teresina",
       "estado": "PI",
-      "cep": "64212310"
+      "cep": "64078500"
     },
-    "id": 1750562452289
+    "id": 1750825258068
   },
   {
-    "nome": "Francisco Alves Ribeiro Neto",
-    "cpf": "12345456756",
-    "data_nascimento": "2005-10-13",
-    "genero": "nao-informar",
-    "endereco": {
-      "rua": "Avenida Senador Furtado",
-      "numero": "721",
-      "bairro": "Nova Parnaíba",
-      "cidade": "Parnaíba",
+    "nome": "Marcos Vinícius da Silva",
+    "cpf": "70938214500",
+    "data_nascimento": "1997-11-05",
+    "genero": "M",
+    "address": {
+      "rua": "Quadra 351",
+      "numero": "88",
+      "bairro": "Itararé",
+      "cidade": "Teresina",
       "estado": "PI",
-      "cep": "64218660"
+      "cep": "64078500"
     },
-    "id": 1750638979750
+    "id": 1750825280153
   },
   {
-    "nome": "Francisco Alves Ribeiro Neto",
-    "cpf": "12345456756",
-    "data_nascimento": "2005-10-13",
-    "genero": "nao-informar",
-    "endereco": {
-      "rua": "Avenida Senador Furtado",
-      "numero": "721",
-      "bairro": "Nova Parnaíba",
-      "cidade": "Parnaíba",
+    "nome": "Marcos Vinícius da Silva",
+    "cpf": "70938214500",
+    "data_nascimento": "1997-11-05",
+    "genero": "M",
+    "address": {
+      "rua": "Quadra 351",
+      "numero": "88",
+      "bairro": "Itararé",
+      "cidade": "Teresina",
       "estado": "PI",
-      "cep": "64218660"
+      "cep": "64078500"
     },
-    "id": 1750639129270
+    "id": 1750825566674
   },
   {
-    "nome": "Francisco Alves Ribeiro Neto",
-    "cpf": "12345456756",
-    "data_nascimento": "2005-10-13",
-    "genero": "nao-informar",
-    "endereco": {
-      "rua": "Avenida Senador Furtado",
-      "numero": "721",
-      "bairro": "Nova Parnaíba",
-      "cidade": "Parnaíba",
+    "nome": "Marcos Vinícius da Silva",
+    "cpf": "70938214500",
+    "data_nascimento": "1997-11-05",
+    "genero": "M",
+    "address": {
+      "rua": "Quadra 351",
+      "numero": "88",
+      "bairro": "Itararé",
+      "cidade": "Teresina",
       "estado": "PI",
-      "cep": "64218660"
+      "cep": "64078500"
     },
-    "id": 1750640927385
+    "id": 1750825573709
   },
   {
-    "nome": "Francisco Alves Ribeiro Neto",
-    "cpf": "12345456756",
-    "data_nascimento": "2005-10-13",
-    "genero": "nao-informar",
-    "endereco": {
-      "rua": "Avenida Senador Furtado",
-      "numero": "721",
-      "bairro": "Nova Parnaíba",
-      "cidade": "Parnaíba",
+    "nome": "Marcos Vinícius da Silva",
+    "cpf": "70938214500",
+    "data_nascimento": "1997-11-05",
+    "genero": "M",
+    "address": {
+      "rua": "Quadra 351",
+      "numero": "88",
+      "bairro": "Itararé",
+      "cidade": "Teresina",
       "estado": "PI",
-      "cep": "64218660"
+      "cep": "64078500"
     },
-    "id": 1750641210922
+    "id": 1750825649619
   },
   {
-    "nome": "Clovis Basilho",
-    "cpf": "12312312312",
-    "data_nascimento": "1994-11-19",
+    "nome": "Marcos Vinícius da Silva",
+    "cpf": "70938214500",
+    "data_nascimento": "1997-11-05",
     "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750641816353
-  },
-  {
-    "nome": "Clovis Basilho",
-    "cpf": "12312312312",
-    "data_nascimento": "1994-11-19",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750642004395
-  },
-  {
-    "nome": "Clovis Basilho",
-    "cpf": "12312312312",
-    "data_nascimento": "1994-11-19",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750642031140
-  },
-  {
-    "nome": "Clovis Basilho",
-    "cpf": "12312312312",
-    "data_nascimento": "1994-11-19",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750647244978
-  },
-  {
-    "nome": "Clovis Basilho",
-    "cpf": "12312312312",
-    "data_nascimento": "1994-11-19",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750647461054
-  },
-  {
-    "nome": "Clovis Basilho",
-    "cpf": "12312312310",
-    "data_nascimento": "1994-11-19",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750647535681
-  },
-  {
-    "nome": "Claudio Andre",
-    "cpf": "12312312315",
-    "data_nascimento": "1994-11-19",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750651420898
-  },
-  {
-    "nome": "Claudio Machado",
-    "cpf": "12345678910",
-    "data_nascimento": "2000-03-23",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750653134021
-  },
-  {
-    "nome": "Joazinho",
-    "cpf": "12345672313",
-    "data_nascimento": "2000-03-23",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750653522782
-  },
-  {
-    "nome": "Ruan Pedro De Araujo Anjos",
-    "cpf": "94583938223",
-    "data_nascimento": "2000-11-08",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua Tubarão do Litoral",
-      "numero": "115",
-      "bairro": "Alto Santa Maria",
-      "cidade": "Parnaíba",
+    "address": {
+      "rua": "Quadra 351",
+      "numero": "88",
+      "bairro": "Itararé",
+      "cidade": "Teresina",
       "estado": "PI",
-      "cep": "64212310"
+      "cep": "64078500"
     },
-    "id": 1750657459904
+    "id": 1750826048541
   },
   {
-    "nome": "Alan Castro",
-    "cpf": "43565632654",
-    "data_nascimento": "1999-08-13",
+    "nome": "Marcos Vinícius da Silva",
+    "cpf": "70938214500",
+    "data_nascimento": "1997-11-05",
     "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
+    "address": {
+      "rua": "Quadra 351",
+      "numero": "88",
+      "bairro": "Itararé",
+      "cidade": "Teresina",
+      "estado": "PI",
+      "cep": "64078500"
     },
-    "id": 1750657764519
+    "id": 1750826175011
   },
   {
-    "nome": "Alan Elias",
-    "cpf": "68586695945",
-    "data_nascimento": "1989-08-13",
+    "nome": "Marcos Vinícius da Silva",
+    "cpf": "70938214500",
+    "data_nascimento": "1997-11-05",
     "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750658009513
-  },
-  {
-    "nome": "Alan Elias",
-    "cpf": "68558458458",
-    "data_nascimento": "1989-08-13",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua José Ortigosa",
-      "numero": "69",
-      "bairro": "Chácara Flora",
-      "cidade": "Jaú",
-      "estado": "SP",
-      "cep": "17204610"
-    },
-    "id": 1750659201482
-  },
-  {
-    "nome": "Carla Menezes da Rocha",
-    "cpf": "98165432078",
-    "data_nascimento": "1990-12-08",
-    "genero": "F",
-    "endereco": {
-      "rua": "Avenida Leonardo de Carvalho Castelo Branco",
-      "numero": "702",
-      "bairro": "São Judas Tadeu",
-      "cidade": "Parnaíba",
+    "address": {
+      "rua": "Quadra 351",
+      "numero": "88",
+      "bairro": "Itararé",
+      "cidade": "Teresina",
       "estado": "PI",
-      "cep": "64206902"
+      "cep": "64078500"
     },
-    "id": 1750688977622
-  },
-  {
-    "nome": "Carla Menezes da Rocha",
-    "cpf": "98165432078",
-    "data_nascimento": "1990-12-08",
-    "genero": "F",
-    "endereco": {
-      "rua": "Avenida Leonardo de Carvalho Castelo Branco",
-      "numero": "702",
-      "bairro": "São Judas Tadeu",
-      "cidade": "Parnaíba",
-      "estado": "PI",
-      "cep": "64206902"
-    },
-    "id": 1750689296283
-  },
-  {
-    "nome": "Carla Menezes da Rocha",
-    "cpf": "98165432078",
-    "data_nascimento": "1990-12-08",
-    "genero": "F",
-    "endereco": {
-      "rua": "Avenida Leonardo de Carvalho Castelo Branco",
-      "numero": "702",
-      "bairro": "São Judas Tadeu",
-      "cidade": "Parnaíba",
-      "estado": "PI",
-      "cep": "64206902"
-    },
-    "id": 1750689310856
-  },
-  {
-    "nome": "Carla Menezes da Rocha",
-    "cpf": "78954738434",
-    "data_nascimento": "1990-12-08",
-    "genero": "F",
-    "endereco": {
-      "rua": "Avenida Leonardo de Carvalho Castelo Branco",
-      "numero": "702",
-      "bairro": "São Judas Tadeu",
-      "cidade": "Parnaíba",
-      "estado": "PI",
-      "cep": "64206902"
-    },
-    "id": 1750689439630
-  },
-  {
-    "nome": "Julia Alves Machado",
-    "cpf": "11229900334",
-    "data_nascimento": "2003-03-12",
-    "genero": "F",
-    "endereco": {
-      "rua": "Rua Valença",
-      "numero": "56",
-      "bairro": "Bebedouro",
-      "cidade": "Parnaíba",
-      "estado": "PI",
-      "cep": "64218845"
-    },
-    "id": 1750696419959
-  },
-  {
-    "nome": "Alan Castro",
-    "cpf": "44512344512",
-    "data_nascimento": "1999-03-30",
-    "genero": "M",
-    "endereco": {
-      "rua": "Rua Canadá",
-      "numero": "77",
-      "bairro": "Rodoviária",
-      "cidade": "Parnaíba",
-      "estado": "PI",
-      "cep": "64212150"
-    },
-    "id": 1750777441693
+    "id": 1750826215770
   }
 ]

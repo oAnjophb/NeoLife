@@ -1,4 +1,4 @@
-import { Patient } from '@/Patient'
+import { Patient } from '@/models/Patient'
 import { Employee, Positions } from './Employee'
 
 export class receptionist extends Employee {

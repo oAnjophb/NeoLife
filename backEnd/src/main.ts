@@ -4,14 +4,14 @@ import cors from 'cors'
 import path from 'path'
 import { Database } from './Data/data_Base_Conection'
 
-import pacienteRoute from './routes/pacienteRoute'
+import pacienteRoute from './routes/patientRoute'
 import adminRoute from './routes/adminRoute'
-import employeeRoute from './routes/EmployeeRoutes'
+import employeeRoute from './routes/employeeRoutes'
 import AuthRoutes from './routes/AuthRoutes'
-import filaTriagemRouter from './routes/filaTriagem'
-import triagemRoute from './routes/triagemRoute'
-import filaRouter from './routes/fila'
-import atendimentoRoute from './routes/atendimentoRoute'
+import filaTriagemRouter from './routes/triageQueueRoute'
+import triagemRoute from './routes/triageRoute'
+import filaRouter from './routes/QueueRoute'
+import atendimentoRoute from './routes/serviceRoute'
 
 const app = express()
 app.use(express.json())

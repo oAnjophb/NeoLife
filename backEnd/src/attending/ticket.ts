@@ -1,4 +1,4 @@
-import { Patient } from '@/Patient'
+import { Patient } from '@/models/Patient'
 import { RiskRating } from './triage'
 
 export enum StatusType {
