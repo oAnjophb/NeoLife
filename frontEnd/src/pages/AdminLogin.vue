@@ -9,7 +9,12 @@
       </md-field>
       <md-field>
         <label>Senha</label>
-        <md-input v-model="senha" type="password" required autocomplete="current-password"></md-input>
+        <md-input
+          v-model="senha"
+          type="password"
+          required
+          autocomplete="current-password"
+        ></md-input>
       </md-field>
       <md-button class="md-raised md-primary" type="submit" :disabled="loading">
         {{ loading ? 'Entrando...' : 'Entrar como admin' }}
@@ -21,35 +26,48 @@
 
 <script>
 export default {
-  name: "AdminLogin",
+  name: 'AdminLogin',
   data() {
     return {
-      usuario: "",
-      senha: "",
+      usuario: '',
+      senha: '',
       loading: false,
-      erro: ""
-    };
+      erro: '',
+    }
   },
   methods: {
     async doAdminLogin() {
-      this.erro = "";
-      this.loading = true;
-
-      // Simule autenticação admin (troque pelo seu backend depois)
-      setTimeout(() => {
-        this.loading = false;
-        if (this.usuario === "admin" && this.senha === "admin123") {
-          localStorage.setItem("usuario", JSON.stringify({
+      this.erro = ''
+      this.loading = true
+      try {
+        const response = await fetch('/api/admin/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
             usuario: this.usuario,
-            tipo: "admin"
-          }));
-          this.$router.push("/cadastro-funcionario");
+            senha: this.senha,
+          }),
+        })
+        const data = await response.json()
+        this.loading = false
+        if (response.ok) {
+          localStorage.setItem(
+            'usuario',
+            JSON.stringify({
+              usuario: data.usuario,
+              tipo: 'admin',
+            })
+          )
+          this.$router.push('/cadastro-funcionario')
         } else {
-          this.erro = "Usuário ou senha inválidos!";
+          this.erro = data.erro || 'Usuário ou senha inválidos!'
         }
-      }, 800);
-    }
-  }
+      } catch (err) {
+        this.loading = false
+        this.erro = 'Erro ao conectar ao servidor!'
+      }
+    },
+  },
 }
 </script>
 
@@ -64,7 +82,7 @@ export default {
 .login-card {
   background: #fff;
   border-radius: 14px;
-  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.13);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.13);
   padding: 36px 32px 28px 32px;
   width: 100%;
   max-width: 350px;
