@@ -3,21 +3,21 @@ import { serviceQueue } from '@/queues/serviceQueue'
 import { RiskRating } from '@/attending/triage'
 import { Ticket } from '@/attending/ticket'
 
-
 export function getQueue(_req: Request, res: Response) {
   const queue = serviceQueue.getOrderedQueue().map((ticket: Ticket) => ({
     id: ticket.paciente.id_paciente,
     paciente: ticket.paciente.nome,
-    prioridade: RiskRating[ticket.prioridade].toLowerCase(),
+    prioridade: ticket.prioridade,
+    prioridadeNome: RiskRating[ticket.prioridade],
     horaTriagem: new Date(ticket.dataTriagem).toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
     }),
+    dataTriagem: ticket.dataTriagem,
   }))
   console.log('Fila atual:', queue)
   res.json(queue)
 }
-
 
 export function callNext(_req: Request, res: Response) {
   const ticket = serviceQueue.callNextTicket()
@@ -25,10 +25,12 @@ export function callNext(_req: Request, res: Response) {
   res.json({
     id_atendimento: ticket.id_atendimento,
     paciente: ticket.paciente.nome,
-    prioridade: RiskRating[ticket.prioridade].toLowerCase(),
+    prioridade: ticket.prioridade,
+    prioridadeNome: RiskRating[ticket.prioridade],
     horaTriagem: new Date(ticket.dataTriagem).toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
     }),
+    dataTriagem: ticket.dataTriagem,
   })
 }

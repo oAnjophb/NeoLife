@@ -15,7 +15,7 @@ export class ServiceQueue {
   addTicket(ticket: Ticket): void {
     this.heap.push(ticket)
     this.heapifyUp()
-    
+
     console.log(
       `Paciente ${ticket.paciente.nome} adicionado à fila com prioridade ${RiskRating[ticket.prioridade]}.`,
     )
@@ -27,14 +27,13 @@ export class ServiceQueue {
       return null
     }
     const ticket = this.extractMax()
-    
+
     console.log(
       `\nChamando paciente ${ticket.paciente.nome} com prioridade ${RiskRating[ticket.prioridade]}.`,
     )
     return ticket
   }
 
-  
   removePatient(id_paciente: number): boolean {
     const index = this.heap.findIndex(
       (t) => t.paciente.id_paciente === id_paciente,
@@ -52,7 +51,14 @@ export class ServiceQueue {
   public getOrderedQueue(): Ticket[] {
     return [...this.heap]
       .filter((t) => t.status === StatusType.readyForConsult)
-      .sort((a, b) => b.prioridade - a.prioridade)
+      .sort((a, b) => {
+        if (b.prioridade !== a.prioridade) {
+          return b.prioridade - a.prioridade
+        }
+        return (
+          new Date(a.dataTriagem).getTime() - new Date(b.dataTriagem).getTime()
+        )
+      })
   }
 
   private heapifyUp(): void {

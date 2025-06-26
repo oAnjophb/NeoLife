@@ -196,7 +196,7 @@ export default {
         const { data } = await axios.post('/api/pacientes/atendimento', {
           id_paciente: this.paciente.id_paciente,
         })
-        alert(`Atendimento iniciado! ID: ${data.id_atendimento}`)
+        alert(`Atendimento iniciado! ID: ${data.id_attendance}`)
       } catch (e) {
         this.erro =
           e.response && e.response.data && e.response.data.erro
@@ -217,7 +217,6 @@ export default {
 </script>
 
 <style scoped>
-
 .pesquisa-paciente {
   padding: 40px 0 0 0;
   min-height: 100vh;

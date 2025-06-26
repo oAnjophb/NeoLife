@@ -47,19 +47,19 @@
                 v-model.number="triagem.id_classificacao_risco"
                 required
               >
-                <md-option :value="1" class="risk-red"
+                <md-option :value="5" class="risk-red"
                   >Vermelho (emergência)</md-option
                 >
-                <md-option :value="2" class="risk-orange"
+                <md-option :value="4" class="risk-orange"
                   >Laranja (muito urgente)</md-option
                 >
                 <md-option :value="3" class="risk-yellow"
                   >Amarelo (urgente)</md-option
                 >
-                <md-option :value="4" class="risk-green"
+                <md-option :value="2" class="risk-green"
                   >Verde (pouco urgente)</md-option
                 >
-                <md-option :value="5" class="risk-blue"
+                <md-option :value="1" class="risk-blue"
                   >Azul (não urgente)</md-option
                 >
               </md-select>

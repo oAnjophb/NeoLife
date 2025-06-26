@@ -10,19 +10,21 @@
             <md-table-head>Prioridade</md-table-head>
             <md-table-head>Paciente</md-table-head>
             <md-table-head>Hora Triagem</md-table-head>
+            <md-table-head>Tempo de Espera</md-table-head>
           </md-table-row>
           <md-table-row
-            v-for="item in fila"
+            v-for="item in filaOrdenada"
             :key="item.id"
-            :class="`risk-${item.prioridade}`"
+            :class="`risk-${prioridadeClasse(item.prioridade)}`"
           >
             <md-table-cell>
-              <span :class="`badge badge-${item.prioridade}`">{{
-                prioridadeLabel(item.prioridade)
-              }}</span>
+              <span :class="`badge badge-${prioridadeClasse(item.prioridade)}`">
+                {{ prioridadeLabel(item.prioridade) }}
+              </span>
             </md-table-cell>
             <md-table-cell>{{ item.paciente }}</md-table-cell>
             <md-table-cell>{{ item.horaTriagem }}</md-table-cell>
+            <md-table-cell>{{ tempoEspera(item) }}</md-table-cell>
           </md-table-row>
         </md-table>
         <div class="actions-row">
@@ -46,28 +48,120 @@ export default {
   data() {
     return {
       fila: [],
+      timer: null,
     }
+  },
+  computed: {
+    filaOrdenada() {
+      // Ordena por prioridade (desc), depois por dataTriagem/horaTriagem (asc)
+      return [...this.fila].sort((a, b) => {
+        if (b.prioridade !== a.prioridade) {
+          return b.prioridade - a.prioridade
+        }
+        // Usa dataTriagem (ISO) se disponível, senão tenta ordenar pelo texto da hora
+        if (a.dataTriagem && b.dataTriagem) {
+          return (
+            new Date(a.dataTriagem).getTime() -
+            new Date(b.dataTriagem).getTime()
+          )
+        }
+        if (a.horaTriagem && b.horaTriagem) {
+          return a.horaTriagem.localeCompare(b.horaTriagem)
+        }
+        return 0
+      })
+    },
   },
   mounted() {
     this.carregarFila()
+    // Atualiza os tempos de espera automaticamente a cada minuto
+    this.timer = setInterval(() => {
+      this.$forceUpdate()
+    }, 60000)
+  },
+  beforeDestroy() {
+    if (this.timer) clearInterval(this.timer)
   },
   methods: {
+    // Agora o label e a cor estão alinhados com o enum heap máximo
     prioridadeLabel(prio) {
-      return (
-        {
-          vermelho: 'Vermelho',
-          laranja: 'Laranja',
-          amarelo: 'Amarelo',
-          verde: 'Verde',
-          azul: 'Azul',
-        }[prio] || prio
-      )
+      switch (prio) {
+        case 5:
+        case 'vermelho':
+          return 'Vermelho'
+        case 4:
+        case 'laranja':
+          return 'Laranja'
+        case 3:
+        case 'amarelo':
+          return 'Amarelo'
+        case 2:
+        case 'verde':
+          return 'Verde'
+        case 1:
+        case 'azul':
+          return 'Azul'
+        default:
+          return 'Não classificado'
+      }
+    },
+    prioridadeClasse(prio) {
+      switch (prio) {
+        case 5:
+        case 'vermelho':
+          return 'vermelho'
+        case 4:
+        case 'laranja':
+          return 'laranja'
+        case 3:
+        case 'amarelo':
+          return 'amarelo'
+        case 2:
+        case 'verde':
+          return 'verde'
+        case 1:
+        case 'azul':
+          return 'azul'
+        default:
+          return ''
+      }
+    },
+    tempoEspera(item) {
+      // Usa dataTriagem ISO ou null
+      const triagem = item.dataTriagem ? new Date(item.dataTriagem) : null
+      if (!triagem || isNaN(triagem)) return ''
+      const agora = new Date()
+      let diff = Math.floor((agora - triagem) / 1000) // segundos
+
+      if (diff < 0) return '0 min'
+
+      const horas = Math.floor(diff / 3600)
+      diff = diff % 3600
+      const minutos = Math.floor(diff / 60)
+
+      if (horas > 0) {
+        return `${horas}h ${minutos}min`
+      }
+      return `${minutos} min`
     },
     async carregarFila() {
       try {
         const res = await fetch('/api/fila-prioridade')
         if (res.ok) {
-          this.fila = await res.json()
+          const data = await res.json()
+          this.fila = data.map((item) => ({
+            id: item.id_atendimento ?? item.id ?? Math.random(),
+            paciente: item.nome_paciente ?? item.paciente ?? '',
+            horaTriagem:
+              item.horaTriagem ??
+              (item.data_triagem
+                ? item.data_triagem.length > 16
+                  ? item.data_triagem.slice(11, 16)
+                  : item.data_triagem
+                : ''),
+            prioridade: item.prioridade ?? item.id_classificacao_risco,
+            dataTriagem: item.dataTriagem ?? item.data_triagem ?? null, // para ordenação e tempo de espera
+          }))
         }
       } catch (e) {
         this.fila = []
@@ -81,7 +175,6 @@ export default {
         })
         if (res.ok) {
           const ticket = await res.json()
-          console.log('Ticket retornado:', ticket)
           if (ticket && ticket.id_atendimento) {
             this.$router.push(`/atendimento/${ticket.id_atendimento}`)
           } else {

@@ -12,7 +12,13 @@ export function getAdminByUsuario(usuario: string): Admin | undefined {
   return stmt.get(usuario) as Admin | undefined
 }
 
-export function insertAdmin({ usuario, senha }: { usuario: string, senha: string }): number {
+export function insertAdmin({
+  usuario,
+  senha,
+}: {
+  usuario: string
+  senha: string
+}): number {
   const db = Database.getDatabase()
   const stmt = db.prepare('INSERT INTO ADMIN(usuario, senha) VALUES (?, ?)')
   const result = stmt.run(usuario, senha)

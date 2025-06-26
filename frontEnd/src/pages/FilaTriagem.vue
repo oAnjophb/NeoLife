@@ -1,8 +1,6 @@
 <template>
   <div class="fila-triagem-page">
-    <h2>
-      Fila de Triagem
-    </h2>
+    <h2>Fila de Triagem</h2>
 
     <div class="table-container">
       <table class="fila-table">
@@ -134,7 +132,7 @@ h2 {
   font-weight: 700;
   border-bottom: 1.5px solid #e0e8f6;
   letter-spacing: 0.04em;
-} 
+}
 .fila-table tr {
   transition: background 0.14s;
 }

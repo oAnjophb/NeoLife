@@ -31,7 +31,7 @@ export function getByCPF(req: Request, res: Response) {
 }
 
 export function getById(req: Request, res: Response) {
-  const id = Number(req.params.id_paciente) 
+  const id = Number(req.params.id_paciente)
   let patient = null
   try {
     patient = patientRepo.findPatientById(id)
@@ -73,16 +73,21 @@ export function updatePatient(req: Request, res: Response) {
 }
 
 export async function startAttendance(req: Request, res: Response) {
+  const idPaciente = req.body.id_paciente
+  if (!idPaciente) {
+    return res.status(400).json({ error: 'id_paciente não informado' })
+  }
   try {
-    const result = await patientService.startAttendance(req.body.id_patient)
+    const result = await patientService.startAttendance(idPaciente)
+    console.log('startAttendance result:', result) 
     res.status(201).json(result)
   } catch (error: any) {
+    console.error('Erro ao iniciar atendimento:', error)
     res
       .status(500)
       .json({ error: 'Error starting attendance', details: error.message })
   }
 }
-
 export function searchPatients(req: Request, res: Response) {
   const searchRaw = req.query.search
   const search =
@@ -114,4 +119,3 @@ export function listAllPatients(req: Request, res: Response) {
       .json({ error: 'Erro ao buscar pacientes', details: error.message })
   }
 }
-

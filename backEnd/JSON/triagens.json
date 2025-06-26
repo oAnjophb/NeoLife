@@ -2,13 +2,97 @@
   {
     "id_paciente": 1,
     "id_atendimento": 1,
-    "data_triagem": "2025-06-25T05:12",
-    "id_classificacao_risco": 3,
+    "data_triagem": "2025-06-25T22:48",
+    "id_classificacao_risco": 2,
     "sintomas": "Febre alta, dor no corpo, tosse seca",
-    "temperatura": 38.7,
-    "saturacao": 94,
+    "temperatura": 38,
+    "saturacao": null,
     "pressao_sanguinea": "130/90",
     "id_enfermeiro": 1,
-    "id_triagem": 1750828420523
+    "id_triagem": 1750891776481
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 2,
+    "data_triagem": "2025-06-25T22:57",
+    "id_classificacao_risco": 2,
+    "sintomas": "dor",
+    "temperatura": 38,
+    "saturacao": 99,
+    "pressao_sanguinea": "120q80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750892261877
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 3,
+    "data_triagem": "2025-06-25T23:16",
+    "id_classificacao_risco": 5,
+    "sintomas": "dor de barriga",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750893420938
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 4,
+    "data_triagem": "2025-06-25T23:19",
+    "id_classificacao_risco": 3,
+    "sintomas": "dores",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750893567081
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 5,
+    "data_triagem": "2025-06-25T23:27",
+    "id_classificacao_risco": 2,
+    "sintomas": "dor de cabeça aguda",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750894061912
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 6,
+    "data_triagem": "2025-06-25T23:46",
+    "id_classificacao_risco": 2,
+    "sintomas": "dores de cabeça aguda",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750895218583
+  },
+  {
+    "id_paciente": 2,
+    "id_atendimento": 7,
+    "data_triagem": "2025-06-26T00:10",
+    "id_classificacao_risco": 3,
+    "sintomas": "Febre alta, dor no corpo, tosse seca",
+    "temperatura": 38,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/90",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750896694861
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 8,
+    "data_triagem": "2025-06-26T00:11",
+    "id_classificacao_risco": 4,
+    "sintomas": "Náusea, tontura, dores abdominais",
+    "temperatura": 37.2,
+    "saturacao": 97,
+    "pressao_sanguinea": "110/70",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750896751602
   }
 ]

@@ -8,6 +8,8 @@ import { Ticket } from '@/attending/ticket'
 import { RiskRating } from '@/attending/triage'
 import { StatusType } from '@/attending/ticket'
 import { Patient } from '@/models/Patient'
+import { Triagem } from '@/models/triageModel'
+import { normalizeRiskRating } from '@/utils/normalizeRiskRating'
 
 const dbFile = path.join(process.cwd(), 'JSON/triagens.json')
 
@@ -41,13 +43,17 @@ export function getTriagemByAtendimento(req: Request, res: Response) {
          WHERE t.id_atendimento = ?
          ORDER BY t.data_triagem DESC LIMIT 1`,
       )
-      .get(id_atendimento)
+      .get(id_atendimento) as Triagem | undefined
 
     if (!triagem) {
       return res
         .status(404)
         .json({ erro: 'Triagem não encontrada para esse atendimento.' })
     }
+
+    triagem.id_classificacao_risco = normalizeRiskRating(
+      triagem.id_classificacao_risco,
+    )
 
     res.json(triagem)
   } catch (err: any) {
@@ -66,7 +72,12 @@ export function getTriagensByPaciente(req: Request, res: Response) {
       .prepare(
         'SELECT * FROM triagem WHERE id_paciente = ? ORDER BY data_triagem DESC',
       )
-      .all(id_paciente)
+      .all(id_paciente) as Triagem[]
+
+    triagens.forEach((t) => {
+      t.id_classificacao_risco = normalizeRiskRating(t.id_classificacao_risco)
+    })
+
     res.json(triagens)
   } catch (err: any) {
     res.status(500).json({
@@ -123,6 +134,15 @@ export function cadastrarTriagem(req: Request, res: Response) {
     return res.status(400).json({ erro: 'Campos obrigatórios faltando.' })
   }
 
+  const dataTriagemJS = new Date(data_triagem)
+  if (isNaN(dataTriagemJS.getTime())) {
+    return res.status(400).json({ erro: 'data_triagem inválida.' })
+  }
+
+  const id_classificacao_risco_norm = normalizeRiskRating(
+    id_classificacao_risco,
+  )
+
   try {
     const stmt = db.prepare(`
       INSERT INTO triagem (
@@ -134,7 +154,7 @@ export function cadastrarTriagem(req: Request, res: Response) {
       id_paciente,
       id_atendimento,
       data_triagem,
-      id_classificacao_risco,
+      id_classificacao_risco_norm,
       sintomas,
       temperatura,
       saturacao,
@@ -150,6 +170,7 @@ export function cadastrarTriagem(req: Request, res: Response) {
       ...req.body,
       id_enfermeiro,
       id_triagem,
+      id_classificacao_risco: id_classificacao_risco_norm,
     })
 
     db.prepare(
@@ -174,9 +195,8 @@ export function cadastrarTriagem(req: Request, res: Response) {
 
     const paciente: Patient = Patient.fromRow(pacienteRow)
 
-    const prioridade: RiskRating = Number(id_classificacao_risco)
+    const prioridade: RiskRating = id_classificacao_risco_norm
     const status: StatusType = StatusType.readyForConsult
-    const dataTriagemJS = new Date(data_triagem)
 
     const ticket = new Ticket(
       paciente,
@@ -204,18 +224,23 @@ export function listarTriagens(req: Request, res: Response) {
   const db = Database.getDatabase()
   const id_paciente = req.query.id_paciente
   try {
-    let triagens
+    let triagens: Triagem[]
     if (id_paciente) {
       triagens = db
         .prepare(
           'SELECT * FROM triagem WHERE id_paciente = ? ORDER BY data_triagem DESC',
         )
-        .all(id_paciente)
+        .all(id_paciente) as Triagem[]
     } else {
       triagens = db
         .prepare('SELECT * FROM triagem ORDER BY data_triagem DESC')
-        .all()
+        .all() as Triagem[]
     }
+
+    triagens.forEach((t) => {
+      t.id_classificacao_risco = normalizeRiskRating(t.id_classificacao_risco)
+    })
+
     res.json(triagens)
   } catch (err: any) {
     res
