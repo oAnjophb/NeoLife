@@ -12,6 +12,7 @@ import filaTriagemRouter from './routes/triageQueueRoute'
 import triagemRoute from './routes/triageRoute'
 import filaRouter from './routes/QueueRoute'
 import atendimentoRoute from './routes/serviceRoute'
+import dashboardRoutes from './routes/dashboardroutes'
 
 const app = express()
 app.use(express.json())
@@ -38,6 +39,7 @@ app.use('/api/fila-triagem', filaTriagemRouter)
 app.use('/api/triagem', triagemRoute)
 app.use('/api/fila-prioridade', filaRouter)
 app.use('/api/atendimento', atendimentoRoute)
+app.use('/api/dashboard', dashboardRoutes)
 
 const PORT = 3001
 app.listen(PORT, () => {

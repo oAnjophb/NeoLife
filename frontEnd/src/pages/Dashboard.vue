@@ -17,7 +17,10 @@
       <md-card class="dashboard-list">
         <div class="card-title card-title-list">Próximas Consultas</div>
         <md-list>
-          <md-list-item v-for="consulta in proximasConsultas" :key="consulta.id">
+          <md-list-item
+            v-for="consulta in proximasConsultas"
+            :key="consulta.id"
+          >
             <md-avatar class="list-avatar" md-theme="default">
               <md-icon>person</md-icon>
             </md-avatar>
@@ -33,17 +36,34 @@
         </md-list>
       </md-card>
       <md-card class="dashboard-list">
-        <div class="card-title card-title-list">Pacientes em Situação Crítica</div>
+        <div class="card-title card-title-list">
+          Pacientes em Situação Crítica
+        </div>
         <md-list>
           <md-list-item v-for="pac in pacientesCriticos" :key="pac.id">
-            <md-avatar class="list-avatar" md-theme="default" :style="{background: getCorRisco(pac.classificacao)}">
+            <md-avatar
+              class="list-avatar"
+              md-theme="default"
+              :style="{ background: getCorRisco(pac.classificacao) }"
+            >
               <md-icon>priority_high</md-icon>
             </md-avatar>
             <div class="list-content">
               <span class="list-title">{{ pac.nome }}</span>
-              <span class="list-date" :style="{color: getCorRisco(pac.classificacao)}">{{ pac.classificacao }}</span>
+              <span
+                class="list-date"
+                :style="{ color: getCorRisco(pac.classificacao) }"
+                >{{ pac.classificacao }}</span
+              >
             </div>
-            <md-chip class="chip-status" :style="{background: getCorRisco(pac.classificacao), color: '#fff'}">Crítico</md-chip>
+            <md-chip
+              class="chip-status"
+              :style="{
+                background: getCorRisco(pac.classificacao),
+                color: '#fff',
+              }"
+              >Crítico</md-chip
+            >
           </md-list-item>
           <md-list-item v-if="pacientesCriticos.length === 0">
             <span>Nenhum paciente crítico no momento.</span>
@@ -54,88 +74,132 @@
 
     <!-- Atalhos -->
     <div class="dashboard-actions">
-      <md-button class="md-primary" @click="goTo('/cadastro-paciente')">Cadastrar Paciente</md-button>
-      <md-button class="md-primary" @click="goTo('/cadastro-triagem')">Nova Triagem</md-button>
-      <md-button class="md-primary" @click="goTo('/FilaPrioridade')">Novo Atendimento</md-button>
+      <md-button class="md-primary" @click="goTo('/cadastro-paciente')"
+        >Cadastrar Paciente</md-button
+      >
+      <md-button class="md-primary" @click="goTo('/cadastro-triagem')"
+        >Nova Triagem</md-button
+      >
+      <md-button class="md-primary" @click="goTo('/FilaPrioridade')"
+        >Novo Atendimento</md-button
+      >
     </div>
   </div>
 </template>
 
 <script>
 import Chart from 'chart.js/auto'
+import axios from 'axios'
 
 export default {
   name: 'DashboardHome',
   data() {
     return {
-      proximasConsultas: [
-        { id: 1, nome_paciente: "João Silva", data_hora: "2025-06-20 08:00" },
-        { id: 2, nome_paciente: "Maria Souza", data_hora: "2025-06-20 09:20" }
-      ],
-      pacientesCriticos: [
-        { id: 1, nome: "Carlos Oliveira", classificacao: "Vermelho" }
-      ],
-      graficosIniciados: false
+      proximasConsultas: [],
+      pacientesCriticos: [],
+      triagensPorRisco: {},
+      triagensPorDia: [],
+      graficosIniciados: false,
     }
   },
   methods: {
     goTo(route) {
       this.$router.push(route)
     },
+    async carregarTriagensPorRisco() {
+      const { data } = await axios.get('/api/dashboard/triagens-por-risco')
+      this.triagensPorRisco = data
+      this.$nextTick(() => this.desenharGraficoRiscos())
+    },
+    async carregarTriagensPorDia() {
+      const { data } = await axios.get('/api/dashboard/triagens-por-dia')
+      this.triagensPorDia = data
+      this.$nextTick(() => this.desenharGraficoTriagens())
+    },
+    async carregarProximasConsultas() {
+      const { data } = await axios.get('/api/dashboard/proximas-consultas')
+      this.proximasConsultas = data
+    },
+    async carregarPacientesCriticos() {
+      const { data } = await axios.get('/api/dashboard/pacientes-criticos')
+      this.pacientesCriticos = data
+    },
     desenharGraficoRiscos() {
       const ctx = document.getElementById('graficoRiscos').getContext('2d')
-      new Chart(ctx, {
+      if (this._graficoRiscos) this._graficoRiscos.destroy()
+      const cores = {
+        Vermelho: '#e53935',
+        Laranja: '#ffa726',
+        Amarelo: '#fbc02d',
+        Verde: '#43a047',
+        Azul: '#1e88e5',
+      }
+      const labels = Object.keys(this.triagensPorRisco)
+      const data = Object.values(this.triagensPorRisco)
+      this._graficoRiscos = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: ['Vermelho', 'Laranja', 'Amarelo', 'Verde', 'Azul'],
-          datasets: [{
-            data: [2, 3, 7, 12, 4],
-            backgroundColor: ['#e53935', '#ffa726', '#fbc02d', '#43a047', '#1e88e5']
-          }]
+          labels,
+          datasets: [
+            {
+              data,
+              backgroundColor: labels.map((l) => cores[l] || '#888'),
+            },
+          ],
         },
         options: {
-          plugins: { legend: { position: 'bottom' } }
-        }
+          plugins: { legend: { position: 'bottom' } },
+        },
       })
     },
     desenharGraficoTriagens() {
       const ctx = document.getElementById('graficoTriagens').getContext('2d')
-      new Chart(ctx, {
+      if (this._graficoTriagens) this._graficoTriagens.destroy()
+      const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
+      const labels = this.triagensPorDia.map((d) => {
+        const date = new Date(d.data)
+        const diaSemana = diasSemana[date.getDay()]
+        return `${diaSemana} (${date.getDate()})`
+      })
+      const data = this.triagensPorDia.map((d) => d.total)
+      this._graficoTriagens = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ['13/06', '14/06', '15/06', '16/06', '17/06', '18/06', '19/06'],
-          datasets: [{
-            label: 'Triagens',
-            data: [10, 12, 8, 15, 11, 14, 28],
-            backgroundColor: '#2196f3'
-          }]
+          labels,
+          datasets: [
+            {
+              label: 'Triagens',
+              data,
+              backgroundColor: '#2196f3',
+            },
+          ],
         },
         options: {
           scales: { y: { beginAtZero: true } },
-          plugins: { legend: { display: false } }
-        }
+          plugins: { legend: { display: false } },
+        },
       })
     },
     getCorRisco(nome) {
       const cores = {
-        'Vermelho': '#e53935',
-        'Laranja': '#ffa726',
-        'Amarelo': '#fbc02d',
-        'Verde': '#43a047',
-        'Azul': '#1e88e5'
+        Vermelho: '#e53935',
+        Laranja: '#ffa726',
+        Amarelo: '#fbc02d',
+        Verde: '#43a047',
+        Azul: '#1e88e5',
       }
       return cores[nome] || '#888'
-    }
+    },
   },
-  mounted() {
-    if (!this.graficosIniciados) {
-      this.$nextTick(() => {
-        this.desenharGraficoRiscos()
-        this.desenharGraficoTriagens()
-        this.graficosIniciados = true
-      })
-    }
-  }
+  async mounted() {
+    await Promise.all([
+      this.carregarProximasConsultas(),
+      this.carregarPacientesCriticos(),
+      this.carregarTriagensPorRisco(),
+      this.carregarTriagensPorDia(),
+    ])
+    this.graficosIniciados = true
+  },
 }
 </script>
 
@@ -266,7 +330,8 @@ export default {
     gap: 12px;
     justify-content: flex-start;
   }
-  .dashboard-graph, .dashboard-list {
+  .dashboard-graph,
+  .dashboard-list {
     min-width: 320px;
     max-width: 100vw;
   }
@@ -276,7 +341,8 @@ export default {
     flex-direction: column;
     gap: 10px;
   }
-  .dashboard-graph, .dashboard-list {
+  .dashboard-graph,
+  .dashboard-list {
     min-width: 90vw;
     max-width: 98vw;
     height: auto;

@@ -31,10 +31,6 @@ function salvarTriagemNoJson(novaTriagem: any) {
   return triagemComId
 }
 
-/**
- * Recebe data_triagem do frontend (pode ser ISO com 'Z' ou local "YYYY-MM-DDTHH:mm")
- * Sempre retorna Date em UTC correto.
- */
 function parseTriagemDate(data_triagem: string): Date {
   // Se vier sem Z e sem offset, assume horário local do Brasil (UTC-3)
   if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(data_triagem)) {
@@ -158,6 +154,7 @@ export function cadastrarTriagem(req: Request, res: Response) {
   )
 
   try {
+    
     const stmt = db.prepare(`
       INSERT INTO triagem (
         id_paciente, id_atendimento, data_triagem, id_classificacao_risco,

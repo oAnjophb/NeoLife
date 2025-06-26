@@ -6,7 +6,7 @@ import {
   inserirEnfermeiro,
   inserirRecepcionista,
 } from '../Data/import_data'
-import * as patientRepo from '../repositories/patientRepository'
+
 function saveEmployeeToJson(type: string, data: any) {
   let filename = ''
   if (type === 'medico') filename = 'medicos.json'
