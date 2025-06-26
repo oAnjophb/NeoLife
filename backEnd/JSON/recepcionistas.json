@@ -22,5 +22,11 @@
     "cpf": "11122233344",
     "senha": "admin123",
     "id": 1750950682424
+  },
+  {
+    "nome": "Lucas Ferreira da Silva",
+    "cpf": "56789012344",
+    "senha": "admin123",
+    "id": 1750971679631
   }
 ]

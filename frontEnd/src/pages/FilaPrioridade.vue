@@ -57,21 +57,78 @@ export default {
   },
   computed: {
     filaOrdenada() {
-      return [...this.fila].sort((a, b) => {
-        if (b.prioridade !== a.prioridade) {
-          return b.prioridade - a.prioridade
+      const URGENT_THRESHOLD_MINUTES = 5
+      const tempoLimitePorClassificacao = {
+        azul: 240,
+        verde: 120,
+        amarelo: 60,
+        laranja: 30,
+        vermelho: 0, // atendimento imediato!
+      }
+
+      // Função para calcular minutos restantes
+      function minutosRestantes(item) {
+        let dataStr = item.dataTriagem
+        if (!dataStr) return 99999
+        if (dataStr.includes(' ') && !dataStr.includes('T'))
+          dataStr = dataStr.replace(' ', 'T')
+
+        const triagem = new Date(dataStr)
+        if (isNaN(triagem.getTime())) return 99999
+        const agora = new Date()
+        let diff = Math.floor((agora - triagem) / 1000)
+        if (diff < 0) diff = 0
+        const minutosAguardados = Math.floor(diff / 60)
+        let classificacao = this.prioridadeClasse(item.prioridade)
+        const limite = tempoLimitePorClassificacao[classificacao]
+        if (limite === 0) return 0
+        let restante = limite - minutosAguardados
+        if (restante < 0) restante = 0
+        return restante
+      }
+
+      // Separe os pacientes em urgentes (quase estourando) e normais
+      const urgentes = []
+      const normais = []
+      for (const item of this.fila) {
+        const restante = minutosRestantes.call(this, item)
+        if (restante <= URGENT_THRESHOLD_MINUTES) {
+          urgentes.push({ ...item, restante })
+        } else {
+          normais.push({ ...item, restante })
         }
+      }
+
+      // Ordene cada grupo
+      urgentes.sort((a, b) => {
+        // Menor tempo restante primeiro
+        if (a.restante !== b.restante) return a.restante - b.restante
         if (a.dataTriagem && b.dataTriagem) {
           return (
             new Date(a.dataTriagem).getTime() -
             new Date(b.dataTriagem).getTime()
           )
         }
-        if (a.horaTriagem && b.horaTriagem) {
-          return a.horaTriagem.localeCompare(b.horaTriagem)
+        return 0
+      })
+
+      normais.sort((a, b) => {
+        // Cor/prioridade maior primeiro
+        if (b.prioridade !== a.prioridade) {
+          return b.prioridade - a.prioridade
+        }
+        // Menor tempo restante primeiro dentro da cor
+        if (a.restante !== b.restante) return a.restante - b.restante
+        if (a.dataTriagem && b.dataTriagem) {
+          return (
+            new Date(a.dataTriagem).getTime() -
+            new Date(b.dataTriagem).getTime()
+          )
         }
         return 0
       })
+
+      return [...urgentes, ...normais]
     },
   },
   mounted() {
@@ -132,7 +189,7 @@ export default {
         verde: 120,
         amarelo: 60,
         laranja: 30,
-        vermelho: 10, 
+        vermelho: 0, // atendimento imediato!
       }
       let dataStr = item.dataTriagem
       if (!dataStr) return ''
@@ -151,7 +208,7 @@ export default {
       const limite = tempoLimitePorClassificacao[classificacao]
 
       if (limite === 0) {
-        return 'Sem limite'
+        return '0 min restantes'
       }
 
       let restante = limite - minutosAguardados
