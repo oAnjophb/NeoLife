@@ -5,7 +5,7 @@ import { Ticket } from '@/attending/ticket'
 
 export function getQueue(_req: Request, res: Response) {
   const queue = serviceQueue.getOrderedQueue().map((ticket: Ticket) => ({
-    id_atendimento: ticket.id_atendimento, // se existir
+    id_atendimento: ticket.id_atendimento, 
     id_paciente: ticket.paciente.id_paciente,
     paciente: ticket.paciente.nome,
     prioridade: ticket.prioridade,
@@ -14,7 +14,7 @@ export function getQueue(_req: Request, res: Response) {
       hour: '2-digit',
       minute: '2-digit',
     }),
-    dataTriagem: ticket.dataTriagem, // formato ISO
+    dataTriagem: ticket.dataTriagem, 
   }))
   console.log('Fila atual:', queue)
   res.json(queue)
@@ -24,7 +24,7 @@ export function callNext(_req: Request, res: Response) {
   const ticket = serviceQueue.callNextTicket()
   if (!ticket) return res.status(404).json({ erro: 'Fila vazia' })
   res.json({
-    id_atendimento: ticket.id_atendimento, // se existir
+    id_atendimento: ticket.id_atendimento, 
     id_paciente: ticket.paciente.id_paciente,
     paciente: ticket.paciente.nome,
     prioridade: ticket.prioridade,

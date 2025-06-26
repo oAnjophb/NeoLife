@@ -57,7 +57,6 @@ export default {
   },
   computed: {
     filaOrdenada() {
-      // Ordena por prioridade (desc), depois por dataTriagem/horaTriagem (asc)
       return [...this.fila].sort((a, b) => {
         if (b.prioridade !== a.prioridade) {
           return b.prioridade - a.prioridade
@@ -77,7 +76,6 @@ export default {
   },
   mounted() {
     this.carregarFila()
-    // Atualiza os tempos de espera automaticamente a cada minuto
     this.timer = setInterval(() => {
       this.$forceUpdate()
     }, 60000)
@@ -134,7 +132,7 @@ export default {
         verde: 120,
         amarelo: 60,
         laranja: 30,
-        vermelho: 0,
+        vermelho: 10, 
       }
       let dataStr = item.dataTriagem
       if (!dataStr) return ''
@@ -144,9 +142,9 @@ export default {
       const triagem = new Date(dataStr)
       if (isNaN(triagem.getTime())) return ''
       const agora = new Date()
-      let diff = Math.floor((agora - triagem) / 1000) // segundos
+      let diff = Math.floor((agora - triagem) / 1000)
 
-      if (diff < 0) return '0 min restantes'
+      if (diff < 0) diff = 0
 
       const minutosAguardados = Math.floor(diff / 60)
       let classificacao = this.prioridadeClasse(item.prioridade)
@@ -172,7 +170,6 @@ export default {
         if (res.ok) {
           const data = await res.json()
           this.fila = data.map((item) => {
-            // Usa os campos padronizados do backend
             return {
               id_ticket: item.id_ticket ?? null,
               id_atendimento: item.id_atendimento ?? null,

@@ -80,7 +80,7 @@ export class ServiceQueue {
     const now = Date.now()
     const RED_PRIORITY = 5
 
-    // Separe os tickets por categoria
+    
     const reds: Ticket[] = []
     const boosted: Ticket[] = []
     const others: Ticket[] = []
@@ -104,13 +104,13 @@ export class ServiceQueue {
       }
     }
 
-    // Ordene os boosted por tempo de triagem mais antigo
+
     boosted.sort(
       (a, b) =>
         new Date(a.dataTriagem).getTime() - new Date(b.dataTriagem).getTime(),
     )
 
-    // Os vermelhos sempre ficam no topo!
+
     this.heap = [...reds, ...boosted, ...others]
   }
 
@@ -157,7 +157,7 @@ export class ServiceQueue {
     }
   }
 
-  // ---- SALVAR A FILA NO BANCO (better-sqlite3, síncrono) ----
+  
   saveFilaPrioridade() {
     db.prepare('DELETE FROM FILA_PRIORIDADE').run()
     const insert = db.prepare(
@@ -168,17 +168,19 @@ export class ServiceQueue {
     }
   }
 
-  // ---- CARREGAR A FILA DO BANCO (chame ao iniciar o app) ----
-  loadFilaPrioridade(getTicketFromPacienteId: (id: number) => Ticket | null) {
-    this.heap = []
-    const rows = db
-      .prepare('SELECT id_paciente FROM FILA_PRIORIDADE')
-      .all() as { id_paciente: number }[]
-    for (const row of rows) {
-      const ticket = getTicketFromPacienteId(row.id_paciente)
-      if (ticket) this.heap.push(ticket)
-    }
+
+loadFilaPrioridade(getTicketFromPacienteId: (id: number) => Ticket | null) {
+  this.heap = []
+  const rows = db
+    .prepare('SELECT id_paciente FROM FILA_PRIORIDADE')
+    .all() as { id_paciente: number }[]
+  console.log('Pacientes na FILA_PRIORIDADE:', rows)
+  for (const row of rows) {
+    const ticket = getTicketFromPacienteId(row.id_paciente)
+    console.log(`Ticket para paciente ${row.id_paciente}:`, ticket) // LOG NOVO
+    if (ticket) this.heap.push(ticket)
   }
+}
 }
 
 export const serviceQueue = new ServiceQueue()

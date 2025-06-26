@@ -1,8 +1,16 @@
 import fs from 'fs'
 import path from 'path'
-import { PatientPayload, AttendanceRow } from '../models/types'
+import { PatientPayload, AttendanceRow, EnderecoPayload } from '../models/types'
 
 const dbFile = path.join(process.cwd(), 'JSON/pacientes.json')
+
+type PatientNormalized = Omit<
+  PatientPayload,
+  'data_nascimento' | 'endereco'
+> & {
+  birth_date?: string
+  address?: EnderecoPayload
+}
 
 export function savePatientToJson(newPatient: PatientPayload) {
   let patients: any[] = []
@@ -22,16 +30,14 @@ export function savePatientToJson(newPatient: PatientPayload) {
   return patientWithId
 }
 
-export function normalizePatientPayload(payload: PatientPayload) {
-  if (payload.data_nascimento && !payload.birth_date) {
-    payload.birth_date = payload.data_nascimento
-    delete payload.data_nascimento
+export function normalizePatientPayload(
+  payload: PatientPayload,
+): PatientNormalized {
+  return {
+    ...payload,
+    birth_date: payload.data_nascimento,
+    address: payload.endereco,
   }
-  if (!payload.address && payload.endereco) {
-    payload.address = payload.endereco
-    delete payload.endereco
-  }
-  return payload
 }
 
 export function calculateAge(birth_date: string): number {
