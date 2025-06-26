@@ -30,3 +30,23 @@ export type AttendanceRow = {
   cep?: string
   numero?: number | string
 }
+
+export interface DoctorPayload {
+  nome: string
+  cpf: string
+  crm: string
+  senha: string
+}
+
+export interface NursePayload {
+  nome: string
+  cpf: string
+  coren: string
+  senha: string
+}
+
+export interface ReceptionistPayload {
+  nome: string
+  cpf: string
+  senha: string
+}

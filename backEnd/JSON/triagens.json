@@ -322,5 +322,29 @@
     "pressao_sanguinea": "3",
     "id_enfermeiro": 2,
     "id_triagem": 1750904772080
+  },
+  {
+    "id_paciente": 3,
+    "id_atendimento": 31,
+    "data_triagem": "2025-06-26T14:44:00.000Z",
+    "id_classificacao_risco": 5,
+    "sintomas": "dor",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/90",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750949073326
+  },
+  {
+    "id_paciente": 3,
+    "id_atendimento": 28,
+    "data_triagem": "2025-06-26T14:44:00.000Z",
+    "id_classificacao_risco": 4,
+    "sintomas": "dor",
+    "temperatura": 39,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/90",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750949090690
   }
 ]

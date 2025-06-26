@@ -7,25 +7,18 @@ import { RiskRating } from '@/attending/triage'
 import { Database } from '../Data/data_Base_Conection'
 
 export async function registerPatient(payload: PatientPayload) {
-  // Normalização se necessário (ex: remover máscara do CPF)
-  // payload = utils.normalizePatientPayload(payload) // só se teu projeto pedir
-
-  // Checa existência pelo CPF
   const existingPatient = patientRepo.findPatientByCPF(payload.cpf)
   if (existingPatient) {
     throw new Error('A patient with this CPF already exists.')
   }
 
-  // 1. Insere paciente e pega o id
   const id_paciente = patientRepo.insertPatient(payload)
   if (!id_paciente) throw new Error('Failed to insert patient into database.')
 
-  // 2. Insere endereço e pega o id
   const id_endereco = patientRepo.insertEndereco(payload.endereco)
-  // 3. Relaciona ambos
+
   patientRepo.linkEnderecoPaciente(id_paciente, id_endereco)
 
-  // 4. Insere atendimento inicial
   const db = Database.getDatabase()
   const entry_datetime = new Date().toISOString()
   const row = db
@@ -45,7 +38,6 @@ export async function registerPatient(payload: PatientPayload) {
   )
   const id_attendance = Number(result.lastInsertRowid)
 
-  // 5. Consulta com join para resposta detalhada
   const attendanceRow = db
     .prepare(
       `
@@ -71,7 +63,6 @@ export async function registerPatient(payload: PatientPayload) {
     entryDate = new Date(entry_datetime)
   }
 
-  // 6. Cria ticket de triagem (se usar fila)
   if (attendanceRow) {
     const addressStr = [
       attendanceRow.rua,
