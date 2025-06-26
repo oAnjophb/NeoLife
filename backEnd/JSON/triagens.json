@@ -324,27 +324,27 @@
     "id_triagem": 1750904772080
   },
   {
-    "id_paciente": 1,
-    "id_atendimento": 29,
-    "data_triagem": "2025-06-26T14:32:00.000Z",
-    "id_classificacao_risco": 1,
-    "sintomas": "awdasd",
-    "temperatura": 3,
-    "saturacao": 3,
-    "pressao_sanguinea": "3",
-    "id_enfermeiro": 2,
-    "id_triagem": 1750948380898
+    "id_paciente": 3,
+    "id_atendimento": 31,
+    "data_triagem": "2025-06-26T14:44:00.000Z",
+    "id_classificacao_risco": 5,
+    "sintomas": "dor",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/90",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750949073326
   },
   {
     "id_paciente": 3,
     "id_atendimento": 28,
-    "data_triagem": "2025-06-26T14:58:00.000Z",
+    "data_triagem": "2025-06-26T14:44:00.000Z",
     "id_classificacao_risco": 4,
-    "sintomas": "x",
-    "temperatura": 4,
-    "saturacao": 4,
-    "pressao_sanguinea": "4",
-    "id_enfermeiro": 2,
-    "id_triagem": 1750949910552
+    "sintomas": "dor",
+    "temperatura": 39,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/90",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750949090690
   }
 ]

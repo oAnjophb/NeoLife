@@ -1,11 +1,9 @@
 import { Request, Response } from 'express'
 import fs from 'fs'
 import path from 'path'
-import {
-  inserirMedico,
-  inserirEnfermeiro,
-  inserirRecepcionista,
-} from '../Data/import_data'
+import * as doctorService from '../services/doctorService'
+import * as nurseService from '../services/nurseService'
+import * as receptionistService from '../services/receptionistService'
 
 function saveEmployeeToJson(type: string, data: any) {
   let filename = ''
@@ -34,9 +32,9 @@ export function registerEmployee(req: Request, res: Response) {
     }
 
     let dbId: number | undefined
-    if (tipo === 'medico') dbId = inserirMedico(payload)
-    else if (tipo === 'enfermeiro') dbId = inserirEnfermeiro(payload)
-    else if (tipo === 'recepcionista') dbId = inserirRecepcionista(payload)
+    if (tipo === 'medico') dbId = doctorService.registerDoctor(payload)
+    else if (tipo === 'enfermeiro') dbId = nurseService.registerNurse(payload)
+    else if (tipo === 'recepcionista') dbId = receptionistService.registerReceptionist(payload)
     else return res.status(400).json({ erro: 'Tipo de funcionário inválido' })
 
     if (!dbId) {
