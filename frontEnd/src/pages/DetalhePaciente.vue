@@ -24,7 +24,7 @@
               paciente.ultima_triagem.id_classificacao_risco
             "
           >
-            <span class="label">Classificação Manchester:</span>
+            <span class="label">Classificação de Risco:</span>
             <span
               :class="[
                 'classificacao',

@@ -42,7 +42,7 @@
               />
             </div>
             <md-field>
-              <label>Classificação Manchester</label>
+              <label>Classificação de Risco</label>
               <md-select
                 v-model.number="triagem.id_classificacao_risco"
                 required

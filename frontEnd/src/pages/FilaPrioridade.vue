@@ -14,12 +14,12 @@
           </md-table-row>
           <md-table-row
             v-for="item in filaOrdenada"
-            :key="item.id"
+            :key="item.id_ticket || item.id_atendimento || item.id_paciente"
             :class="`risk-${prioridadeClasse(item.prioridade)}`"
           >
             <md-table-cell>
               <span :class="`badge badge-${prioridadeClasse(item.prioridade)}`">
-                {{ prioridadeLabel(item.prioridade) }}
+                {{ item.prioridadeNome || prioridadeLabel(item.prioridade) }}
               </span>
             </md-table-cell>
             <md-table-cell>{{ item.paciente }}</md-table-cell>
@@ -136,7 +136,7 @@ export default {
         laranja: 30,
         vermelho: 0,
       }
-      let dataStr = item.dataTriagem || item.data_triagem
+      let dataStr = item.dataTriagem
       if (!dataStr) return ''
       if (dataStr.includes(' ') && !dataStr.includes('T'))
         dataStr = dataStr.replace(' ', 'T')
@@ -172,26 +172,24 @@ export default {
         if (res.ok) {
           const data = await res.json()
           this.fila = data.map((item) => {
-            let dataTriagem = item.dataTriagem ?? item.data_triagem ?? null
-            if (
-              dataTriagem &&
-              dataTriagem.includes(' ') &&
-              !dataTriagem.includes('T')
-            ) {
-              dataTriagem = dataTriagem.replace(' ', 'T')
-            }
+            // Usa os campos padronizados do backend
             return {
-              id: item.id_atendimento ?? item.id ?? Math.random(),
-              paciente: item.nome_paciente ?? item.paciente ?? '',
+              id_ticket: item.id_ticket ?? null,
+              id_atendimento: item.id_atendimento ?? null,
+              id_paciente: item.id_paciente ?? null,
+              paciente: item.paciente ?? '',
+              prioridade: item.prioridade,
+              prioridadeNome:
+                item.prioridadeNome ?? this.prioridadeLabel(item.prioridade),
+              dataTriagem: item.dataTriagem ?? null,
               horaTriagem:
                 item.horaTriagem ??
-                (item.data_triagem
-                  ? item.data_triagem.length > 16
-                    ? item.data_triagem.slice(11, 16)
-                    : item.data_triagem
+                (item.dataTriagem
+                  ? new Date(item.dataTriagem).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })
                   : ''),
-              prioridade: item.prioridade ?? item.id_classificacao_risco,
-              dataTriagem,
             }
           })
         }

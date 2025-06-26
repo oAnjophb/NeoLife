@@ -4,6 +4,10 @@ import cors from 'cors'
 import path from 'path'
 import { Database } from './Data/data_Base_Conection'
 
+Database.connect()
+
+serviceQueue.loadFilaPrioridade(getTicketFromPacienteId)
+
 import pacienteRoute from './routes/patientRoute'
 import adminRoute from './routes/adminRoute'
 import employeeRoute from './routes/employeeRoutes'
@@ -12,14 +16,14 @@ import filaTriagemRouter from './routes/triageQueueRoute'
 import triagemRoute from './routes/triageRoute'
 import filaRouter from './routes/QueueRoute'
 import atendimentoRoute from './routes/serviceRoute'
-import dashboardRoutes from './routes/dashboardroutes'
+import dashboardRoutes from './routes/dashboardRoutes'
+import { serviceQueue } from './services/serviceQueue'
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 
 try {
-  Database.connect()
   console.log('Conexão com o banco de dados estabelecida.')
   console.log('Banco em uso:', path.resolve('pronto_socorro.db'))
 } catch (err: any) {

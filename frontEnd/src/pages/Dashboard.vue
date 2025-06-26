@@ -128,14 +128,25 @@ export default {
       const ctx = document.getElementById('graficoRiscos').getContext('2d')
       if (this._graficoRiscos) this._graficoRiscos.destroy()
       const cores = {
-        Vermelho: '#e53935',
-        Laranja: '#ffa726',
-        Amarelo: '#fbc02d',
-        Verde: '#43a047',
-        Azul: '#1e88e5',
+        'emergencia': '#e53935', // vermelho
+        'muito urgente': '#ffa726', // laranja
+        'urgente': '#fbc02d', // amarelo
+        'pouco urgente': '#43a047', // verde
+        'nao urgente': '#1e88e5', // azul
       }
+      const normaliza = (s) =>
+        s
+          ? s
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '') // remove acentos
+              .replace('ê', 'e') // caso especial
+              .trim()
+              .toLowerCase()
+          : ''
+
       const labels = Object.keys(this.triagensPorRisco)
       const data = Object.values(this.triagensPorRisco)
+
       this._graficoRiscos = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -143,7 +154,10 @@ export default {
           datasets: [
             {
               data,
-              backgroundColor: labels.map((l) => cores[l] || '#888'),
+              backgroundColor: labels.map((l) => {
+                const key = normaliza(l)
+                return cores[key] || '#888'
+              }),
             },
           ],
         },
@@ -156,12 +170,46 @@ export default {
       const ctx = document.getElementById('graficoTriagens').getContext('2d')
       if (this._graficoTriagens) this._graficoTriagens.destroy()
       const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
-      const labels = this.triagensPorDia.map((d) => {
-        const date = new Date(d.data)
-        const diaSemana = diasSemana[date.getDay()]
-        return `${diaSemana} (${date.getDate()})`
+
+      // 1. Descobrir o domingo da semana atual (pode ser hoje)
+      const hoje = new Date()
+      // UTC para não errar fuso
+      const hojeUTC = new Date(
+        Date.UTC(hoje.getUTCFullYear(), hoje.getUTCMonth(), hoje.getUTCDate())
+      )
+      const diaDaSemana = hojeUTC.getUTCDay() // 0 = domingo, 6 = sabado
+      // Domingo da semana corrente (sempre no UTC!)
+      const domingo = new Date(hojeUTC)
+      domingo.setUTCDate(domingo.getUTCDate() - diaDaSemana)
+
+      // 2. Montar array de datas de domingo a sábado desta semana
+      const semanaDatas = []
+      for (let i = 0; i < 7; i++) {
+        const data = new Date(domingo)
+        data.setUTCDate(domingo.getUTCDate() + i)
+        semanaDatas.push(data)
+      }
+
+      // 3. Criar dicionário para lookup rápido das datas disponíveis
+      // Assume que d.data é 'YYYY-MM-DD' ou ISO (pega só a data)
+      const triagensPorData = {}
+      this.triagensPorDia.forEach((d) => {
+        const diaStr = d.data.slice(0, 10)
+        triagensPorData[diaStr] = Math.trunc(d.total)
       })
-      const data = this.triagensPorDia.map((d) => d.total)
+
+      // 4. Montar os labels e os dados do gráfico
+      const labels = semanaDatas.map((data) => {
+        const diaSemana = diasSemana[data.getUTCDay()]
+        const dia = String(data.getUTCDate()).padStart(2, '0')
+        return `${diaSemana} (${dia})`
+      })
+      const data = semanaDatas.map((data) => {
+        const str = data.toISOString().slice(0, 10)
+        return triagensPorData[str] || 0
+      })
+
+      // 5. Gerar gráfico
       this._graficoTriagens = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -175,20 +223,40 @@ export default {
           ],
         },
         options: {
-          scales: { y: { beginAtZero: true } },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 70,
+              ticks: {
+                stepSize: 10,
+                callback: function (value) {
+                  return Number.isInteger(value) ? value : null
+                },
+              },
+            },
+          },
           plugins: { legend: { display: false } },
         },
       })
     },
     getCorRisco(nome) {
       const cores = {
-        Vermelho: '#e53935',
-        Laranja: '#ffa726',
-        Amarelo: '#fbc02d',
-        Verde: '#43a047',
-        Azul: '#1e88e5',
+        'emergencia': '#e53935',
+        'muito urgente': '#ffa726',
+        'urgente': '#fbc02d',
+        'pouco urgente': '#43a047',
+        'nao urgente': '#1e88e5',
       }
-      return cores[nome] || '#888'
+      const normaliza = (s) =>
+        s
+          ? s
+              .normalize('NFD')
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace('ê', 'e')
+              .trim()
+              .toLowerCase()
+          : ''
+      return cores[normaliza(nome)] || '#888'
     },
   },
   async mounted() {

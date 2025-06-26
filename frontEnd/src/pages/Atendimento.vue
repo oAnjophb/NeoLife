@@ -59,11 +59,11 @@ export default {
       .then((data) => {
         // Converte id_classificacao_risco para string de prioridade
         const prioridades = {
-          1: 'vermelho',
-          2: 'laranja',
+          5: 'vermelho',
+          4: 'laranja',
           3: 'amarelo',
-          4: 'verde',
-          5: 'azul',
+          2: 'verde',
+          1: 'azul',
         }
         this.paciente = {
           nome: data.nome_paciente,

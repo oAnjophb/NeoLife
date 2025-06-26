@@ -3,7 +3,7 @@ import { Database } from '../Data/data_Base_Conection'
 import fs from 'fs'
 import path from 'path'
 
-import { serviceQueue } from '@/queues/serviceQueue'
+import { serviceQueue } from '@/services/serviceQueue'
 import { Ticket } from '@/attending/ticket'
 import { RiskRating } from '@/attending/triage'
 import { StatusType } from '@/attending/ticket'

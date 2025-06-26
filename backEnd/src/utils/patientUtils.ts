@@ -23,9 +23,9 @@ export function savePatientToJson(newPatient: PatientPayload) {
 }
 
 export function normalizePatientPayload(payload: PatientPayload) {
-  if (payload.data_Nascimento && !payload.birth_date) {
-    payload.birth_date = payload.data_Nascimento
-    delete payload.data_Nascimento
+  if (payload.data_nascimento && !payload.birth_date) {
+    payload.birth_date = payload.data_nascimento
+    delete payload.data_nascimento
   }
   if (!payload.address && payload.endereco) {
     payload.address = payload.endereco
