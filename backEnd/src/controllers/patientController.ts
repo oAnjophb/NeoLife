@@ -79,7 +79,7 @@ export async function startAttendance(req: Request, res: Response) {
   }
   try {
     const result = await patientService.startAttendance(idPaciente)
-    console.log('startAttendance result:', result) 
+    console.log('startAttendance result:', result)
     res.status(201).json(result)
   } catch (error: any) {
     console.error('Erro ao iniciar atendimento:', error)

@@ -16,7 +16,6 @@ export class Database {
   static connect(): void {
     if (this.connection) return
 
-    
     const dbFilename = path.join(process.cwd(), 'pronto_socorro.db')
     if (!fs.existsSync(dbFilename)) {
       throw new Error(`Database file not found: ${dbFilename}`)

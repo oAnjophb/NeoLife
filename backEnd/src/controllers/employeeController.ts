@@ -34,7 +34,8 @@ export function registerEmployee(req: Request, res: Response) {
     let dbId: number | undefined
     if (tipo === 'medico') dbId = doctorService.registerDoctor(payload)
     else if (tipo === 'enfermeiro') dbId = nurseService.registerNurse(payload)
-    else if (tipo === 'recepcionista') dbId = receptionistService.registerReceptionist(payload)
+    else if (tipo === 'recepcionista')
+      dbId = receptionistService.registerReceptionist(payload)
     else return res.status(400).json({ erro: 'Tipo de funcionário inválido' })
 
     if (!dbId) {

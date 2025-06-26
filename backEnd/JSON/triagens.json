@@ -598,5 +598,41 @@
     "pressao_sanguinea": "1",
     "id_enfermeiro": 1,
     "id_triagem": 1750959166613
+  },
+  {
+    "id_paciente": 6,
+    "id_atendimento": 22,
+    "data_triagem": "2025-06-26T21:06:00.000Z",
+    "id_classificacao_risco": 3,
+    "sintomas": "dores no corpo",
+    "temperatura": 37,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 2,
+    "id_triagem": 1750972024180
+  },
+  {
+    "id_paciente": 7,
+    "id_atendimento": 23,
+    "data_triagem": "2025-06-26T19:19:00.000Z",
+    "id_classificacao_risco": 2,
+    "sintomas": "dores, febre",
+    "temperatura": 39,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/80",
+    "id_enfermeiro": 2,
+    "id_triagem": 1750972084044
+  },
+  {
+    "id_paciente": 8,
+    "id_atendimento": 24,
+    "data_triagem": "2025-06-26T21:08:00.000Z",
+    "id_classificacao_risco": 5,
+    "sintomas": "dor de cabeça aguda, febre",
+    "temperatura": 39,
+    "saturacao": 99,
+    "pressao_sanguinea": "120/90",
+    "id_enfermeiro": 2,
+    "id_triagem": 1750972141356
   }
 ]
