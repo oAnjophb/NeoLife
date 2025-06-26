@@ -598,5 +598,41 @@
     "pressao_sanguinea": "1",
     "id_enfermeiro": 1,
     "id_triagem": 1750959166613
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 22,
+    "data_triagem": "2025-06-26T19:09:00.000Z",
+    "id_classificacao_risco": 3,
+    "sintomas": "a",
+    "temperatura": 3,
+    "saturacao": 3,
+    "pressao_sanguinea": "3",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750964951875
+  },
+  {
+    "id_paciente": 2,
+    "id_atendimento": 23,
+    "data_triagem": "2025-06-26T19:09:00.000Z",
+    "id_classificacao_risco": 2,
+    "sintomas": "x",
+    "temperatura": 3,
+    "saturacao": 3,
+    "pressao_sanguinea": "3",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750964960000
+  },
+  {
+    "id_paciente": 4,
+    "id_atendimento": 25,
+    "data_triagem": "2025-06-26T19:09:00.000Z",
+    "id_classificacao_risco": 4,
+    "sintomas": "x",
+    "temperatura": 2,
+    "saturacao": 3,
+    "pressao_sanguinea": "2",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750964968736
   }
 ]
