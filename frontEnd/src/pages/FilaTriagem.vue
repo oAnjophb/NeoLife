@@ -1,6 +1,6 @@
 <template>
   <div class="fila-triagem-page">
-    <h2>Fila de Triagem</h2>
+    <h2>Fila para Triagem</h2>
 
     <div class="table-container">
       <table class="fila-table">

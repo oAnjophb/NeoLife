@@ -64,17 +64,6 @@
         <div v-if="mostrarCardPaciente" class="resultado">
           <div class="header-dados-paciente">
             <h3><span class="icon">👤</span> Dados do Paciente</h3>
-            <button
-              class="quadrado-cinza"
-              @click="onHistoricoClick"
-              type="button"
-            >
-              <img
-                src="https://icones.pro/wp-content/uploads/2022/03/historique-icone-de-l-historique-noir.png"
-                alt="Histórico"
-                class="icone-historico"
-              />
-            </button>
           </div>
           <ul>
             <li v-if="paciente.nome">

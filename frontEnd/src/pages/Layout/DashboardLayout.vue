@@ -60,12 +60,6 @@ const menuItems = [
     text: 'Pesquisar Paciente',
   },
   {
-    key: 'cadastro-triagem',
-    to: '/cadastro-triagem',
-    icon: 'assignment',
-    text: 'Cadastro de Triagem',
-  },
-  {
     key: 'fila-prioridade',
     to: '/FilaPrioridade', // <- Caminho certo!
     icon: 'format_list_numbered',
@@ -75,7 +69,7 @@ const menuItems = [
     key: 'fila-triagem',
     to: '/triagem/fila',
     icon: 'format_list_numbered',
-    text: 'Fila de Triagem',
+    text: 'Fila para Triagem',
   },
 ]
 

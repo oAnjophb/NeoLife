@@ -16,6 +16,7 @@ import triagemRoute from './routes/triageRoute'
 import filaRouter from './routes/QueueRoute'
 import atendimentoRoute from './routes/serviceRoute'
 import dashboardRoutes from './routes/dashboardRoutes'
+import diagnosticRoute from "./routes/diagnosticRoute";
 
 serviceQueue.loadFilaPrioridade(getTicketFromPacienteId)
 
@@ -44,6 +45,7 @@ app.use('/api/triagem', triagemRoute)
 app.use('/api/fila-prioridade', filaRouter)
 app.use('/api/atendimento', atendimentoRoute)
 app.use('/api/dashboard', dashboardRoutes)
+app.use("/api/diagnostico", diagnosticRoute)
 
 const PORT = 3001
 app.listen(PORT, () => {

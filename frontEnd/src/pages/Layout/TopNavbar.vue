@@ -15,10 +15,6 @@
           <span class="icon-bar"></span>
         </md-button>
         <md-list>
-          <md-list-item :href="'#/dashboard'">
-            <i class="material-icons">dashboard</i>
-            <p class="hidden-lg hidden-md">Dashboard</p>
-          </md-list-item>
           <li class="md-list-item">
             <div
               class="user-avatar"

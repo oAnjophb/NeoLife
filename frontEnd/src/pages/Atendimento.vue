@@ -27,8 +27,21 @@
             <strong>Sintomas:</strong> {{ paciente.sintomas }}
           </p>
         </div>
+        <!-- CAMPO DE DIAGNÓSTICO -->
+        <div class="diagnostico-field">
+          <label for="diagnostico"><strong>Diagnóstico:</strong></label>
+          <md-field>
+            <md-textarea
+              id="diagnostico"
+              v-model="diagnostico"
+              placeholder="Descreva o diagnóstico aqui..."
+              rows="3"
+              :disabled="salvandoDiagnostico"
+            ></md-textarea>
+          </md-field>
+        </div>
         <div class="actions-row">
-          <md-button class="md-accent" @click="encerrarAtendimento">
+          <md-button class="md-accent" :disabled="salvandoDiagnostico" @click="encerrarAtendimento">
             <md-icon>done</md-icon>
             Encerrar Atendimento
           </md-button>
@@ -47,6 +60,8 @@ export default {
   data() {
     return {
       paciente: null,
+      diagnostico: '',
+      salvandoDiagnostico: false,
     }
   },
   mounted() {
@@ -80,9 +95,20 @@ export default {
           genero: data.genero,
           data_nascimento: data.data_nascimento,
         }
+        // Carrega diagnóstico existente, se houver
+        return fetch(`/api/diagnostico/${id}`)
+      })
+      .then(res => {
+        if (res && res.ok) return res.json()
+        throw new Error('Sem diagnóstico')
+      })
+      .then(data => {
+        if (data && data.descricao_diagnostico) {
+          this.diagnostico = data.descricao_diagnostico
+        }
       })
       .catch(() => {
-        this.paciente = null
+        // Não faz nada se não houver diagnóstico ou triagem
       })
   },
   methods: {
@@ -120,12 +146,34 @@ export default {
     },
     async encerrarAtendimento() {
       const id = this.$route.params.id
-      try {
-        await fetch(`/api/atendimento/${id}/encerrar`, { method: 'POST' })
-      } catch (e) {
-        // Aqui você pode mostrar um alerta se quiser
+      if (!this.diagnostico) {
+        alert('Digite o diagnóstico para encerrar o atendimento!')
+        return
       }
-      this.$router.push('/FilaPrioridade')
+      this.salvandoDiagnostico = true
+      try {
+        // Salva diagnóstico
+        const diagRes = await fetch('/api/diagnostico', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            id_atendimento: id,
+            descricao_diagnostico: this.diagnostico,
+          }),
+        })
+        if (!diagRes.ok) {
+          throw new Error('Erro ao salvar diagnóstico')
+        }
+        // Encerra atendimento
+        await fetch(`/api/atendimento/${id}/encerrar`, { method: 'POST' })
+        this.$router.push('/FilaPrioridade')
+      } catch (e) {
+        alert('Erro ao encerrar atendimento/diagnóstico.')
+      } finally {
+        this.salvandoDiagnostico = false
+      }
     },
   },
 }

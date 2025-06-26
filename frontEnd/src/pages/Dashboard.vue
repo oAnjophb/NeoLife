@@ -71,19 +71,6 @@
         </md-list>
       </md-card>
     </div>
-
-    <!-- Atalhos -->
-    <div class="dashboard-actions">
-      <md-button class="md-primary" @click="goTo('/cadastro-paciente')"
-        >Cadastrar Paciente</md-button
-      >
-      <md-button class="md-primary" @click="goTo('/cadastro-triagem')"
-        >Nova Triagem</md-button
-      >
-      <md-button class="md-primary" @click="goTo('/FilaPrioridade')"
-        >Novo Atendimento</md-button
-      >
-    </div>
   </div>
 </template>
 

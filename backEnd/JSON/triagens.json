@@ -634,5 +634,101 @@
     "pressao_sanguinea": "120/90",
     "id_enfermeiro": 2,
     "id_triagem": 1750972141356
+  },
+  {
+    "id_paciente": 3,
+    "id_atendimento": 24,
+    "data_triagem": "2025-06-26T21:52:00.000Z",
+    "id_classificacao_risco": 2,
+    "sintomas": "x",
+    "temperatura": 123,
+    "saturacao": 1231,
+    "pressao_sanguinea": "123",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750974739768
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 26,
+    "data_triagem": "2025-06-26T21:59:00.000Z",
+    "id_classificacao_risco": 2,
+    "sintomas": "x",
+    "temperatura": 1,
+    "saturacao": 1,
+    "pressao_sanguinea": "1",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750975205144
+  },
+  {
+    "id_paciente": 2,
+    "id_atendimento": 27,
+    "data_triagem": "2025-06-26T20:30:00.000Z",
+    "id_classificacao_risco": 3,
+    "sintomas": "z",
+    "temperatura": 1,
+    "saturacao": 1,
+    "pressao_sanguinea": "1",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750975241350
+  },
+  {
+    "id_paciente": 3,
+    "id_atendimento": 28,
+    "data_triagem": "2025-06-26T21:00:00.000Z",
+    "id_classificacao_risco": 4,
+    "sintomas": "x",
+    "temperatura": 123,
+    "saturacao": 123,
+    "pressao_sanguinea": "12",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750975256110
+  },
+  {
+    "id_paciente": 4,
+    "id_atendimento": 29,
+    "data_triagem": "2025-06-26T22:11:00.000Z",
+    "id_classificacao_risco": 3,
+    "sintomas": "x",
+    "temperatura": 3,
+    "saturacao": 3,
+    "pressao_sanguinea": "w",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750975905158
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 30,
+    "data_triagem": "2025-06-26T22:13:00.000Z",
+    "id_classificacao_risco": 3,
+    "sintomas": "s",
+    "temperatura": 1,
+    "saturacao": 1,
+    "pressao_sanguinea": "1",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750975992119
+  },
+  {
+    "id_paciente": 2,
+    "id_atendimento": 31,
+    "data_triagem": "2025-06-26T22:16:00.000Z",
+    "id_classificacao_risco": 4,
+    "sintomas": "xz",
+    "temperatura": 1,
+    "saturacao": 1,
+    "pressao_sanguinea": "1",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750976166953
+  },
+  {
+    "id_paciente": 3,
+    "id_atendimento": 32,
+    "data_triagem": "2025-06-26T22:18:00.000Z",
+    "id_classificacao_risco": 3,
+    "sintomas": "x",
+    "temperatura": 1,
+    "saturacao": 1,
+    "pressao_sanguinea": "1",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750976308224
   }
 ]
