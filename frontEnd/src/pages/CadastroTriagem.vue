@@ -145,7 +145,7 @@ export default {
   name: 'CadastroTriagem',
   data() {
     const today = new Date().toISOString().slice(0, 10)
-    const now = new Date().toISOString().slice(11, 16)
+    const now = new Date().toTimeString().slice(0, 5)
     return {
       triagem: {
         data_triagem: today,
@@ -191,13 +191,9 @@ export default {
     // Busca paciente relacionado ao atendimento
     try {
       const { data } = await axios.get('/api/fila-triagem')
-      // Debug log para entender o que está vindo da API
-      console.log('Fila retornada:', data)
-      console.log('Procurando id_atendimento:', id_atendimento)
       const atendimento = data.find(
         (at) => String(at.id_atendimento) === String(id_atendimento)
       )
-      console.log('Atendimento encontrado:', atendimento)
       if (atendimento) {
         this.id_paciente = atendimento.id_paciente
         this.nome_paciente = atendimento.nome_paciente
@@ -218,11 +214,11 @@ export default {
         this.erroFeedback.open = true
         return
       }
-      // Junta data+hora em formato ISO local
-      let dataHoraTriagem = this.triagem.data_triagem
-      if (this.triagem.hora_triagem) {
-        dataHoraTriagem += 'T' + this.triagem.hora_triagem
-      }
+      // Junta data+hora local e converte para UTC ISO
+      const [year, month, day] = this.triagem.data_triagem.split('-')
+      const [hour, minute] = this.triagem.hora_triagem.split(':')
+      const localDate = new Date(year, month - 1, day, hour, minute)
+      const dataHoraTriagem = localDate.toISOString()
       const payload = {
         id_paciente: this.id_paciente,
         id_atendimento: this.id_atendimento,
@@ -248,7 +244,7 @@ export default {
         this.feedback.open = true
         // Limpa o formulário (mas mantém o paciente)
         const today = new Date().toISOString().slice(0, 10)
-        const now = new Date().toISOString().slice(11, 16)
+        const now = new Date().toTimeString().slice(0, 5)
         this.triagem = {
           data_triagem: today,
           hora_triagem: now,

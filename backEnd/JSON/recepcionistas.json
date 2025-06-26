@@ -4,5 +4,17 @@
     "cpf": "03912039120",
     "senha": "enfermeira2025",
     "id": 1750891416075
+  },
+  {
+    "nome": "Hugo Madeira",
+    "cpf": "12341234567",
+    "senha": "admin123",
+    "id": 1750898382664
+  },
+  {
+    "nome": "Ariana Cruz",
+    "cpf": "12345612345",
+    "senha": "admin123",
+    "id": 1750898416965
   }
 ]

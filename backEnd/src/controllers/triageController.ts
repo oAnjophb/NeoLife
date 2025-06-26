@@ -31,6 +31,20 @@ function salvarTriagemNoJson(novaTriagem: any) {
   return triagemComId
 }
 
+/**
+ * Recebe data_triagem do frontend (pode ser ISO com 'Z' ou local "YYYY-MM-DDTHH:mm")
+ * Sempre retorna Date em UTC correto.
+ */
+function parseTriagemDate(data_triagem: string): Date {
+  // Se vier sem Z e sem offset, assume horário local do Brasil (UTC-3)
+  if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(data_triagem)) {
+    // Força timezone brasileiro (-03:00)
+    return new Date(data_triagem + '-03:00')
+  }
+  // Se vier já ISO (com Z ou offset), deixa o JS tratar
+  return new Date(data_triagem)
+}
+
 export function getTriagemByAtendimento(req: Request, res: Response) {
   const db = Database.getDatabase()
   const id_atendimento = req.params.id_atendimento
@@ -134,7 +148,7 @@ export function cadastrarTriagem(req: Request, res: Response) {
     return res.status(400).json({ erro: 'Campos obrigatórios faltando.' })
   }
 
-  const dataTriagemJS = new Date(data_triagem)
+  const dataTriagemJS = parseTriagemDate(data_triagem)
   if (isNaN(dataTriagemJS.getTime())) {
     return res.status(400).json({ erro: 'data_triagem inválida.' })
   }
@@ -153,7 +167,7 @@ export function cadastrarTriagem(req: Request, res: Response) {
     const result = stmt.run(
       id_paciente,
       id_atendimento,
-      data_triagem,
+      dataTriagemJS.toISOString(), // sempre UTC ISO
       id_classificacao_risco_norm,
       sintomas,
       temperatura,
@@ -171,6 +185,7 @@ export function cadastrarTriagem(req: Request, res: Response) {
       id_enfermeiro,
       id_triagem,
       id_classificacao_risco: id_classificacao_risco_norm,
+      data_triagem: dataTriagemJS.toISOString(),
     })
 
     db.prepare(
@@ -247,4 +262,4 @@ export function listarTriagens(req: Request, res: Response) {
       .status(500)
       .json({ erro: 'Erro ao buscar triagens', detalhes: err.message })
   }
-}
+} 

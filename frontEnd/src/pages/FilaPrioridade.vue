@@ -24,7 +24,11 @@
             </md-table-cell>
             <md-table-cell>{{ item.paciente }}</md-table-cell>
             <md-table-cell>{{ item.horaTriagem }}</md-table-cell>
-            <md-table-cell>{{ tempoEspera(item) }}</md-table-cell>
+            <md-table-cell
+              :class="{ atrasado: tempoRestante(item) === '0 min restantes' }"
+            >
+              {{ tempoRestante(item) }}
+            </md-table-cell>
           </md-table-row>
         </md-table>
         <div class="actions-row">
@@ -58,7 +62,6 @@ export default {
         if (b.prioridade !== a.prioridade) {
           return b.prioridade - a.prioridade
         }
-        // Usa dataTriagem (ISO) se disponível, senão tenta ordenar pelo texto da hora
         if (a.dataTriagem && b.dataTriagem) {
           return (
             new Date(a.dataTriagem).getTime() -
@@ -83,7 +86,6 @@ export default {
     if (this.timer) clearInterval(this.timer)
   },
   methods: {
-    // Agora o label e a cor estão alinhados com o enum heap máximo
     prioridadeLabel(prio) {
       switch (prio) {
         case 5:
@@ -126,42 +128,72 @@ export default {
           return ''
       }
     },
-    tempoEspera(item) {
-      // Usa dataTriagem ISO ou null
-      const triagem = item.dataTriagem ? new Date(item.dataTriagem) : null
-      if (!triagem || isNaN(triagem)) return ''
+    tempoRestante(item) {
+      const tempoLimitePorClassificacao = {
+        azul: 240,
+        verde: 120,
+        amarelo: 60,
+        laranja: 30,
+        vermelho: 0,
+      }
+      let dataStr = item.dataTriagem || item.data_triagem
+      if (!dataStr) return ''
+      if (dataStr.includes(' ') && !dataStr.includes('T'))
+        dataStr = dataStr.replace(' ', 'T')
+
+      const triagem = new Date(dataStr)
+      if (isNaN(triagem.getTime())) return ''
       const agora = new Date()
       let diff = Math.floor((agora - triagem) / 1000) // segundos
 
-      if (diff < 0) return '0 min'
+      if (diff < 0) return '0 min restantes'
 
-      const horas = Math.floor(diff / 3600)
-      diff = diff % 3600
-      const minutos = Math.floor(diff / 60)
+      const minutosAguardados = Math.floor(diff / 60)
+      let classificacao = this.prioridadeClasse(item.prioridade)
+      const limite = tempoLimitePorClassificacao[classificacao]
 
-      if (horas > 0) {
-        return `${horas}h ${minutos}min`
+      if (limite === 0) {
+        return 'Sem limite'
       }
-      return `${minutos} min`
+
+      let restante = limite - minutosAguardados
+      if (restante < 0) restante = 0
+
+      if (restante >= 60) {
+        const horas = Math.floor(restante / 60)
+        const minutos = restante % 60
+        return `${horas}h ${minutos}min restantes`
+      }
+      return `${restante} min restantes`
     },
     async carregarFila() {
       try {
         const res = await fetch('/api/fila-prioridade')
         if (res.ok) {
           const data = await res.json()
-          this.fila = data.map((item) => ({
-            id: item.id_atendimento ?? item.id ?? Math.random(),
-            paciente: item.nome_paciente ?? item.paciente ?? '',
-            horaTriagem:
-              item.horaTriagem ??
-              (item.data_triagem
-                ? item.data_triagem.length > 16
-                  ? item.data_triagem.slice(11, 16)
-                  : item.data_triagem
-                : ''),
-            prioridade: item.prioridade ?? item.id_classificacao_risco,
-            dataTriagem: item.dataTriagem ?? item.data_triagem ?? null, // para ordenação e tempo de espera
-          }))
+          this.fila = data.map((item) => {
+            let dataTriagem = item.dataTriagem ?? item.data_triagem ?? null
+            if (
+              dataTriagem &&
+              dataTriagem.includes(' ') &&
+              !dataTriagem.includes('T')
+            ) {
+              dataTriagem = dataTriagem.replace(' ', 'T')
+            }
+            return {
+              id: item.id_atendimento ?? item.id ?? Math.random(),
+              paciente: item.nome_paciente ?? item.paciente ?? '',
+              horaTriagem:
+                item.horaTriagem ??
+                (item.data_triagem
+                  ? item.data_triagem.length > 16
+                    ? item.data_triagem.slice(11, 16)
+                    : item.data_triagem
+                  : ''),
+              prioridade: item.prioridade ?? item.id_classificacao_risco,
+              dataTriagem,
+            }
+          })
         }
       } catch (e) {
         this.fila = []
@@ -269,6 +301,11 @@ export default {
   display: flex;
   justify-content: center;
   margin-top: 28px;
+}
+
+.atrasado {
+  color: #d32f2f;
+  font-weight: bold;
 }
 
 @media (max-width: 1300px) {
