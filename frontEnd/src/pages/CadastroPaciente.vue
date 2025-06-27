@@ -43,8 +43,8 @@
             <md-field>
               <label for="genero">Gênero</label>
               <md-select id="genero" v-model="paciente.genero" required>
-                <md-option value="M">Masculino</md-option>
-                <md-option value="F">Feminino</md-option>
+                <md-option value="Masculino">Masculino</md-option>
+                <md-option value="Feminino">Feminino</md-option>
                 <md-option value="nao-informar">Prefiro não informar</md-option>
               </md-select>
             </md-field>

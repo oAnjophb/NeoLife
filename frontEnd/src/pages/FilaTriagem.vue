@@ -82,11 +82,10 @@ export default {
 </script>
 
 <style scoped>
-/* Deixa a página SEMPRE para a direita da sidebar fixa */
 .fila-triagem-page {
   padding: 32px 24px 32px 240px;
   min-height: 100vh;
-  min-weight: 1120px;
+  min-width: 1120px;
   background: #f4f7fa;
   box-sizing: border-box;
   display: flex;
