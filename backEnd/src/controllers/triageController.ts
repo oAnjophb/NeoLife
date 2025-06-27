@@ -32,12 +32,10 @@ function salvarTriagemNoJson(novaTriagem: any) {
 }
 
 function parseTriagemDate(data_triagem: string): Date {
-  
   if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(data_triagem)) {
-    
     return new Date(data_triagem + '-03:00')
   }
- 
+
   return new Date(data_triagem)
 }
 
@@ -154,7 +152,6 @@ export function cadastrarTriagem(req: Request, res: Response) {
   )
 
   try {
-    
     const stmt = db.prepare(`
       INSERT INTO triagem (
         id_paciente, id_atendimento, data_triagem, id_classificacao_risco,
@@ -164,7 +161,7 @@ export function cadastrarTriagem(req: Request, res: Response) {
     const result = stmt.run(
       id_paciente,
       id_atendimento,
-      dataTriagemJS.toISOString(), 
+      dataTriagemJS.toISOString(),
       id_classificacao_risco_norm,
       sintomas,
       temperatura,
@@ -218,7 +215,6 @@ export function cadastrarTriagem(req: Request, res: Response) {
       id_atendimento,
     )
     serviceQueue.addTicket(ticket)
-    console.log('Fila de consulta após add:', serviceQueue.getOrderedQueue())
 
     res.status(201).json({
       mensagem: 'Triagem cadastrada!',
@@ -259,4 +255,4 @@ export function listarTriagens(req: Request, res: Response) {
       .status(500)
       .json({ erro: 'Erro ao buscar triagens', detalhes: err.message })
   }
-} 
+}

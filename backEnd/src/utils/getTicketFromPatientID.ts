@@ -14,19 +14,21 @@ interface AtendimentoRow {
 
 function mapStatus(status: string): StatusType {
   const statusMap: Record<string, StatusType> = {
-    'aguardando_triagem': StatusType.waitingTriage,
-    'aguardando_consulta': StatusType.readyForConsult,  
-    'pronto_para_consulta': StatusType.readyForConsult,
-    'em_triagem': StatusType.inTriage,
-    'em_atendimento': StatusType.inConsult,
-    'finalizado': StatusType.finished,
-    'cancelado': StatusType.cancel,
+    aguardando_triagem: StatusType.waitingTriage,
+    aguardando_consulta: StatusType.readyForConsult,
+    pronto_para_consulta: StatusType.readyForConsult,
+    em_triagem: StatusType.inTriage,
+    em_atendimento: StatusType.inConsult,
+    finalizado: StatusType.finished,
+    cancelado: StatusType.cancel,
   }
   return statusMap[status] || StatusType.waitingTriage
 }
 
 export function getTicketFromPacienteId(id_paciente: number): Ticket | null {
-  const atendimento = db.prepare(`
+  const atendimento = db
+    .prepare(
+      `
     SELECT 
       a.id_atendimento,
       a.status_atual,
@@ -35,14 +37,17 @@ export function getTicketFromPacienteId(id_paciente: number): Ticket | null {
     WHERE a.id_paciente = ?
     ORDER BY a.data_hora_entrada DESC
     LIMIT 1
-  `).get(id_paciente) as AtendimentoRow | undefined
+  `,
+    )
+    .get(id_paciente) as AtendimentoRow | undefined
 
-  if (!atendimento){
-    console.log(`Nenhum atendimento encontrado para paciente ${id_paciente}`)
+  if (!atendimento) {
     return null
-  } 
+  }
 
-  const paciente = db.prepare(`
+  const paciente = db
+    .prepare(
+      `
     SELECT 
       id_paciente,
       nome,
@@ -51,11 +56,15 @@ export function getTicketFromPacienteId(id_paciente: number): Ticket | null {
       genero
     FROM paciente
     WHERE id_paciente = ?
-  `).get(id_paciente) as Patient | undefined
+  `,
+    )
+    .get(id_paciente) as Patient | undefined
 
   if (!paciente) return null
 
-  const triagem = db.prepare(`
+  const triagem = db
+    .prepare(
+      `
     SELECT 
       t.id_triagem,
       t.id_classificacao_risco,
@@ -70,7 +79,9 @@ export function getTicketFromPacienteId(id_paciente: number): Ticket | null {
     WHERE t.id_atendimento = ?
     ORDER BY t.data_triagem DESC
     LIMIT 1
-  `).get(atendimento.id_atendimento) as Triagem | undefined
+  `,
+    )
+    .get(atendimento.id_atendimento) as Triagem | undefined
 
   if (!triagem) return null
 
@@ -81,6 +92,6 @@ export function getTicketFromPacienteId(id_paciente: number): Ticket | null {
     triagem.id_classificacao_risco as RiskRating,
     status,
     new Date(triagem.data_triagem),
-    atendimento.id_atendimento
+    atendimento.id_atendimento,
   )
 }

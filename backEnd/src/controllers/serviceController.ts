@@ -24,7 +24,6 @@ export function closeAttendance(req: Request, res: Response) {
       mensagem: 'Atendimento finalizado com sucesso.',
     })
   } catch (err: any) {
-    console.error('Erro ao encerrar atendimento:', err)
     return res
       .status(500)
       .json({ erro: 'Erro ao encerrar atendimento', detalhes: err.message })

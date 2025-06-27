@@ -36,7 +36,6 @@ export function getById(req: Request, res: Response) {
   try {
     patient = patientRepo.findPatientById(id)
   } catch (error) {
-    console.error('Error fetching patient in DB:', error)
   }
   if (!patient) {
     const dbFile = path.join(process.cwd(), 'JSON/pacientes.json')
@@ -45,7 +44,6 @@ export function getById(req: Request, res: Response) {
         const patients: any[] = JSON.parse(fs.readFileSync(dbFile, 'utf-8'))
         patient = patients.find((p) => p.id == id || p.id_paciente == id)
       } catch (error) {
-        console.error('Error reading patients JSON:', error)
       }
     }
   }
@@ -79,10 +77,8 @@ export async function startAttendance(req: Request, res: Response) {
   }
   try {
     const result = await patientService.startAttendance(idPaciente)
-    console.log('startAttendance result:', result)
     res.status(201).json(result)
   } catch (error: any) {
-    console.error('Erro ao iniciar atendimento:', error)
     res
       .status(500)
       .json({ error: 'Error starting attendance', details: error.message })

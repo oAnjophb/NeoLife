@@ -16,7 +16,6 @@ export function getQueue(_req: Request, res: Response) {
     }),
     dataTriagem: ticket.dataTriagem,
   }))
-  console.log('Fila atual:', queue)
   res.json(queue)
 }
 

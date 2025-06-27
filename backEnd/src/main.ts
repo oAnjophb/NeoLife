@@ -16,7 +16,7 @@ import triagemRoute from './routes/triageRoute'
 import filaRouter from './routes/QueueRoute'
 import atendimentoRoute from './routes/serviceRoute'
 import dashboardRoutes from './routes/dashboardRoutes'
-import diagnosticRoute from "./routes/diagnosticRoute";
+import diagnosticRoute from './routes/diagnosticRoute'
 
 serviceQueue.loadFilaPrioridade(getTicketFromPacienteId)
 
@@ -26,7 +26,6 @@ app.use(cors())
 
 try {
   console.log('Conexão com o banco de dados estabelecida.')
-  console.log('Banco em uso:', path.resolve('pronto_socorro.db'))
 } catch (err: any) {
   console.error('Erro ao conectar no banco de dados:', err.message)
   process.exit(1)
@@ -45,7 +44,7 @@ app.use('/api/triagem', triagemRoute)
 app.use('/api/fila-prioridade', filaRouter)
 app.use('/api/atendimento', atendimentoRoute)
 app.use('/api/dashboard', dashboardRoutes)
-app.use("/api/diagnostico", diagnosticRoute)
+app.use('/api/diagnostico', diagnosticRoute)
 
 const PORT = 3001
 app.listen(PORT, () => {
