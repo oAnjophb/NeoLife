@@ -3,7 +3,7 @@ import { Database } from "../Data/data_Base_Conection";
 
 const db = Database.getDatabase();
 
-// Inserir diagnóstico
+
 export const createDiagnostic = (req: Request, res: Response) => {
   const { id_atendimento, descricao_diagnostico } = req.body;
 
@@ -23,7 +23,7 @@ export const createDiagnostic = (req: Request, res: Response) => {
   }
 };
 
-// Buscar diagnóstico por id_atendimento
+
 export const getDiagnostic = (req: Request, res: Response) => {
   const id_atendimento = Number(req.params.id_atendimento);
 
@@ -41,7 +41,7 @@ export const getDiagnostic = (req: Request, res: Response) => {
   }
 };
 
-// Listar todos os diagnósticos
+
 export const getAllDiagnostics = (_: Request, res: Response) => {
   try {
     const stmt = db.prepare("SELECT * FROM DIAGNOSTICO");

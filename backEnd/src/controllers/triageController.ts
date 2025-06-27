@@ -32,12 +32,12 @@ function salvarTriagemNoJson(novaTriagem: any) {
 }
 
 function parseTriagemDate(data_triagem: string): Date {
-  // Se vier sem Z e sem offset, assume horário local do Brasil (UTC-3)
+  
   if (/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(data_triagem)) {
-    // Força timezone brasileiro (-03:00)
+    
     return new Date(data_triagem + '-03:00')
   }
-  // Se vier já ISO (com Z ou offset), deixa o JS tratar
+ 
   return new Date(data_triagem)
 }
 
@@ -164,7 +164,7 @@ export function cadastrarTriagem(req: Request, res: Response) {
     const result = stmt.run(
       id_paciente,
       id_atendimento,
-      dataTriagemJS.toISOString(), // sempre UTC ISO
+      dataTriagemJS.toISOString(), 
       id_classificacao_risco_norm,
       sintomas,
       temperatura,

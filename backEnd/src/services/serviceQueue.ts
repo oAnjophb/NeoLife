@@ -28,24 +28,16 @@ export class ServiceQueue {
     this.heap.push(ticket)
     this.heapifyUp()
     this.saveFilaPrioridade()
-    console.log(
-      `Paciente ${ticket.paciente.nome} adicionado à fila com prioridade ${RiskRating[ticket.prioridade]}.`,
-    )
   }
 
   callNextTicket(): Ticket | null {
     if (this.heap.length === 0) {
-      console.log('Nenhum paciente aguardando.')
       return null
     }
     const ordered = this.getOrderedQueue()
     const nextTicket = ordered[0]
-    // Remove o paciente chamado da heap
     this.removePatient(nextTicket.paciente.id_paciente)
     this.saveFilaPrioridade()
-    console.log(
-      `\nChamando paciente ${nextTicket.paciente.nome} com prioridade ${RiskRating[nextTicket.prioridade]}.`,
-    )
     return nextTicket
   }
 
@@ -159,11 +151,8 @@ export class ServiceQueue {
     const rows = db
       .prepare('SELECT id_paciente FROM FILA_PRIORIDADE')
       .all() as { id_paciente: number }[]
-    console.log('Pacientes na FILA_PRIORIDADE:', rows)
     for (const row of rows) {
       const ticket = getTicketFromPacienteId(row.id_paciente)
-      console.log(`Ticket para paciente ${row.id_paciente}:`, ticket)
-      if (ticket) this.heap.push(ticket)
     }
   }
 }

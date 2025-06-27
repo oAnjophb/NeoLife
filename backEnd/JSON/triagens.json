@@ -730,5 +730,17 @@
     "pressao_sanguinea": "1",
     "id_enfermeiro": 1,
     "id_triagem": 1750976308224
+  },
+  {
+    "id_paciente": 1,
+    "id_atendimento": 33,
+    "data_triagem": "2025-06-26T22:37:00.000Z",
+    "id_classificacao_risco": 5,
+    "sintomas": "a",
+    "temperatura": 1,
+    "saturacao": 1,
+    "pressao_sanguinea": "1",
+    "id_enfermeiro": 1,
+    "id_triagem": 1750977471718
   }
 ]
