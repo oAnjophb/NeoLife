@@ -5,7 +5,7 @@
         <md-icon style="font-size: 32px; color: #2196f3">person</md-icon>
         <h4 class="title">Atendimento</h4>
       </md-card-header>
-      <md-card-content v-if="paciente">
+      <md-card-content v-if="paciente" class="card-content-posicionada">
         <div class="info-paciente">
           <p><strong>Nome:</strong> {{ paciente.nome }}</p>
           <p v-if="paciente.idade">
@@ -40,10 +40,22 @@
             ></md-textarea>
           </md-field>
         </div>
-        <div class="actions-row">
-          <md-button class="md-accent" :disabled="salvandoDiagnostico" @click="encerrarAtendimento">
+        <div class="actions-row fixo-inferior-esquerdo">
+          <md-button
+            class="md-accent"
+            :disabled="salvandoDiagnostico"
+            @click="encerrarAtendimento"
+          >
             <md-icon>done</md-icon>
             Encerrar Atendimento
+          </md-button>
+          <md-button
+            class="botao-nao-compareceu"
+            :disabled="salvandoDiagnostico"
+            @click="cancelarAtendimento"
+          >
+            <md-icon>cancel</md-icon>
+            Não Compareceu
           </md-button>
         </div>
       </md-card-content>
@@ -98,11 +110,11 @@ export default {
         // Carrega diagnóstico existente, se houver
         return fetch(`/api/diagnostico/${id}`)
       })
-      .then(res => {
+      .then((res) => {
         if (res && res.ok) return res.json()
         throw new Error('Sem diagnóstico')
       })
-      .then(data => {
+      .then((data) => {
         if (data && data.descricao_diagnostico) {
           this.diagnostico = data.descricao_diagnostico
         }
@@ -175,11 +187,60 @@ export default {
         this.salvandoDiagnostico = false
       }
     },
+    async cancelarAtendimento() {
+      const id = this.$route.params.id
+      if (!confirm('Deseja realmente cancelar este atendimento?')) return
+      this.salvandoDiagnostico = true
+      try {
+        await fetch(`/api/fila/cancelar/${id}`, { method: 'POST' })
+        this.$router.push('/FilaPrioridade')
+      } catch (e) {
+        alert('Erro ao cancelar atendimento')
+      } finally {
+        this.salvandoDiagnostico = false
+      }
+    },
   },
 }
 </script>
 
 <style scoped>
+.botao-nao-compareceu {
+  background-color: #d32f2f !important;
+  color: #fff !important;
+  border-radius: 4px;
+  border: none;
+}
+.botao-nao-compareceu:hover {
+  background-color: #b71c1c !important;
+}
+
+.card-content-posicionada {
+  position: relative;
+  min-height: 350px;
+  padding-bottom: 85px;
+}
+
+.fixo-inferior-esquerdo {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+  display: flex;
+  gap: 16px;
+}
+
+.actions-row {
+  display: flex;
+  justify-content: flex-start;
+  gap: 16px;
+  margin-top: 24px;
+  position: relative;
+  min-height: 60px;
+}
+
 .pagina-centralizada {
   min-height: 100vh;
   display: flex;
