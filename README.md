@@ -114,4 +114,4 @@ Pull requests e sugestões são bem-vindas! Confira as issues ou abra uma nova p
 
 ---
 
-**Atenção:** Esta documentação cobre apenas o back-end do projeto. Para o front-end, consulte a respectiva pasta/repositório.
+**Atenção:** Esta documentação cobre apenas o back-end do projeto. Para o front-end, consulte a respectiva pasta/repositório..
