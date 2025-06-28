@@ -1,4 +1,4 @@
-<!-- src/pages/AdminLogin.vue -->
+
 <template>
   <div class="admin-login-container">
     <form class="login-card" @submit.prevent="doAdminLogin">

@@ -84,7 +84,6 @@ export default {
         return res.json()
       })
       .then((data) => {
-        // Converte id_classificacao_risco para string de prioridade
         const prioridades = {
           5: 'vermelho',
           4: 'laranja',
@@ -107,7 +106,6 @@ export default {
           genero: data.genero,
           data_nascimento: data.data_nascimento,
         }
-        // Carrega diagnóstico existente, se houver
         return fetch(`/api/diagnostico/${id}`)
       })
       .then((res) => {
@@ -120,7 +118,6 @@ export default {
         }
       })
       .catch(() => {
-        // Não faz nada se não houver diagnóstico ou triagem
       })
   },
   methods: {
@@ -164,7 +161,6 @@ export default {
       }
       this.salvandoDiagnostico = true
       try {
-        // Salva diagnóstico
         const diagRes = await fetch('/api/diagnostico', {
           method: 'POST',
           headers: {
@@ -178,7 +174,6 @@ export default {
         if (!diagRes.ok) {
           throw new Error('Erro ao salvar diagnóstico')
         }
-        // Encerra atendimento
         await fetch(`/api/atendimento/${id}/encerrar`, { method: 'POST' })
         this.$router.push('/FilaPrioridade')
       } catch (e) {

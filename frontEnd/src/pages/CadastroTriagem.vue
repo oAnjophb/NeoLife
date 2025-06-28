@@ -8,14 +8,12 @@
       </md-card-header>
       <md-card-content>
         <form @submit.prevent="cadastrarTriagem">
-          <!-- Linha do paciente, só leitura -->
           <div class="form-row">
             <md-field>
               <label>Paciente</label>
               <md-input :value="pacienteInfo" disabled />
             </md-field>
           </div>
-          <!-- Campos da triagem -->
           <div class="form-row">
             <div class="date-static-label">
               <label class="label-estatico" for="data_triagem"
@@ -110,7 +108,6 @@
         </form>
       </md-card-content>
     </md-card>
-    <!-- Snackbar de feedback -->
     <md-snackbar
       :md-active.sync="feedback.open"
       :md-duration="3500"
@@ -179,7 +176,6 @@ export default {
     },
   },
   async mounted() {
-    // Pega o id_atendimento da query string
     const id_atendimento = this.$route.query.id_atendimento
     if (!id_atendimento) {
       this.erroFeedback.message = 'ID do atendimento não informado!'
@@ -188,7 +184,6 @@ export default {
     }
     this.id_atendimento = id_atendimento
 
-    // Busca paciente relacionado ao atendimento
     try {
       const { data } = await axios.get('/api/fila-triagem')
       const atendimento = data.find(
@@ -214,7 +209,6 @@ export default {
         this.erroFeedback.open = true
         return
       }
-      // Junta data+hora local e converte para UTC ISO
       const [year, month, day] = this.triagem.data_triagem.split('-')
       const [hour, minute] = this.triagem.hora_triagem.split(':')
       const localDate = new Date(year, month - 1, day, hour, minute)
@@ -240,9 +234,9 @@ export default {
         await axios.post('http://localhost:3001/api/triagem', payload, {
           headers: { Authorization: 'Bearer ' + token },
         })
-        this.feedback.message = 'Paciente inserido na fila com sucesso!'
+        this.feedback.message =
+          'Triagem realizada com sucesso! O paciente foi classificado e direcionado para o próximo atendimento.'
         this.feedback.open = true
-        // Limpa o formulário (mas mantém o paciente)
         const today = new Date().toISOString().slice(0, 10)
         const now = new Date().toTimeString().slice(0, 5)
         this.triagem = {
@@ -254,6 +248,7 @@ export default {
           saturacao: null,
           sintomas: '',
         }
+        this.$router.push({ name: 'FilaTriagem' })
       } catch (err) {
         this.erroFeedback.message =
           'Erro ao cadastrar triagem: ' +
@@ -275,7 +270,7 @@ export default {
   align-items: auto;
   justify-content: center;
   background: #fafbfd;
-  padding: 32px 24px 32px 240px; /* igual à fila da triagem! */
+  padding: 32px 24px 32px 240px;
   width: 100%;
   box-sizing: border-box;
   overflow-x: hidden;

@@ -191,7 +191,6 @@ export default {
           body: JSON.stringify(payload),
         })
         if (!response.ok) throw new Error('Erro ao salvar paciente')
-        // Limpa o formulário antes de redirecionar
         const data = await response.json()
         const nome = this.paciente.nome
         const id = data.id
@@ -209,7 +208,6 @@ export default {
             estado: '',
           },
         }
-        // Redireciona para feedback
         this.$router.push({ name: 'FeedBackCadastro', query: { nome, id } })
       } catch (e) {
         alert('Erro ao cadastrar: ' + e.message)

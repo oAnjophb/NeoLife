@@ -93,7 +93,7 @@ export default {
         })
     },
     classificacaoTexto(id) {
-      // Alinhado com Enum heap máximo: 5=Vermelho, 4=Laranja, 3=Amarelo, 2=Verde, 1=Azul
+    
       switch (id) {
         case 5:
         case '5':
@@ -139,7 +139,6 @@ export default {
   filters: {
     formatDate(value) {
       if (!value) return ''
-      // Exemplo: 1990-05-10 → 10/05/1990
       return value.split('-').reverse().join('/')
     },
   },

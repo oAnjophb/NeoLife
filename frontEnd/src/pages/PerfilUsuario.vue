@@ -44,7 +44,7 @@ export default defineComponent({
     }
   },
   mounted() {
-    // Carrega o usuário logado do localStorage (robusto para JSON inválido)
+
     try {
       const salvo = localStorage.getItem('usuario')
       if (salvo) {
@@ -54,7 +54,7 @@ export default defineComponent({
         )}&background=random`
       }
     } catch {
-      // Se der erro, limpa usuário
+
       this.usuario = {
         id: '',
         nome: '',
@@ -68,7 +68,7 @@ export default defineComponent({
   methods: {
     logout() {
       localStorage.removeItem('usuario')
-      // Navegação correta usando Vue Router!
+
       this.$router.push('/login')
     },
     capitalize(str) {
@@ -82,14 +82,14 @@ export default defineComponent({
       return cpf
     },
     formatCrm(crm) {
-      // Exemplo: 123456-SP ou só 123456
+      
       crm = String(crm).replace(/\s+/g, '')
       if (/^\d{2,7}-[A-Z]{2}$/.test(crm)) return `CRM: ${crm}`
       if (/^\d+$/.test(crm)) return `CRM: ${crm}`
       return `CRM: ${crm}`
     },
     formatCoren(coren) {
-      // Exemplo: 123456-SP ou só 123456
+     
       coren = String(coren).replace(/\s+/g, '')
       if (/^\d{2,7}-[A-Z]{2}$/.test(coren)) return `COREN: ${coren}`
       if (/^\d+$/.test(coren)) return `COREN: ${coren}`

@@ -72,7 +72,7 @@ export default {
       this.erro = "";
       this.loading = true;
 
-      // Validação de campos
+
       if (!this.tipo) {
         this.erro = "Selecione o tipo de usuário.";
         this.loading = false;
@@ -89,7 +89,6 @@ export default {
         return;
       }
 
-      // Integração real com o backend
       try {
         const resp = await fetch("http://localhost:3001/api/login", {
           method: "POST",
@@ -108,10 +107,10 @@ export default {
         }
         const user = await resp.json();
 
-        // Salva no localStorage para uso global no app (todos os dados do usuário)
+      
         localStorage.setItem("usuario", JSON.stringify(user));
 
-        // Salva o token separadamente para uso em requisições autenticadas
+        
         if (user.token) {
           localStorage.setItem("token", user.token);
         } else {
@@ -127,7 +126,7 @@ export default {
       this.loading = false;
     },
     irParaLoginAdmin() {
-      // Redireciona para a página de login do admin
+     
       this.$router.push("/admin-login");
     }
   }

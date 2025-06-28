@@ -21,8 +21,6 @@
           <span class="icon">⚠️</span> {{ erro }}
         </div>
       </transition>
-
-      <!-- Lista filtrada em tempo real -->
       <div v-if="!mostrarCardPaciente" class="lista-pacientes">
         <h3 style="margin-bottom: 1rem">
           <span class="icon">📋</span> Pacientes do Hospital
@@ -106,12 +104,12 @@
 
 <script>
 import axios from 'axios'
-import EditarCadastro from './EditarCadastro.vue' // Importe o modal de edição
+import EditarCadastro from './EditarCadastro.vue'
 
 export default {
   name: 'PesquisaPaciente',
   components: {
-    EditarCadastro, // registre o componente modal
+    EditarCadastro,
   },
   data() {
     return {
@@ -121,7 +119,7 @@ export default {
       erro: '',
       loading: false,
       iniciandoAtendimento: false,
-      mostrarEditar: false, // controla exibição do modal de edição
+      mostrarEditar: false,
     }
   },
   computed: {
@@ -137,7 +135,6 @@ export default {
   },
   watch: {
     cpf() {
-      // Limpa o card e erro ao modificar o campo e mantém só números
       if (this.cpf !== this.cpf.replace(/\D/g, '')) {
         this.cpf = this.cpf.replace(/\D/g, '')
       }
@@ -147,7 +144,6 @@ export default {
   },
   methods: {
     onCpfInput() {
-      // Aceita só números
       if (this.cpf !== this.cpf.replace(/\D/g, '')) {
         this.cpf = this.cpf.replace(/\D/g, '')
       }
@@ -170,7 +166,7 @@ export default {
         this.erro = 'Paciente não carregado para edição.'
         return
       }
-      this.mostrarEditar = true // Exibe o modal de edição
+      this.mostrarEditar = true
     },
     fecharEditar() {
       this.mostrarEditar = false
@@ -185,12 +181,30 @@ export default {
         const { data } = await axios.post('/api/pacientes/atendimento', {
           id_paciente: this.paciente.id_paciente,
         })
-        alert(`Atendimento iniciado! ID: ${data.id_attendance}`)
+        if (data.error) {
+          this.erro =
+            data.message ||
+            'Não foi possível iniciar o atendimento para esse paciente.'
+        } else if (data.id_attendance) {
+          alert(`Atendimento iniciado! ID: ${data.id_attendance}`)
+        } else {
+          this.erro =
+            'Não foi possível iniciar o atendimento para esse paciente.'
+        }
       } catch (e) {
-        this.erro =
-          e.response && e.response.data && e.response.data.erro
-            ? e.response.data.erro
-            : 'Erro ao iniciar atendimento.'
+        const msg =
+          e.response && e.response.data && e.response.data.message
+            ? e.response.data.message
+            : ''
+        if (
+          msg.toLowerCase().includes('já está na fila') ||
+          msg.toLowerCase().includes('ja esta na fila')
+        ) {
+          this.erro =
+            'O paciente já está na fila para a triagem. Não é possível incluí-lo novamente.'
+        } else {
+          this.erro = msg || 'Erro ao iniciar atendimento.'
+        }
       } finally {
         this.iniciandoAtendimento = false
       }

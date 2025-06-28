@@ -113,7 +113,6 @@ export default {
         return
       }
 
-      // ATENÇÃO: O payload usa crm minúsculo!
       let payload = {
         tipo: this.tipo,
         nome: this.nome,

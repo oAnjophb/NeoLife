@@ -115,18 +115,18 @@ export default {
       const ctx = document.getElementById('graficoRiscos').getContext('2d')
       if (this._graficoRiscos) this._graficoRiscos.destroy()
       const cores = {
-        'emergencia': '#e53935', // vermelho
-        'muito urgente': '#ffa726', // laranja
-        'urgente': '#fbc02d', // amarelo
-        'pouco urgente': '#43a047', // verde
-        'nao urgente': '#1e88e5', // azul
+        'emergencia': '#e53935', 
+        'muito urgente': '#ffa726', 
+        'urgente': '#fbc02d', 
+        'pouco urgente': '#43a047', 
+        'nao urgente': '#1e88e5', 
       }
       const normaliza = (s) =>
         s
           ? s
               .normalize('NFD')
-              .replace(/[\u0300-\u036f]/g, '') // remove acentos
-              .replace('ê', 'e') // caso especial
+              .replace(/[\u0300-\u036f]/g, '')
+              .replace('ê', 'e') 
               .trim()
               .toLowerCase()
           : ''
@@ -158,34 +158,28 @@ export default {
       if (this._graficoTriagens) this._graficoTriagens.destroy()
       const diasSemana = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb']
 
-      // 1. Descobrir o domingo da semana atual (pode ser hoje)
+
       const hoje = new Date()
-      // UTC para não errar fuso
+
       const hojeUTC = new Date(
         Date.UTC(hoje.getUTCFullYear(), hoje.getUTCMonth(), hoje.getUTCDate())
       )
-      const diaDaSemana = hojeUTC.getUTCDay() // 0 = domingo, 6 = sabado
-      // Domingo da semana corrente (sempre no UTC!)
+      const diaDaSemana = hojeUTC.getUTCDay()
       const domingo = new Date(hojeUTC)
       domingo.setUTCDate(domingo.getUTCDate() - diaDaSemana)
-
-      // 2. Montar array de datas de domingo a sábado desta semana
       const semanaDatas = []
       for (let i = 0; i < 7; i++) {
         const data = new Date(domingo)
         data.setUTCDate(domingo.getUTCDate() + i)
         semanaDatas.push(data)
       }
-
-      // 3. Criar dicionário para lookup rápido das datas disponíveis
-      // Assume que d.data é 'YYYY-MM-DD' ou ISO (pega só a data)
       const triagensPorData = {}
       this.triagensPorDia.forEach((d) => {
         const diaStr = d.data.slice(0, 10)
         triagensPorData[diaStr] = Math.trunc(d.total)
       })
 
-      // 4. Montar os labels e os dados do gráfico
+
       const labels = semanaDatas.map((data) => {
         const diaSemana = diasSemana[data.getUTCDay()]
         const dia = String(data.getUTCDate()).padStart(2, '0')
@@ -196,7 +190,6 @@ export default {
         return triagensPorData[str] || 0
       })
 
-      // 5. Gerar gráfico
       this._graficoTriagens = new Chart(ctx, {
         type: 'bar',
         data: {

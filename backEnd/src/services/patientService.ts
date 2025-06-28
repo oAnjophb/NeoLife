@@ -117,9 +117,25 @@ export function searchPatientsByCPF(cpfPartial: string) {
 export async function startAttendance(id_paciente: number) {
   const db = Database.getDatabase()
   const entry_datetime = new Date().toISOString()
+
+  const jaNaFila = db
+    .prepare(
+      'SELECT id_atendimento FROM atendimento WHERE id_paciente = ? AND status_atual = ?',
+    )
+    .get(id_paciente, 'aguardando_triagem') as { id_atendimento?: number }
+
+  if (jaNaFila?.id_atendimento) {
+    return {
+      error: true,
+      message: 'O paciente já está na fila para a triagem.',
+      id_attendance: jaNaFila.id_atendimento,
+    }
+  }
+
   const row = db
     .prepare('SELECT MAX(ticket) as maxTicket FROM atendimento')
     .get() as { maxTicket: number | null }
+
   const ticket = (row?.maxTicket || 0) + 1
 
   const stmt = db.prepare(`
@@ -135,7 +151,8 @@ export async function startAttendance(id_paciente: number) {
   const id_attendance = Number(result.lastInsertRowid)
 
   return {
-    message: 'Attendance started successfully.',
+    error: false,
+    message: 'Atendimento iniciado com sucesso.',
     id_attendance,
     entry_datetime,
     ticket,

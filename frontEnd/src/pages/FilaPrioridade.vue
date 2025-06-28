@@ -63,10 +63,10 @@ export default {
         verde: 120,
         amarelo: 60,
         laranja: 30,
-        vermelho: 0, // atendimento imediato!
+        vermelho: 0, 
       }
 
-      // Função para calcular minutos restantes
+
       function minutosRestantes(item) {
         let dataStr = item.dataTriagem
         if (!dataStr) return 99999
@@ -87,7 +87,7 @@ export default {
         return restante
       }
 
-      // Separe os pacientes em urgentes (quase estourando) e normais
+
       const urgentes = []
       const normais = []
       for (const item of this.fila) {
@@ -99,9 +99,9 @@ export default {
         }
       }
 
-      // Ordene cada grupo
+
       urgentes.sort((a, b) => {
-        // Menor tempo restante primeiro
+
         if (a.restante !== b.restante) return a.restante - b.restante
         if (a.dataTriagem && b.dataTriagem) {
           return (
@@ -113,11 +113,11 @@ export default {
       })
 
       normais.sort((a, b) => {
-        // Cor/prioridade maior primeiro
+
         if (b.prioridade !== a.prioridade) {
           return b.prioridade - a.prioridade
         }
-        // Menor tempo restante primeiro dentro da cor
+
         if (a.restante !== b.restante) return a.restante - b.restante
         if (a.dataTriagem && b.dataTriagem) {
           return (
@@ -189,7 +189,7 @@ export default {
         verde: 120,
         amarelo: 60,
         laranja: 30,
-        vermelho: 0, // atendimento imediato!
+        vermelho: 0, 
       }
       let dataStr = item.dataTriagem
       if (!dataStr) return ''
