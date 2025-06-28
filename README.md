@@ -28,7 +28,7 @@ Este projeto implementa o back-end **e o front-end** de um sistema para gerencia
 
 ---
 
-## Estrutura Recomendada do Projeto
+## Estrutura do Projeto
 
 ```
 NeoLife/
@@ -41,37 +41,38 @@ NeoLife/
 │   │   ├── models/
 │   │   ├── middlewares/
 │   │   ├── utils/
-│   │   └── index.ts
+│   │   └── main.ts
 │   ├── config/                # Configurações (env, database, etc.)
 │   ├── tests/                 # Testes unitários e de integração
 │   ├── types/                 # Tipagens globais
-│   ├── prisma/                # (Opcional) Esquemas e seeds do ORM caso use (ex: Prisma)
 │   ├── package.json
 │   ├── tsconfig.json
 │   ├── jest.config.ts
 │   └── README.md
 │
-├── frontend/                  # Todo o código e configs do front-end
-│   ├── public/
-│   ├── src/
-│   │   ├── assets/
-│   │   ├── components/
-│   │   ├── views/
-│   │   ├── router/
-│   │   ├── store/
-│   │   ├── styles/
-│   │   └── main.ts
-│   ├── tests/                 # Testes unitários/front-end
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── README.md
+frontEnd/
 │
-├── .github/                   # Workflows de CI/CD, templates de issues, etc
-├── docs/                      # Documentações adicionais, diagramas, exemplos de API etc
-├── .env.example               # Exemplo de variáveis de ambiente do projeto
-├── docker-compose.yml         # (Opcional) Orquestração para facilitar dev e deploy
-├── README.md                  # Documentação principal
-└── LICENSE
+├── public/                 # Arquivos estáticos (index.html, favicon, etc)
+│
+├── src/                    # Código-fonte principal
+│   ├── assets/             # Imagens, fontes, estilos globais (SCSS)
+│   ├── components/         # Componentes Vue reutilizáveis
+│   ├── layouts/            # Layouts de páginas (estrutura base)
+│   ├── pages/              # Telas principais do app
+│   ├── router/             # Configuração de rotas
+│   ├── store/              # Gerenciamento de estado global (ex: Pinia/Vuex)
+│   ├── services/           # Serviços de API e helpers
+│   ├── types/              # Tipagens TypeScript globais
+│   ├── utils/              # Funções utilitárias
+│   ├── App.vue             # Componente raiz
+│   └── main.ts             # Arquivo principal de inicialização Vue
+│
+├── tests/                  # Testes unitários e2e/front-end
+├── .env.example            # Exemplo de variáveis de ambiente
+├── package.json
+├── tsconfig.json
+├── vue.config.ts          
+├── README.md
 ```
 
 ## Requisitos Para Executar o Projeto
