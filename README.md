@@ -28,19 +28,51 @@ Este projeto implementa o back-end **e o front-end** de um sistema para gerencia
 
 ---
 
-## Estrutura do Projeto
+## Estrutura Recomendada do Projeto
 
-- **src/**: Código fonte principal (rotas, controladores, serviços, modelos, etc.)
-- **types/**: Tipagens e definições TypeScript
-- **JSON/**: Armazenamento de dados em formato JSON (se aplicável)
-- **package.json**: Dependências e scripts do projeto
-- **jest.config.ts / jest.coverage.config.ts**: Configurações de testes
-- **tsconfig.json**: Configuração do TypeScript
-- **frontEnd/**: Interface web do projeto (Vue + SCSS + TypeScript)
-
-> Para mais detalhes sobre os arquivos, acesse a [pasta backEnd no GitHub](https://github.com/oAnjophb/PROJETO-INTEGRADOR/tree/main/backEnd).
-
----
+```
+NeoLife/
+│
+├── backend/                   # Todo o código e configs do back-end
+│   ├── src/                   # Código-fonte (controllers, routes, services, models, middlewares)
+│   │   ├── controllers/
+│   │   ├── routes/
+│   │   ├── services/
+│   │   ├── models/
+│   │   ├── middlewares/
+│   │   ├── utils/
+│   │   └── index.ts
+│   ├── config/                # Configurações (env, database, etc.)
+│   ├── tests/                 # Testes unitários e de integração
+│   ├── types/                 # Tipagens globais
+│   ├── prisma/                # (Opcional) Esquemas e seeds do ORM caso use (ex: Prisma)
+│   ├── package.json
+│   ├── tsconfig.json
+│   ├── jest.config.ts
+│   └── README.md
+│
+├── frontend/                  # Todo o código e configs do front-end
+│   ├── public/
+│   ├── src/
+│   │   ├── assets/
+│   │   ├── components/
+│   │   ├── views/
+│   │   ├── router/
+│   │   ├── store/
+│   │   ├── styles/
+│   │   └── main.ts
+│   ├── tests/                 # Testes unitários/front-end
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── README.md
+│
+├── .github/                   # Workflows de CI/CD, templates de issues, etc
+├── docs/                      # Documentações adicionais, diagramas, exemplos de API etc
+├── .env.example               # Exemplo de variáveis de ambiente do projeto
+├── docker-compose.yml         # (Opcional) Orquestração para facilitar dev e deploy
+├── README.md                  # Documentação principal
+└── LICENSE
+```
 
 ## Requisitos Para Executar o Projeto
 
