@@ -174,5 +174,5 @@ Pull requests e sugestões são bem-vindas! Confira as issues ou abra uma nova p
 ## Autores
 
 - [Fabricio Fontenele](https://github.com/Fabricio-Fontenele)
-- [Anjo Pedro Barbosa](https://github.com/oAnjophb)
+- [Ruan Pedro](https://github.com/oAnjophb)
 - [Denis Nascimento](https://github.com/Denisnascimentor)
