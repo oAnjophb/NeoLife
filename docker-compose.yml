@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: ./backEnd
+    container_name: neolife-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    volumes:
+      - /home/fabricio/Documentos/uespi/2025.1/NeoLife/backEnd/pronto_socorro.db:/app/pronto_socorro.db
+
+  frontend:
+    build: ./frontEnd
+    container_name: neolife-frontend
+    ports:
+      - "3000:3000" # frontend acessível em localhost:3000
+    depends_on:
+      - backend
+    restart: unless-stopped
